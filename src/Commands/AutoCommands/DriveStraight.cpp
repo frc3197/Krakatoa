@@ -1,7 +1,7 @@
 #include <Commands/AutoCommands/DriveStraight.h>
 
-#define SPEED .5
-#define TIME .25
+#define GOSTRAIGHTSPEEED .5
+#define GOSTRAIGHTSPEEDTIME 5
 
 DriveStraight::DriveStraight() {
 	Requires(robotDrive);
@@ -20,8 +20,8 @@ void DriveStraight::Initialize() {
 void DriveStraight::Execute() {
 	switch (state) {
 	case 0:
-		if (!timer.HasPeriodPassed(TIME))
-			Drive(SPEED);
+		if (!timer.HasPeriodPassed(GOSTRAIGHTSPEEDTIME))
+			Drive(GOSTRAIGHTSPEEED);
 		else
 			state++;
 		break;
@@ -29,7 +29,7 @@ void DriveStraight::Execute() {
 	case 1:
 		End();
 	}
-
+SmartDashboard::PutNumber("DriveStraightState",state);
 }
 
 // Make this return true when this Command no longer needs to run execute()
@@ -51,5 +51,5 @@ void DriveStraight::Interrupted() {
 }
 
 void DriveStraight::Drive(float speed) {
-	robotDrive->driveBot(speed, speed);
+	robotDrive->advancedDriveBot(speed, speed, 0);
 }

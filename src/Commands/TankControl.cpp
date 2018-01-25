@@ -8,7 +8,7 @@ TankControl::TankControl() {
 
 // Called just before this Command runs the first time
 void TankControl::Initialize() {
-	oi->gyroReset();
+	robotDrive->gyroReset();
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -18,11 +18,13 @@ void TankControl::Execute() {
 	SmartDashboard::PutNumber("left",left);
 	SmartDashboard::PutNumber("right",right);
 
-	float angle = oi->getAngle();
-	SmartDashboard::PutNumber("angle",angle);
+	float angle = robotDrive->gyroAngle();
 
 	robotDrive->driveBot(left, right);
-
+	bool resetGyro = oi->gyroReorientate();
+	if (resetGyro){
+		robotDrive->gyroReset();
+	}
 }
 
 // Make this return true when this Command no longer needs to run execute()

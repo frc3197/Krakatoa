@@ -9,6 +9,7 @@
 
 #include <Commands/AutoCommands/Nothing.h>
 #include <Commands/AutoCommands/DriveStraight.h>
+#include <Commands/AutoCommands/DriveInside.h>
 
 #include "CommandBase.h"
 
@@ -18,16 +19,14 @@ private:
 	std::unique_ptr<frc::Command> autonomousCommand;
 	frc::SendableChooser<frc::Command*> chooser;
 //	frc::AnalogGyro m_gyro { 0 };
+//	ADXRS450_Gyro SPIGyro;
 public:
 	void RobotInit() {
 		CommandBase::init();
 		chooser.AddDefault("Nothing", new Nothing());
 		chooser.AddObject("Drive Straight", new DriveStraight());
+		chooser.AddObject("Drive Inside", new DriveInside());
 		frc::SmartDashboard::PutData("Auto Modes", &chooser);
-
-//		m_gyro.Calibrate();
-//		m_gyro.Reset();
-//		m_gyro.SetSensitivity(.0064);
 	}
 
 	/**
@@ -63,12 +62,10 @@ public:
 
 	void TeleopPeriodic() override {
 		frc::Scheduler::GetInstance()->Run();
-//		double raw = m_gyro.GetAngle();
-//		SmartDashboard::PutNumber("robotGyro", raw);
 	}
 
 	void TestPeriodic() override {
-		frc::LiveWindow::GetInstance()->Run();
+//		frc::LiveWindow::GetInstance()->Run();
 	}
 
 };

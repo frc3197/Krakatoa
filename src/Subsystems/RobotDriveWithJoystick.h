@@ -10,10 +10,13 @@ public:
 	RobotDriveWithJoystick();
 	void InitDefaultCommand() override;
 	void driveBot(float left, float right);
+	void advancedDriveBot(float left, float right, float preferred);
+	bool advancedTurnBot(float speed, float preferred);
+	float gyroAngle();
+	void gyroReset();
 private:
-	// It's desirable that everything possible under private except
-	// for methods that implement subsystem capabilities
 	frc::DifferentialDrive *rDrive;
+	ADXRS450_Gyro SPIGyro;
 };
 
-#endif //ROBOT_DRIVE_JOYSTICK_H
+#endif

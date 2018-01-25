@@ -3,8 +3,9 @@
 #include <WPILib.h>
 
 OI::OI() :
-		// Process operator interface input here.
-		gyro(0),
+// Process operator interface input here.
+//		gyro(0),
+// SPIGyro(SPI::kOnboardCS0),
 		stick(0), p1A(&stick, BUTTON1), //A
 		p1B(&stick, BUTTON2), //B
 		p1X(&stick, BUTTON3), //X
@@ -17,7 +18,8 @@ OI::OI() :
 		p1RStick(&stick, BUTTON10) //Right Stick
 
 {
-
+//	SPIGyro.Calibrate();
+//	SPIGyro.Reset();
 }
 
 float OI::getDriveRight() {
@@ -36,17 +38,6 @@ float OI::getDriveLeft() {
 	return raw;
 }
 
-void OI::gyroReset() {
-	gyro.Calibrate();
-	gyro.Reset();
-	gyro.SetSensitivity(.0064);
-	SmartDashboard::PutNumber("calibrated", -1);
-}
-
-float OI::getAngle() {
-	double raw = gyro.GetAngle();
-	SmartDashboard::PutNumber("raw", raw);
-	SmartDashboard::PutNumber("calibrated2", -1);
-	return raw;
-	return 2;
+bool OI::gyroReorientate() {
+	return p1LB.Get();
 }

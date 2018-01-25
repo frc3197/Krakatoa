@@ -9,8 +9,8 @@ public:
 	OI();
 	float getDriveRight();
 	float getDriveLeft();
-	void gyroReset();
-	float getAngle();
+	bool gyroReorientate();
+
 
 private:
 	static const int JOYSTICK = 0;
@@ -25,7 +25,8 @@ private:
 	static const int BUTTON9 = 9;
 	static const int BUTTON10 = 10;
 
-	frc::AnalogGyro gyro{0};
+//	frc::AnalogGyro gyro{0};
+//	ADXRS450_Gyro SPIGyro;
 
 	Joystick stick;
 
