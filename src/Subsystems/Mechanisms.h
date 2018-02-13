@@ -3,7 +3,7 @@
 
 #include <Commands/Subsystem.h>
 #include "WPILib.h"
-#include "C:\Users\Hexhounds\wpilib\user\cpp\include\ctre\phoenix\MotorControl\CAN\WPI_TalonSRX.h"
+#include "ctre/phoenix/MotorControl/CAN/WPI_TalonSRX.h"
 #include "ctre/Phoenix.h"
 
 class Mechanisms: public frc::Subsystem {
@@ -12,7 +12,7 @@ public:
 	void InitDefaultCommand() override;
 	void Winch(float speed);
 	void Claw(float speed);
-	void ClimbVertical(float speed);
+	void ElevatorWinch(float speed);
 	void ElevatorClaw(float speed);
 	bool ClawForwardLimit();
 	bool ClawReverseLimit();
