@@ -10,6 +10,8 @@ AutoCalls::AutoCalls() {
 	IncrementDropState();
 }
 
+
+
 bool AutoCalls::Pickup() {
 	switch (pickupState) {
 	case RaiseAndFall: //raise claw at speed for time (block falls)

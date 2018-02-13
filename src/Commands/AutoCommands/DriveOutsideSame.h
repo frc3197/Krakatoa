@@ -17,7 +17,7 @@ private:
 
 	float dist[2];
 
-	Claw* claw = new Claw();
+	AutoCalls* claw = new AutoCalls();
 
 	enum states {
 		Startup,

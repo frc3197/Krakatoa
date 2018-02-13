@@ -73,8 +73,7 @@ void Mechanisms::Claw(float speed) {
 	SmartDashboard::PutNumber("Claw Current", claw->GetOutputCurrent());
 }
 
-//NAMING CONVENTION REFORM
-void Mechanisms::elevatorWinch(float speed) {
+void Mechanisms::ElevatorWinch(float speed) {
 	//elevatorWinch->Set(ControlMode::Velocity, (speed * MAXRPM * 4096 * 600 );
 	elevatorWinch->Set(speed);
 	SmartDashboard::PutNumber("Elevator Winch Encoder", elevatorWinch->GetSensorCollection().GetQuadraturePosition());
