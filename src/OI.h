@@ -3,16 +3,23 @@
 
 #include "WPILib.h"
 
-
 class OI {
 public:
 	OI();
+	void updateSensors();
 	float getDriveRight();
 	float getDriveLeft();
 	bool gyroReorientate();
+	void setGamePrefs(int gameSwitch_);
+	int getGamePrefs();
+	int getDistance();
+	int winch();
+	int claw();
+	float elevatorWinch();
+	float elevatorClaw();
+	void rumbleWarning();
+	float lerp(float t, float a, float b, float c, float d);
 
-
-private:
 	static const int JOYSTICK = 0;
 	static const int BUTTON1 = 1;
 	static const int BUTTON2 = 2;
@@ -25,10 +32,14 @@ private:
 	static const int BUTTON9 = 9;
 	static const int BUTTON10 = 10;
 
-//	frc::AnalogGyro gyro{0};
-//	ADXRS450_Gyro SPIGyro;
+private:
+	I2C LIDARWrite;
+	I2C LIDARRead;
+
+	PowerDistributionPanel *PDP;
 
 	Joystick stick;
+	Joystick stick2;
 
 	JoystickButton p1A; //A
 	JoystickButton p1B; //B
@@ -40,6 +51,19 @@ private:
 	JoystickButton p1Start; //Start
 	JoystickButton p1LStick; //Left Stick Click
 	JoystickButton p1RStick; //Right Stick Click
+
+	JoystickButton p2A; //A
+	JoystickButton p2B; //B
+	JoystickButton p2X; //X
+	JoystickButton p2Y; //Y
+	JoystickButton p2LB; //LB
+	JoystickButton p2RB; //RB
+	JoystickButton p2Back; //Back
+	JoystickButton p2Start; //Start
+	JoystickButton p2LStick; //Left Stick Click
+	JoystickButton p2RStick; //Right Stick Click
+
+	int gameSwitch;
 };
 
 #endif  // OI_H

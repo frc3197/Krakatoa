@@ -15,11 +15,7 @@ void TankControl::Initialize() {
 void TankControl::Execute() {
 	float left = oi->getDriveLeft();
 	float right = oi->getDriveRight();
-	SmartDashboard::PutNumber("left",left);
-	SmartDashboard::PutNumber("right",right);
-
-	float angle = robotDrive->gyroAngle();
-
+	oi->updateSensors();
 	robotDrive->driveBot(left, right);
 	bool resetGyro = oi->gyroReorientate();
 	if (resetGyro){
