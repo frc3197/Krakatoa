@@ -1,4 +1,3 @@
-#include <Commands/AutoCommands/AutoCalls.h>
 #include <Commands/AutoCommands/DriveInside.h>
 
 #define DEFAULT_DIST 0
@@ -6,12 +5,13 @@
 
 DriveInside::DriveInside() {
 	Requires(robotDrive);
+	Requires(cubeMover);
+	Initialize();
 }
 
-// Called just before this Command runs the first time
 void DriveInside::Initialize() {
 	for (int i = 0; i < 3; i++) {
-		dist[i] = robotDrive->prefs->GetFloat(
+		dist[i] = CommandBase::prefs->GetFloat(
 				"distance" + (i + DISTANCE_OFFSET), DEFAULT_DIST);
 	}
 	leftOrRight = oi->getGamePrefs();
@@ -20,11 +20,10 @@ void DriveInside::Initialize() {
 	IncrementState();
 }
 
-// Called repeatedly when this Command is scheduled to run
 void DriveInside::Execute() {
 	switch (state) {
 	case Startup:
-		if (claw->Pickup()) // returns true when finished
+		if (cubeMover->Pickup()) // returns true when finished
 			IncrementState();
 		break;
 	case DriveForwardOne:
@@ -62,7 +61,7 @@ void DriveInside::Execute() {
 		}
 		break;
 	case DropCube:
-		if (claw->Drop())
+		if (cubeMover->Drop())
 			IncrementState();
 		break;
 	default:

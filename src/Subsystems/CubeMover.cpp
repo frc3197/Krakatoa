@@ -3,29 +3,15 @@
 #include "../Commands/TankControl.h"
 
 #include "../RobotMap.h"
-#include <math.h>
 
-#include "WPILib.h"
-
-#include "ctre/Phoenix.h"
-
-#define SPEED_MULTIPLIER 1
-#define ANGLE_DEADZONE 1
-#define TURN_ANGLE_DEADZONE 0
-#define PERCENT_CHANGE_PER_DEGREE .0075
-#define MIN_SPEED .55
-#define ENCODER_CONVERSION (M_PI * 6 / 84) / 4
-
-#define AUTO_SPEED .5
-#define AUTO_TURN_SPEED .55
 
 CubeMover::CubeMover() :
 		Subsystem("CubeMover") {
-
+	InitDefaultCommand();
 }
 
 void CubeMover::InitDefaultCommand() {
-//	SetDefaultCommand());
+	SetDefaultCommand(new TankControl());
 
 }
 

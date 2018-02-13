@@ -4,9 +4,9 @@
 
 DriveStraight::DriveStraight() {
 	Requires(robotDrive);
+	Initialize();
 }
 
-// Called just before this Command runs the first time
 void DriveStraight::Initialize() {
 	timer.Reset();
 	timer.Start();
@@ -15,7 +15,6 @@ void DriveStraight::Initialize() {
 	finished = false;
 }
 
-// Called repeatedly when this Command is scheduled to run
 void DriveStraight::Execute() {
 	switch (state) {
 	case 0:
@@ -30,20 +29,16 @@ void DriveStraight::Execute() {
 	}
 }
 
-// Make this return true when this Command no longer needs to run execute()
 bool DriveStraight::IsFinished() {
 	return finished;
 }
 
-// Called once after isFinished returns true
 void DriveStraight::End() {
 	Drive(0);
 	finished = true;
 	timer.Stop();
 }
 
-// Called when another command which requires one or more of the same
-// subsystems is scheduled to run
 void DriveStraight::Interrupted() {
 
 }
