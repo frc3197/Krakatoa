@@ -4,8 +4,7 @@
 #include "../../CommandBase.h"
 #include "WPILib.h"
 
-class DriveStraight: public CommandBase
-{
+class DriveStraight: public CommandBase {
 private:
 	Timer timer;
 	int state;

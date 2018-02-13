@@ -18,8 +18,6 @@ public:
 	float encoderDistance();
 	void encoderReset();
 
-	Preferences *prefs;
-
 	float autoDriveSpeed;
 	float autoTurnSpeed;
 	float autoTurnAngle;

@@ -5,11 +5,13 @@
 
 DriveOutsideSame::DriveOutsideSame() {
 	Requires(robotDrive);
+	Requires(cubeMover);
+	Initialize();
 }
 
 void DriveOutsideSame::Initialize() {
 	for (int i = 0; i < 2; i++) {
-		dist[i] = robotDrive->prefs->GetFloat(
+		dist[i] =  CommandBase::prefs->GetFloat(
 				"distance" + (i + DISTANCE_OFFSET), DEFAULT_DIST);
 	}
 	leftOrRight = oi->getGamePrefs();
@@ -21,7 +23,7 @@ void DriveOutsideSame::Initialize() {
 void DriveOutsideSame::Execute() {
 	switch (state) {
 	case Startup:
-		if (claw->Pickup()) // returns true when finished
+		if (cubeMover->Pickup()) // returns true when finished
 			IncrementState();
 		break;
 	case DriveForwardOne:
@@ -46,7 +48,7 @@ void DriveOutsideSame::Execute() {
 		}
 		break;
 	case DropCube: //drop cube
-		if (claw->Drop())
+		if (cubeMover->Drop())
 			IncrementState();
 		break;
 	default:

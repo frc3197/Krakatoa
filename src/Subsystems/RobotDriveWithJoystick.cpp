@@ -35,9 +35,9 @@ RobotDriveWithJoystick::RobotDriveWithJoystick() :
 	rDrive->SetSafetyEnabled(false);
 
 	//2017 Practice Bot
-//	rearLeft->SetInverted(true);
+	//	rearLeft->SetInverted(true);
 
-//2018 Electronics Board
+	//2018 Electronics Board
 
 	frontRight->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0,
 			kTimeoutMs);
@@ -62,25 +62,23 @@ RobotDriveWithJoystick::RobotDriveWithJoystick() :
 	talonI = defaultI;
 	talonD = defaultD;
 
-	prefs = Preferences::GetInstance();
+	InitDefaultCommand();
 }
 
 void RobotDriveWithJoystick::InitDefaultCommand() {
 	SetDefaultCommand(new TankControl());
 	SPIGyro.Calibrate();
 
-	prefs = Preferences::GetInstance();
-
-	autoDriveSpeed = prefs->GetFloat("autoDriveSpeed", 0);
-	autoTurnSpeed = prefs->GetFloat("autoTurnSpeed", 0);
-	autoTurnAngle = prefs->GetFloat("autoTurnAngle", 0);
+	autoDriveSpeed = CommandBase::CommandBase::prefs->GetFloat("autoDriveSpeed", 0);
+	autoTurnSpeed = CommandBase::prefs->GetFloat("autoTurnSpeed", 0);
+	autoTurnAngle = CommandBase::prefs->GetFloat("autoTurnAngle", 0);
 
 	encoderReset();
 
-	talonF = prefs->GetFloat("Drive F", defaultF);
-	talonP = prefs->GetFloat("Drive P", defaultP);
-	talonI = prefs->GetFloat("Drive I", defaultI);
-	talonD = prefs->GetFloat("Drive D", defaultD);
+	talonF = CommandBase::prefs->GetFloat("Drive F", defaultF);
+	talonP = CommandBase::prefs->GetFloat("Drive P", defaultP);
+	talonI = CommandBase::prefs->GetFloat("Drive I", defaultI);
+	talonD = CommandBase::prefs->GetFloat("Drive D", defaultD);
 
 	frontRight->Config_kF(kPIDLoopIdx, talonF, kTimeoutMs);
 	frontRight->Config_kP(kPIDLoopIdx, talonP, kTimeoutMs);

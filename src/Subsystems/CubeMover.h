@@ -4,10 +4,13 @@
 #include <Commands/Subsystem.h>
 #include "WPILib.h"
 #include "CommandBase.h"
-#include "ctre/phoenix/MotorControl/CAN/WPI_TalonSRX.h"
-#include "ctre/Phoenix.h"
 
 class CubeMover: public frc::Subsystem {
+public:
+	CubeMover();
+	void InitDefaultCommand() override;
+	bool Pickup();
+	bool Drop();
 private:
 	Timer timer;
 	int pickupState;
@@ -24,11 +27,6 @@ private:
 	};
 	void IncrementPickupState();
 	void IncrementDropState();
-public:
-	CubeMover();
-	void InitDefaultCommand() override;
-	bool Pickup();
-	bool Drop();
 };
 
 #endif

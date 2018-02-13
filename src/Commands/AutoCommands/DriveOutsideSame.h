@@ -1,10 +1,8 @@
 #ifndef DRIVE_OUTSIDE_SAME_H
 #define DRIVE_OUTSIDE_SAME_H
 
-#include <Commands/AutoCommands/AutoCalls.h>
 #include "../../CommandBase.h"
 #include "WPILib.h"
-
 
 class DriveOutsideSame: public CommandBase {
 private:
@@ -17,11 +15,8 @@ private:
 
 	float dist[2];
 
-	AutoCalls* claw = new AutoCalls();
-
 	enum states {
-		Startup,
-		DriveForwardOne, //Dist 3
+		Startup, DriveForwardOne, //Dist 3
 		TurnOne,
 		DriveForwardTwo, //Dist 4
 		DropCube
