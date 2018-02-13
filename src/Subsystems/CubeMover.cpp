@@ -1,18 +1,35 @@
-#include <Commands/AutoCommands/AutoCalls.h>
+#include "CubeMover.h"
 
-AutoCalls::AutoCalls() {
-	leftOrRight = CommandBase::oi->getGamePrefs();
-	pickupState = -1;
-	dropState = -1;
-	maxCurrent = CommandBase::robotDrive->prefs->GetFloat("AutoCalls Max Current",
-			10);
-	IncrementPickupState();
-	IncrementDropState();
+#include "../Commands/TankControl.h"
+
+#include "../RobotMap.h"
+#include <math.h>
+
+#include "WPILib.h"
+
+#include "ctre/Phoenix.h"
+
+#define SPEED_MULTIPLIER 1
+#define ANGLE_DEADZONE 1
+#define TURN_ANGLE_DEADZONE 0
+#define PERCENT_CHANGE_PER_DEGREE .0075
+#define MIN_SPEED .55
+#define ENCODER_CONVERSION (M_PI * 6 / 84) / 4
+
+#define AUTO_SPEED .5
+#define AUTO_TURN_SPEED .55
+
+CubeMover::CubeMover() :
+		Subsystem("CubeMover") {
+
 }
 
+void CubeMover::InitDefaultCommand() {
+//	SetDefaultCommand());
 
+}
 
-bool AutoCalls::Pickup() {
+bool CubeMover::Pickup() {
 	switch (pickupState) {
 	case RaiseAndFall: //raise claw at speed for time (block falls)
 		if (!timer.HasPeriodPassed(1)) {
@@ -48,7 +65,7 @@ bool AutoCalls::Pickup() {
 	return false;
 }
 
-bool AutoCalls::Drop() {
+bool CubeMover::Drop() {
 	switch (dropState) {
 	case Open:
 //		if (CommandBase::auxMotors->ClawCurrent() < maxCurrent) {
@@ -71,13 +88,13 @@ bool AutoCalls::Drop() {
 	return false;
 }
 
-void AutoCalls::IncrementPickupState() {
+void CubeMover::IncrementPickupState() {
 	pickupState++;
 	timer.Reset();
 	timer.Start();
 }
 
-void AutoCalls::IncrementDropState() {
+void CubeMover::IncrementDropState() {
 	dropState++;
 	timer.Reset();
 	timer.Start();
