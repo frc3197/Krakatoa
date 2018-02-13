@@ -10,30 +10,15 @@
 OI::OI() :
 		PDP(0),
 
-		stick(0),
-		p1A(&stick, A),
-		p1B(&stick, B),
-		p1X(&stick, X),
-		p1Y(&stick, Y),
-		p1LB(&stick, LB),
-		p1RB(&stick, RB),
-		p1Back(&stick, BACK),
-		p1Start(&stick, START),
-		p1LStick(&stick, L_STICK),
-		p1RStick(&stick, R_STICK),
+		stick(0), p1A(&stick, A), p1B(&stick, B), p1X(&stick, X), p1Y(&stick,
+				Y), p1LB(&stick, LB), p1RB(&stick, RB), p1Back(&stick, BACK), p1Start(
+				&stick, START), p1LStick(&stick, L_STICK), p1RStick(&stick,
+				R_STICK),
 
-		stick2(1),
-		p2A(&stick2, A),
-		p2B(&stick2, B),
-		p2X(&stick2, X),
-		p2Y(&stick2, Y),
-		p2LB(&stick2, LB),
-		p2RB(&stick2, RB),
-		p2Back(&stick2, BACK),
-		p2Start(&stick2, START),
-		p2LStick(&stick2, L_STICK),
-		p2RStick(&stick2, R_STICK)
-{
+		stick2(1), p2A(&stick2, A), p2B(&stick2, B), p2X(&stick2, X), p2Y(
+				&stick2, Y), p2LB(&stick2, LB), p2RB(&stick2, RB), p2Back(
+				&stick2, BACK), p2Start(&stick2, START), p2LStick(&stick2,
+				L_STICK), p2RStick(&stick2, R_STICK) {
 	gameSwitch = 0;
 }
 

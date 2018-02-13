@@ -54,6 +54,8 @@ private:
 	JoystickButton p2RStick;
 
 	int gameSwitch;
+
+	JoystickButton buttons[2][11];
 };
 
 #endif  // OI_H
