@@ -9,8 +9,7 @@
 #include "OI.h"
 #include "Subsystems/RobotDriveWithJoystick.h"
 #include "Subsystems/Mechanisms.h"
-//#include "Subsystems/CubeManipulator.h"
-#include "Subsystems/Tester.h"
+#include "Subsystems/CubeManipulator.h"
 
 class CommandBase: public frc::Command {
 public:
@@ -21,7 +20,7 @@ public:
 	static std::unique_ptr<OI> oi;
 	static RobotDriveWithJoystick *robotDrive;
 	static Mechanisms *auxMotors;
-	static Tester *tester;
+	static CubeManipulator *cube;
 	static Preferences *prefs;
 };
 
