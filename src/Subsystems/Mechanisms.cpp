@@ -32,7 +32,11 @@ Mechanisms::Mechanisms() :
 //	claw->EnableCurrentLimit(true);
 
 	elevatorWinch->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0,
+<<<<<<< HEAD
+				CommandBase::robotDrive->kTimeoutMs);
+=======
 			CommandBase::robotDrive->kTimeoutMs);
+>>>>>>> 6e8a170f076f71def531291b830dfcb57b7a6834
 }
 
 void Mechanisms::InitDefaultCommand() {
