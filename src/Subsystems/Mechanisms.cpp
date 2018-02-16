@@ -6,6 +6,7 @@
 #include <math.h>
 
 #include "WPILib.h"
+#include "CommandBase.h"
 
 #include "ctre/Phoenix.h"
 
@@ -31,9 +32,7 @@ Mechanisms::Mechanisms() :
 //	claw->EnableCurrentLimit(true);
 
 	elevatorWinch->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0,
-				CommandBase::robotDrive->kTimeoutMs);
-
-	//:)
+			CommandBase::robotDrive->kTimeoutMs);
 }
 
 void Mechanisms::InitDefaultCommand() {
@@ -74,40 +73,18 @@ void Mechanisms::Claw(float speed) {
 void Mechanisms::ElevatorWinch(float speed) {
 	//elevatorWinch->Set(ControlMode::Velocity, (speed * MAXRPM * 4096 * 600 );
 	elevatorWinch->Set(speed);
-	SmartDashboard::PutNumber("Elevator Winch Encoder", elevatorWinch->GetSensorCollection().GetQuadraturePosition());
+	SmartDashboard::PutNumber("Elevator Winch Encoder",
+			elevatorWinch->GetSensorCollection().GetQuadraturePosition());
 //	SmartDashboard::PutNumber("Elevator winch speed",speed);
-	SmartDashboard::PutNumber("Winch Current", elevatorWinch->GetOutputCurrent());
+	SmartDashboard::PutNumber("Winch Current",
+			elevatorWinch->GetOutputCurrent());
 }
 
 void Mechanisms::ElevatorClaw(float speed) {
 	elevatorClaw->Set(speed);
-	SmartDashboard::PutNumber("Elevator Claw Current", elevatorClaw->GetOutputCurrent());
+	SmartDashboard::PutNumber("Elevator Claw Current",
+			elevatorClaw->GetOutputCurrent());
 //	SmartDashboard::PutNumber("Elevator claw speed",speed);
-}
-
-bool Mechanisms::ClawForwardLimit() {
-<<<<<<< HEAD
-	int raw = 1;//elevatorClaw->GetSensorCollection().IsFwdLimitSwitchClosed();
-	SmartDashboard::PutBoolean("Lower Limit", raw == 1);
-=======
-	int raw = elevatorClaw->GetSensorCollection().IsFwdLimitSwitchClosed();
-	SmartDashboard::PutBoolean("Lower Limit",  raw == 1);
->>>>>>> 376806810cafbc6ffdabc693fa8e7790d88f7897
-	if (raw == 0)
-		return false;
-	return true;
-}
-
-bool Mechanisms::ClawReverseLimit() {
-<<<<<<< HEAD
-	int raw = 1;//elevatorClaw->GetSensorCollection().IsRevLimitSwitchClosed();
-=======
-	int raw = elevatorClaw->GetSensorCollection().IsRevLimitSwitchClosed();
->>>>>>> 376806810cafbc6ffdabc693fa8e7790d88f7897
-	SmartDashboard::PutBoolean("Reverse Limit", raw == 1);
-	if (raw == 0)
-		return false;
-	return true;
 }
 
 float Mechanisms::ClawCurrent() {
