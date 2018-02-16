@@ -1,7 +1,7 @@
 #ifndef DRIVE_OUTSIDE_SAME_H
 #define DRIVE_OUTSIDE_SAME_H
 
-#include <Commands/AutoCommands/AutoCalls.h>
+//#include <Commands/AutoCommands/AutoCalls.h>
 #include "../../CommandBase.h"
 #include "WPILib.h"
 
@@ -17,7 +17,7 @@ private:
 
 	float dist[2];
 
-	Claw* claw = new Claw();
+//	Claw* claw = new Claw();
 
 	enum states {
 		Startup,

@@ -6,12 +6,12 @@
 #include <LiveWindow/LiveWindow.h>
 #include <SmartDashboard/SendableChooser.h>
 #include <SmartDashboard/SmartDashboard.h>
-
-#include <Commands/AutoCommands/Nothing.h>
-#include <Commands/AutoCommands/DriveInside.h>
-#include <Commands/AutoCommands/DriveStraight.h>
-#include <Commands/AutoCommands/DriveOutsideSame.h>
-#include <Commands/AutoCommands/DriveOutsideOpp.h>
+//
+//#include <Commands/AutoCommands/Nothing.h>
+//#include <Commands/AutoCommands/DriveInside.h>
+//#include <Commands/AutoCommands/DriveStraight.h>
+//#include <Commands/AutoCommands/DriveOutsideSame.h>
+//#include <Commands/AutoCommands/DriveOutsideOpp.h>
 
 #include "CommandBase.h"
 
@@ -54,24 +54,24 @@ public:
 
 		std::string position = positionChooser.GetSelected();
 
-		if (position.compare("M") == 0) {
-			if (gameData[0] == 'L') {
-					CommandBase::oi->setGamePrefs(-1);
-				} else {
-					CommandBase::oi->setGamePrefs(1);
-				}
-			autonomousCommand.reset(new DriveInside());
-		} else if (position.compare("L") == 0 || position.compare("R") == 0) {
-			if (position.compare(gameData.substr(1, 1)) == 0) {
-				autonomousCommand.reset(new DriveOutsideSame());
-			} else {
-				autonomousCommand.reset(new DriveOutsideOpp());
-			}
-		} else if (position.compare("S") == 0) {
-			autonomousCommand.reset(new DriveStraight());
-		} else {
-			autonomousCommand.reset(new Nothing());
-		}
+//		if (position.compare("M") == 0) {
+//			if (gameData[0] == 'L') {
+//					CommandBase::oi->setGamePrefs(-1);
+//				} else {
+//					CommandBase::oi->setGamePrefs(1);
+//				}
+//			autonomousCommand.reset(new DriveInside());
+//		} else if (position.compare("L") == 0 || position.compare("R") == 0) {
+//			if (position.compare(gameData.substr(1, 1)) == 0) {
+//				autonomousCommand.reset(new DriveOutsideSame());
+//			} else {
+//				autonomousCommand.reset(new DriveOutsideOpp());
+//			}
+//		} else if (position.compare("S") == 0) {
+//			autonomousCommand.reset(new DriveStraight());
+//		} else {
+//			autonomousCommand.reset(new Nothing());
+//		}
 
 //		SmartDashboard::PutString("position", position);
 //		SmartDashboard::PutString("gamedata", gameData.substr(1, 1));

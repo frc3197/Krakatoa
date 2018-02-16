@@ -25,17 +25,17 @@ Mechanisms::Mechanisms() :
 
 	winchB->Follow(*winchA);
 
-	claw->ConfigPeakCurrentLimit(PEAK_CLAW_CURRENT,
-			CommandBase::robotDrive->kTimeoutMs);
-	claw->ConfigPeakCurrentDuration(200, 0);
-	claw->EnableCurrentLimit(true);
+//	claw->ConfigPeakCurrentLimit(PEAK_CLAW_CURRENT,
+//			CommandBase::robotDrive->kTimeoutMs);
+//	claw->ConfigPeakCurrentDuration(200, 0);
+//	claw->EnableCurrentLimit(true);
 
 	elevatorWinch->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0,
 				CommandBase::robotDrive->kTimeoutMs);
-	claw->ConfigForwardLimitSwitchSource(LimitSwitchSource::LimitSwitchSource_RemoteTalonSRX,
-			LimitSwitchNormal::LimitSwitchNormal_NormallyOpen, 5);
-	claw->ConfigReverseLimitSwitchSource(LimitSwitchSource::LimitSwitchSource_RemoteTalonSRX,
-			LimitSwitchNormal::LimitSwitchNormal_NormallyOpen, 5);
+//	claw->ConfigForwardLimitSwitchSource(LimitSwitchSource::LimitSwitchSource_RemoteTalonSRX,
+//			LimitSwitchNormal::LimitSwitchNormal_NormallyOpen, 5);
+//	claw->ConfigReverseLimitSwitchSource(LimitSwitchSource::LimitSwitchSource_RemoteTalonSRX,
+//			LimitSwitchNormal::LimitSwitchNormal_NormallyOpen, 5);
 }
 
 void Mechanisms::InitDefaultCommand() {
@@ -73,8 +73,7 @@ void Mechanisms::Claw(float speed) {
 	SmartDashboard::PutNumber("Claw Current", claw->GetOutputCurrent());
 }
 
-//NAMING CONVENTION REFORM
-void Mechanisms::elevatorWinch(float speed) {
+void Mechanisms::ElevatorWinch(float speed) {
 	//elevatorWinch->Set(ControlMode::Velocity, (speed * MAXRPM * 4096 * 600 );
 	elevatorWinch->Set(speed);
 	SmartDashboard::PutNumber("Elevator Winch Encoder", elevatorWinch->GetSensorCollection().GetQuadraturePosition());
@@ -89,17 +88,16 @@ void Mechanisms::ElevatorClaw(float speed) {
 }
 
 bool Mechanisms::ClawForwardLimit() {
-	int raw = elevatorClaw->GetSensorCollection().IsFwdLimitSwitchClosed();
-	SmartDashboard::PutBoolean("Lower Limit", (bool) raw);
+	int raw = 1;//elevatorClaw->GetSensorCollection().IsFwdLimitSwitchClosed();
+	SmartDashboard::PutBoolean("Lower Limit", raw == 1);
 	if (raw == 0)
 		return false;
 	return true;
 }
 
-//FAKE ERRORS REEEEEEEEEE
 bool Mechanisms::ClawReverseLimit() {
-	int raw = elevatorClaw->GetSensorCollection().IsRevLimitSwitchClosed();
-	SmartDashboard::PutBoolean("Reverse Limit", (bool) raw);
+	int raw = 1;//elevatorClaw->GetSensorCollection().IsRevLimitSwitchClosed();
+	SmartDashboard::PutBoolean("Reverse Limit", raw == 1);
 	if (raw == 0)
 		return false;
 	return true;

@@ -25,7 +25,7 @@ void AuxiliaryMotors::Execute() {
 	auxMotors->Claw(clawSpeed);
 	auxMotors->Winch(winchSpeed);
 	auxMotors->ElevatorClaw(elevatorClawSpeed);
-	auxMotors->ClimbVertical(elevatorWinchSpeed);
+	auxMotors->ElevatorWinch(elevatorWinchSpeed);
 }
 
 bool AuxiliaryMotors::IsFinished() {
