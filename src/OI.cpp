@@ -24,7 +24,7 @@ OI::OI() :
 
 void OI::updateSensors() {
 	CommandBase::robotDrive->encoderDistance();
-	CommandBase::oi->getDistance();
+	getDistance();
 //	SmartDashboard::PutData(PDP);
 }
 
