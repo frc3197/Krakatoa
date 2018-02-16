@@ -1,0 +1,13 @@
+1. Reflash the radio
+  a. When loading up the configuration tool, choose "Ethernet" on the first window.
+  b. Unplug the power from the radio
+  c. Click "Load Firmware"
+  d. When the window shows up, plug in the power to the radio
+  e. Wait for flashing to complete
+2. Configure radio
+  a. Turn off wifi in Network and Internet Settings (fuly disable) before configuring
+  b. That's it. What else did you think you'd have to do?
+
+Note - Reflashing the radio is important. If you just cycle the power and the radio is still powered when you begin
+       to load firmware, something messes up and then the Configuration also messes up.
+       In addition, you have to disable all network adapters. That includes Wi-Fi and Bluetooth.
