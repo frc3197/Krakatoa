@@ -3,7 +3,7 @@
 
 #include <Commands/Subsystem.h>
 #include "WPILib.h"
-#include "C:\Users\Hexhounds\wpilib\user\cpp\include\ctre\phoenix\MotorControl\CAN\WPI_TalonSRX.h"
+#include "ctre/phoenix/MotorControl/CAN/WPI_TalonSRX.h"
 #include "ctre/Phoenix.h"
 
 class Mechanisms: public frc::Subsystem {

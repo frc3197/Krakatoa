@@ -9,8 +9,12 @@
 #include "OI.h"
 #include "Subsystems/RobotDriveWithJoystick.h"
 #include "Subsystems/Mechanisms.h"
+<<<<<<< HEAD
 #include "Subsystems/Mechanisms.h"
 
+=======
+#include "Subsystems/CubeManipulator.h"
+>>>>>>> 376806810cafbc6ffdabc693fa8e7790d88f7897
 
 class CommandBase: public frc::Command {
 public:
@@ -18,10 +22,11 @@ public:
 	CommandBase() = default;
 	static void init();
 
-	// Create a single static instance of all of your subsystems
 	static std::unique_ptr<OI> oi;
 	static RobotDriveWithJoystick *robotDrive;
 	static Mechanisms *auxMotors;
+	static CubeManipulator *cube;
+	static Preferences *prefs;
 };
 
-#endif  // COMMAND_BASE_H
+#endif
