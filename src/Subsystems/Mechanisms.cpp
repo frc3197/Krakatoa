@@ -32,10 +32,6 @@ Mechanisms::Mechanisms() :
 
 	elevatorWinch->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0,
 				CommandBase::robotDrive->kTimeoutMs);
-//	claw->ConfigForwardLimitSwitchSource(LimitSwitchSource::LimitSwitchSource_RemoteTalonSRX,
-//			LimitSwitchNormal::LimitSwitchNormal_NormallyOpen, 5);
-//	claw->ConfigReverseLimitSwitchSource(LimitSwitchSource::LimitSwitchSource_RemoteTalonSRX,
-//			LimitSwitchNormal::LimitSwitchNormal_NormallyOpen, 5);
 }
 
 void Mechanisms::InitDefaultCommand() {
