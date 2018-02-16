@@ -1,5 +1,5 @@
 #include "AuxiliaryMotors.h"
-#define CLAW_SPEED 1
+#define CLAW_SPEED .25
 #define WINCH_SPEED 1
 
 AuxiliaryMotors::AuxiliaryMotors() {

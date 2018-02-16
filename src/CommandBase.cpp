@@ -5,7 +5,7 @@
 std::unique_ptr<OI> CommandBase::oi = std::make_unique<OI>();
 RobotDriveWithJoystick* CommandBase::robotDrive = NULL;
 Mechanisms* CommandBase::auxMotors = NULL;
-CubeManipulator* CommandBase::cube = NULL;
+//CubeManipulator* CommandBase::cube = NULL;
 
 Preferences* CommandBase::prefs = NULL;
 CommandBase::CommandBase(const std::string &name) :
@@ -16,6 +16,6 @@ void CommandBase::init() {
 	oi.reset(new OI());
 	robotDrive = new RobotDriveWithJoystick();
 	auxMotors = new Mechanisms();
-	cube = new CubeManipulator();
+//	cube = new CubeManipulator();
 	prefs = Preferences::GetInstance();
 }
