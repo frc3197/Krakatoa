@@ -88,15 +88,24 @@ void Mechanisms::ElevatorClaw(float speed) {
 }
 
 bool Mechanisms::ClawForwardLimit() {
+<<<<<<< HEAD
 	int raw = 1;//elevatorClaw->GetSensorCollection().IsFwdLimitSwitchClosed();
 	SmartDashboard::PutBoolean("Lower Limit", raw == 1);
+=======
+	int raw = elevatorClaw->GetSensorCollection().IsFwdLimitSwitchClosed();
+	SmartDashboard::PutBoolean("Lower Limit",  raw == 1);
+>>>>>>> 376806810cafbc6ffdabc693fa8e7790d88f7897
 	if (raw == 0)
 		return false;
 	return true;
 }
 
 bool Mechanisms::ClawReverseLimit() {
+<<<<<<< HEAD
 	int raw = 1;//elevatorClaw->GetSensorCollection().IsRevLimitSwitchClosed();
+=======
+	int raw = elevatorClaw->GetSensorCollection().IsRevLimitSwitchClosed();
+>>>>>>> 376806810cafbc6ffdabc693fa8e7790d88f7897
 	SmartDashboard::PutBoolean("Reverse Limit", raw == 1);
 	if (raw == 0)
 		return false;
