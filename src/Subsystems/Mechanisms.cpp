@@ -32,6 +32,8 @@ Mechanisms::Mechanisms() :
 
 	elevatorWinch->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0,
 				CommandBase::robotDrive->kTimeoutMs);
+
+	//:)
 }
 
 void Mechanisms::InitDefaultCommand() {
