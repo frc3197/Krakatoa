@@ -7,6 +7,7 @@
 
 CubeManipulator::CubeManipulator() :
 		Subsystem("CubeManipulator") {
+	InitDefaultCommand();
 }
 
 void CubeManipulator::InitDefaultCommand() {
@@ -20,8 +21,8 @@ bool CubeManipulator::Pickup() {
 			IncrementPickupState();
 		}
 		break;
-	case LowerPickup: //lower claw until lower limit
-		if (!CommandBase::auxMotors->ClawForwardLimit()) {
+	case LowerPickup: //lower claw until lower limit or current
+		if (true) {
 			CommandBase::auxMotors->ElevatorClaw(-.5);
 		} else {
 			IncrementPickupState();
@@ -49,7 +50,7 @@ bool CubeManipulator::Pickup() {
 
 bool CubeManipulator::Drop() {
 	switch (dropState) {
-	case Open:
+	case Open: // opens the claw for allotted time
 //		if (CommandBase::auxMotors->ClawCurrent() < maxCurrent) {
 		if (!timer.HasPeriodPassed(1)) {
 			CommandBase::auxMotors->Claw(-.5);
@@ -57,8 +58,8 @@ bool CubeManipulator::Drop() {
 			IncrementPickupState();
 		}
 		break;
-	case LowerDrop:
-		if (!CommandBase::auxMotors->ClawForwardLimit()) {
+	case LowerDrop: //lower the elevator claw
+		if (true) {
 			CommandBase::auxMotors->ElevatorClaw(-.5);
 		} else {
 			IncrementPickupState();
