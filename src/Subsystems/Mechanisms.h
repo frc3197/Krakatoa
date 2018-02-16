@@ -14,8 +14,6 @@ public:
 	void Claw(float speed);
 	void ElevatorWinch(float speed);
 	void ElevatorClaw(float speed);
-	bool ClawForwardLimit();
-	bool ClawReverseLimit();
 	float ClawCurrent();
 private:
 	WPI_TalonSRX *winchA;
