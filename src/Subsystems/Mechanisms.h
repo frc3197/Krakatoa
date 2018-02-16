@@ -11,7 +11,7 @@ public:
 	Mechanisms();
 	void InitDefaultCommand() override;
 	void Winch(float speed);
-	void Claw(float speed);
+	bool Claw(float speed);
 	void ElevatorWinch(float speed);
 	void ElevatorClaw(float speed);
 	float ClawCurrent();
@@ -21,6 +21,8 @@ private:
 	WPI_TalonSRX *elevatorWinch;
 	WPI_TalonSRX *elevatorClaw;
 	WPI_TalonSRX *claw;
+
+	float maxClawCurrent;
 };
 
 #endif

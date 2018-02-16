@@ -1,11 +1,8 @@
 #ifndef DRIVE_INSIDE_H
 #define DRIVE_INSIDE_H
 
-<<<<<<< HEAD
-//#include <Commands/AutoCommands/AutoCalls.h>
-=======
->>>>>>> 376806810cafbc6ffdabc693fa8e7790d88f7897
-#include "../../CommandBase.h"
+
+#include "CommandBase.h"
 #include "WPILib.h"
 
 class DriveInside: public CommandBase {
@@ -19,11 +16,6 @@ private:
 
 	float dist[3];
 
-<<<<<<< HEAD
-//	AutoCalls* claw = new AutoCalls();
-
-=======
->>>>>>> 376806810cafbc6ffdabc693fa8e7790d88f7897
 	enum states {
 		Startup, DriveForwardOne, //Dist 0
 		TurnOne,

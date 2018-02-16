@@ -32,11 +32,7 @@ Mechanisms::Mechanisms() :
 //	claw->EnableCurrentLimit(true);
 
 	elevatorWinch->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0,
-<<<<<<< HEAD
 				CommandBase::robotDrive->kTimeoutMs);
-=======
-			CommandBase::robotDrive->kTimeoutMs);
->>>>>>> 6e8a170f076f71def531291b830dfcb57b7a6834
 }
 
 void Mechanisms::InitDefaultCommand() {
@@ -60,6 +56,8 @@ void Mechanisms::InitDefaultCommand() {
 //			CommandBase::robotDrive->prefs->GetFloat("ElevatorClaw D",
 //					CommandBase::robotDrive->defaultD),
 //			CommandBase::robotDrive->kTimeoutMs);
+
+	maxClawCurrent = CommandBase::prefs->GetFloat("Claw Max Current", LARGE_AMOUNT_OF_CURRENT);
 }
 
 void Mechanisms::Winch(float speed) {
@@ -67,11 +65,12 @@ void Mechanisms::Winch(float speed) {
 //	SmartDashboard::PutNumber("Winch(es) speed",speed);
 }
 
-void Mechanisms::Claw(float speed) {
+bool Mechanisms::Claw(float speed) {
+	bool stop = ClawCurrent() > maxClawCurrent;
+	if(!stop)
 	float clawCurrent = claw->GetOutputCurrent();
-
-	claw->Set(speed * 0.25);
-	SmartDashboard::PutNumber("Claw Current", claw->GetOutputCurrent());
+	claw->Set(speed * SQUISH_SPEED);
+	return stop;
 }
 
 void Mechanisms::ElevatorWinch(float speed) {
@@ -92,5 +91,7 @@ void Mechanisms::ElevatorClaw(float speed) {
 }
 
 float Mechanisms::ClawCurrent() {
-	return claw->GetOutputCurrent();
+	float raw = claw->GetOutputCurrent();
+	SmartDashboard::PutNumber("Claw Current", raw);
+	return raw;
 }

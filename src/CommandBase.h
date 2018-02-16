@@ -9,12 +9,9 @@
 #include "OI.h"
 #include "Subsystems/RobotDriveWithJoystick.h"
 #include "Subsystems/Mechanisms.h"
-<<<<<<< HEAD
 #include "Subsystems/Mechanisms.h"
 
-=======
 #include "Subsystems/CubeManipulator.h"
->>>>>>> 376806810cafbc6ffdabc693fa8e7790d88f7897
 
 class CommandBase: public frc::Command {
 public:
