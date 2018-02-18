@@ -1,12 +1,12 @@
-#ifndef DRIVE_INSIDE_H
-#define DRIVE_INSIDE_H
+#ifndef DRIVE_OUTSIDE_OPP_H
+#define DRIVE_OUTSIDE_OPP_H
 
 #include <Commands/AutoCommands/Claw.h>
 #include "../../CommandBase.h"
 #include "WPILib.h"
 
 
-class DriveInside: public CommandBase {
+class DriveOutsideOpp: public CommandBase {
 private:
 	Timer timer;
 	int state;
@@ -15,23 +15,26 @@ private:
 	float turnAngle;
 	int leftOrRight;
 
-	float dist[3];
+	float dist[4];
 
 	Claw* claw = new Claw();
 
 	enum states {
-		Startup, DriveForwardOne, //Dist 0
-		TurnOne,
-		DriveForwardTwo, //Dist 1
-		TurnTwo,
-		DriveForwardThree, //Dist 2
-		DropCube
-	};
+			Startup,
+			DriveForwardOne, //Dist 5
+			TurnOne,
+			DriveForwardTwo, //Dist 6
+			TurnTwo,
+			DriveForwardThree, //Dist 7
+			TurnThree,
+			DriveForwardFour, //Dist 8
+			DropCube
+		};
 
 	void IncrementState();
 	void Drive(float speed);
 public:
-	DriveInside();
+	DriveOutsideOpp();
 	void Initialize();
 	void Execute();
 	bool IsFinished();

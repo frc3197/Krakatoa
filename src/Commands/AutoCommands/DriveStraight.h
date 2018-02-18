@@ -10,7 +10,6 @@ private:
 	Timer timer;
 	int state;
 	bool finished;
-	//CS
 public:
 	DriveStraight();
 	void Initialize();

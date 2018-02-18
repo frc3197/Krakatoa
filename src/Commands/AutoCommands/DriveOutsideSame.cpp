@@ -1,27 +1,24 @@
-#include <Commands/AutoCommands/Claw.h>
-#include <Commands/AutoCommands/DriveInside.h>
+#include <Commands/AutoCommands/DriveOutsideSame.h>
 
 #define DEFAULT_DIST 0
-#define DISTANCE_OFFSET 0
+#define DISTANCE_OFFSET 3
 
-DriveInside::DriveInside() {
+DriveOutsideSame::DriveOutsideSame() {
 	Requires(robotDrive);
 }
 
-// Called just before this Command runs the first time
-void DriveInside::Initialize() {
-	for (int i = 0; i < 3; i++) {
+void DriveOutsideSame::Initialize() {
+	for (int i = 0; i < 2; i++) {
 		dist[i] = robotDrive->prefs->GetFloat(
 				"distance" + (i + DISTANCE_OFFSET), DEFAULT_DIST);
 	}
 	leftOrRight = oi->getGamePrefs();
-	turnAngle = leftOrRight * robotDrive->autoTurnAngle;
+	turnAngle = -leftOrRight * robotDrive->autoTurnAngle;
 	state = -1;
 	IncrementState();
 }
 
-// Called repeatedly when this Command is scheduled to run
-void DriveInside::Execute() {
+void DriveOutsideSame::Execute() {
 	switch (state) {
 	case Startup:
 		if (claw->Pickup()) // returns true when finished
@@ -48,20 +45,7 @@ void DriveInside::Execute() {
 			IncrementState();
 		}
 		break;
-	case TurnTwo:
-		done = robotDrive->advancedTurnBot(robotDrive->autoTurnSpeed, 0);
-		if (done) {
-			IncrementState();
-		}
-		break;
-	case DriveForwardThree:
-		if (robotDrive->encoderDistance() < dist[2]) {
-			Drive(robotDrive->autoDriveSpeed);
-		} else {
-			IncrementState();
-		}
-		break;
-	case DropCube:
+	case DropCube: //drop cube
 		if (claw->Drop())
 			IncrementState();
 		break;
@@ -70,21 +54,21 @@ void DriveInside::Execute() {
 	}
 }
 
-bool DriveInside::IsFinished() {
+bool DriveOutsideSame::IsFinished() {
 	return finished;
 }
 
-void DriveInside::End() {
+void DriveOutsideSame::End() {
 	Drive(0);
 	finished = true;
 	timer.Stop();
 }
 
-void DriveInside::Interrupted() {
+void DriveOutsideSame::Interrupted() {
 
 }
 
-void DriveInside::IncrementState() {
+void DriveOutsideSame::IncrementState() {
 	state++;
 	timer.Reset();
 	timer.Start();
@@ -92,6 +76,6 @@ void DriveInside::IncrementState() {
 	robotDrive->encoderReset();
 }
 
-void DriveInside::Drive(float speed) {
+void DriveOutsideSame::Drive(float speed) {
 	robotDrive->advancedDriveBot(speed, speed, 0);
 }
