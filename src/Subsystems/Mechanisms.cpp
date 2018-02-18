@@ -6,6 +6,10 @@
 #include <math.h>
 
 #include "WPILib.h"
+<<<<<<< HEAD
+=======
+#include "CommandBase.h"
+>>>>>>> ecad1213e55ff161c02ea4b138f0a2b43dc4b2f5
 
 #include "ctre/Phoenix.h"
 
@@ -25,6 +29,7 @@ Mechanisms::Mechanisms() :
 
 	winchB->Follow(*winchA);
 
+<<<<<<< HEAD
 	claw->ConfigPeakCurrentLimit(PEAK_CLAW_CURRENT,
 			CommandBase::robotDrive->kTimeoutMs);
 	claw->ConfigPeakCurrentDuration(200, 0);
@@ -38,6 +43,16 @@ Mechanisms::Mechanisms() :
 //			LimitSwitchNormal::LimitSwitchNormal_NormallyOpen, 5);
 //	claw->ConfigReverseLimitSwitchSource(LimitSwitchSource::LimitSwitchSource_RemoteTalonSRX,
 //			LimitSwitchNormal::LimitSwitchNormal_NormallyOpen, 5);
+=======
+//	claw->ConfigPeakCurrentLimit(PEAK_CLAW_CURRENT,
+//			CommandBase::robotDrive->kTimeoutMs);
+//	claw->ConfigPeakCurrentDuration(200, 0);
+//	claw->EnableCurrentLimit(true);
+
+	elevatorWinch->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0,
+			CommandBase::robotDrive->kTimeoutMs);
+	InitDefaultCommand();
+>>>>>>> ecad1213e55ff161c02ea4b138f0a2b43dc4b2f5
 }
 
 void Mechanisms::InitDefaultCommand() {
@@ -61,10 +76,17 @@ void Mechanisms::InitDefaultCommand() {
 //			CommandBase::robotDrive->prefs->GetFloat("ElevatorClaw D",
 //					CommandBase::robotDrive->defaultD),
 //			CommandBase::robotDrive->kTimeoutMs);
+<<<<<<< HEAD
+=======
+
+	maxClawCurrent = CommandBase::prefs->GetFloat("Claw Max Current",
+			LARGE_AMOUNT_OF_CURRENT);
+>>>>>>> ecad1213e55ff161c02ea4b138f0a2b43dc4b2f5
 }
 
 void Mechanisms::Winch(float speed) {
 	winchA->Set(speed);
+<<<<<<< HEAD
 	SmartDashboard::PutNumber("Winch speed",speed);
 }
 
@@ -84,6 +106,26 @@ void Mechanisms::ClimbVertical(float speed) {
 	elevatorWinch->Set(speed);
 //	SmartDashboard::PutNumber("Elevator winch speed",speed);
 	SmartDashboard::PutNumber("Winch Current", elevatorWinch->GetOutputCurrent());
+=======
+//	SmartDashboard::PutNumber("Winch(es) speed",speed);
+}
+
+bool Mechanisms::Claw(float speed) {
+	bool stop = ClawCurrent() > maxClawCurrent;
+	if (!stop)
+		claw->Set(speed);
+	return stop;
+}
+
+void Mechanisms::ElevatorWinch(float speed) {
+	//elevatorWinch->Set(ControlMode::Velocity, (speed * MAXRPM * 4096 * 600 );
+	elevatorWinch->Set(speed);
+	SmartDashboard::PutNumber("Elevator Winch Encoder",
+			elevatorWinch->GetSensorCollection().GetQuadraturePosition());
+//	SmartDashboard::PutNumber("Elevator winch speed",speed);
+	SmartDashboard::PutNumber("Winch Current",
+			elevatorWinch->GetOutputCurrent());
+>>>>>>> ecad1213e55ff161c02ea4b138f0a2b43dc4b2f5
 }
 
 void Mechanisms::ElevatorClaw(float speed) {
@@ -91,6 +133,7 @@ void Mechanisms::ElevatorClaw(float speed) {
 	SmartDashboard::PutNumber("Elevator Claw Current",
 			elevatorClaw->GetOutputCurrent());
 //	SmartDashboard::PutNumber("Elevator claw speed",speed);
+<<<<<<< HEAD
 	SmartDashboard::PutNumber("Elevator Claw Position",
 			elevatorClaw->GetSensorCollection().GetQuadraturePosition());
 }
@@ -114,4 +157,12 @@ bool Mechanisms::ClawReverseLimit() {
 
 float Mechanisms::ClawCurrent() {
 	return claw->GetOutputCurrent();
+=======
+}
+
+float Mechanisms::ClawCurrent() {
+	float raw = claw->GetOutputCurrent();
+	SmartDashboard::PutNumber("Claw Current", raw);
+	return raw;
+>>>>>>> ecad1213e55ff161c02ea4b138f0a2b43dc4b2f5
 }

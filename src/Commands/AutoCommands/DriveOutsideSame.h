@@ -1,11 +1,17 @@
 #ifndef DRIVE_OUTSIDE_SAME_H
 #define DRIVE_OUTSIDE_SAME_H
 
+<<<<<<< HEAD
 #include <Commands/AutoCommands/Claw.h>
 #include "../../CommandBase.h"
 #include "WPILib.h"
 
 
+=======
+#include "../../CommandBase.h"
+#include "WPILib.h"
+
+>>>>>>> ecad1213e55ff161c02ea4b138f0a2b43dc4b2f5
 class DriveOutsideSame: public CommandBase {
 private:
 	Timer timer;
@@ -17,11 +23,16 @@ private:
 
 	float dist[2];
 
+<<<<<<< HEAD
 	Claw* claw = new Claw();
 
 	enum states {
 		Startup,
 		DriveForwardOne, //Dist 3
+=======
+	enum states {
+		Startup, DriveForwardOne, //Dist 3
+>>>>>>> ecad1213e55ff161c02ea4b138f0a2b43dc4b2f5
 		TurnOne,
 		DriveForwardTwo, //Dist 4
 		DropCube
