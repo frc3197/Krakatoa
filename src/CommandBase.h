@@ -16,10 +16,10 @@ public:
 	CommandBase() = default;
 	static void init();
 
+	// Create a single static instance of all of your subsystems
 	static std::unique_ptr<OI> oi;
 	static RobotDriveWithJoystick *robotDrive;
-	static Mechanisms* auxMotors;
-	static Preferences *prefs;
+	static Mechanisms *auxMotors;
 };
 
-#endif
+#endif  // COMMAND_BASE_H

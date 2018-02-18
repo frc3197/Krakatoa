@@ -1,9 +1,10 @@
 #ifndef DRIVE_OUTSIDE_OPP_H
 #define DRIVE_OUTSIDE_OPP_H
 
-#include <Commands/AutoCommands/Claw.h>
-#include "CommandBase.h"
+#include <Commands/AutoCommands/AutoCalls.h>
+#include "../../CommandBase.h"
 #include "WPILib.h"
+
 
 class DriveOutsideOpp: public CommandBase {
 private:
@@ -16,18 +17,19 @@ private:
 
 	float dist[4];
 
-	Claw* claw = new Claw();
+	AutoCalls* claw = new AutoCalls();
 
 	enum states {
-		Startup, DriveForwardOne, //Dist 5
-		TurnOne,
-		DriveForwardTwo, //Dist 6
-		TurnTwo,
-		DriveForwardThree, //Dist 7
-		TurnThree,
-		DriveForwardFour, //Dist 8
-		DropCube
-	};
+			Startup,
+			DriveForwardOne, //Dist 5
+			TurnOne,
+			DriveForwardTwo, //Dist 6
+			TurnTwo,
+			DriveForwardThree, //Dist 7
+			TurnThree,
+			DriveForwardFour, //Dist 8
+			DropCube
+		};
 
 	void IncrementState();
 	void Drive(float speed);

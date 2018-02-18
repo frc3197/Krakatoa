@@ -12,6 +12,7 @@
 #include <Commands/AutoCommands/DriveStraight.h>
 #include <Commands/AutoCommands/DriveOutsideSame.h>
 #include <Commands/AutoCommands/DriveOutsideOpp.h>
+
 #include "CommandBase.h"
 
 class Robot: public frc::IterativeRobot {
@@ -71,9 +72,18 @@ public:
 		} else {
 			autonomousCommand.reset(new Nothing());
 		}
+
+//		SmartDashboard::PutString("position", position);
+//		SmartDashboard::PutString("gamedata", gameData.substr(1, 1));
+//		SmartDashboard::PutNumber("compare", position.compare("R"));
+
+
 		if (autonomousCommand.get() != nullptr) {
 			autonomousCommand->Start();
 		}
+
+
+//		autonomousCommand.reset(chooser.GetSelected());
 	}
 
 	void AutonomousPeriodic() override {

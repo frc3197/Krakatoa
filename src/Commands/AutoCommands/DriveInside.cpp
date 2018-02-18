@@ -1,4 +1,4 @@
-#include <Commands/AutoCommands/Claw.h>
+#include <Commands/AutoCommands/AutoCalls.h>
 #include <Commands/AutoCommands/DriveInside.h>
 
 #define DEFAULT_DIST 0
@@ -11,7 +11,7 @@ DriveInside::DriveInside() {
 // Called just before this Command runs the first time
 void DriveInside::Initialize() {
 	for (int i = 0; i < 3; i++) {
-		dist[i] = CommandBase::prefs->GetFloat(
+		dist[i] = robotDrive->prefs->GetFloat(
 				"distance" + (i + DISTANCE_OFFSET), DEFAULT_DIST);
 	}
 	leftOrRight = oi->getGamePrefs();

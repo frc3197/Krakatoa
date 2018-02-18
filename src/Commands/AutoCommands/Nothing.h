@@ -4,7 +4,8 @@
 #include "../../CommandBase.h"
 #include "WPILib.h"
 
-class Nothing: public CommandBase {
+class Nothing: public CommandBase
+{
 public:
 	Nothing();
 	void Initialize();

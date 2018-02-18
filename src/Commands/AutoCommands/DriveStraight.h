@@ -1,10 +1,11 @@
 #ifndef DRIVE_STRAIGHT_H
 #define DRIVE_STRAIGHT_H
 
-#include "CommandBase.h"
+#include "../../CommandBase.h"
 #include "WPILib.h"
 
-class DriveStraight: public CommandBase {
+class DriveStraight: public CommandBase
+{
 private:
 	Timer timer;
 	int state;

@@ -34,6 +34,11 @@ RobotDriveWithJoystick::RobotDriveWithJoystick() :
 
 	rDrive->SetSafetyEnabled(false);
 
+	//2017 Practice Bot
+//	rearLeft->SetInverted(true);
+
+//2018 Electronics Board
+
 	frontRight->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0,
 			kTimeoutMs);
 	frontRight->SetSensorPhase(true); //?
@@ -57,34 +62,25 @@ RobotDriveWithJoystick::RobotDriveWithJoystick() :
 	talonI = defaultI;
 	talonD = defaultD;
 
-	InitDefaultCommand();
+	prefs = Preferences::GetInstance();
 }
 
 void RobotDriveWithJoystick::InitDefaultCommand() {
 	SetDefaultCommand(new TankControl());
 	SPIGyro.Calibrate();
 
-	autoDriveSpeed = CommandBase::prefs->GetFloat("autoDriveSpeed", 0);
-	autoTurnSpeed = CommandBase::prefs->GetFloat("autoTurnSpeed", 0);
-	autoTurnAngle = CommandBase::prefs->GetFloat("autoTurnAngle", 0);
+	prefs = Preferences::GetInstance();
+
+	autoDriveSpeed = prefs->GetFloat("autoDriveSpeed", 0);
+	autoTurnSpeed = prefs->GetFloat("autoTurnSpeed", 0);
+	autoTurnAngle = prefs->GetFloat("autoTurnAngle", 0);
 
 	encoderReset();
 
-	talonF = CommandBase::prefs->GetFloat("Drive F", defaultF);
-	talonP = CommandBase::prefs->GetFloat("Drive P", defaultP);
-	talonI = CommandBase::prefs->GetFloat("Drive I", defaultI);
-	talonD = CommandBase::prefs->GetFloat("Drive D", defaultD);
-	autoDriveSpeed = CommandBase::CommandBase::prefs->GetFloat("autoDriveSpeed",
-			0);
-	autoTurnSpeed = CommandBase::prefs->GetFloat("autoTurnSpeed", 0);
-	autoTurnAngle = CommandBase::prefs->GetFloat("autoTurnAngle", 0);
-
-	encoderReset();
-
-	talonF = CommandBase::prefs->GetFloat("Drive F", defaultF);
-	talonP = CommandBase::prefs->GetFloat("Drive P", defaultP);
-	talonI = CommandBase::prefs->GetFloat("Drive I", defaultI);
-	talonD = CommandBase::prefs->GetFloat("Drive D", defaultD);
+	talonF = prefs->GetFloat("Drive F", defaultF);
+	talonP = prefs->GetFloat("Drive P", defaultP);
+	talonI = prefs->GetFloat("Drive I", defaultI);
+	talonD = prefs->GetFloat("Drive D", defaultD);
 
 	frontRight->Config_kF(kPIDLoopIdx, talonF, kTimeoutMs);
 	frontRight->Config_kP(kPIDLoopIdx, talonP, kTimeoutMs);
@@ -101,7 +97,7 @@ void RobotDriveWithJoystick::InitDefaultCommand() {
 }
 
 void RobotDriveWithJoystick::driveBot(float left, float right) {
-	rDrive->TankDrive(left * SPEED_MULTIPLIER, right * SPEED_MULTIPLIER);
+	rDrive->TankDrive(-left * SPEED_MULTIPLIER, -right * SPEED_MULTIPLIER);
 	SmartDashboard::PutData("Drive", rDrive);
 }
 

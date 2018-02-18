@@ -8,17 +8,36 @@
 #define RUMBLE_DURATION 4
 
 OI::OI() :
-		PDP(0),
+// Process operator interface input here.
+		LIDARWrite(I2C::kOnboard, 0xC4), //LIDAR
+		LIDARRead(I2C::kOnboard, 0xC5), //LIDAR
+		PDP(0), //PDP
+		stick(0), //Player1
+		p1A(&stick, BUTTON1), //A
+		p1B(&stick, BUTTON2), //B
+		p1X(&stick, BUTTON3), //X
+		p1Y(&stick, BUTTON4), //Y
+		p1LB(&stick, BUTTON5), //LB
+		p1RB(&stick, BUTTON6), //RB
+		p1Back(&stick, BUTTON7), //Back
+		p1Start(&stick, BUTTON8), //Start
+		p1LStick(&stick, BUTTON9), //Left Stick
+		p1RStick(&stick, BUTTON10), //Right Stick
 
-		stick(0), p1A(&stick, A), p1B(&stick, B), p1X(&stick, X), p1Y(&stick,
-				Y), p1LB(&stick, LB), p1RB(&stick, RB), p1Back(&stick, BACK), p1Start(
-				&stick, START), p1LStick(&stick, L_STICK), p1RStick(&stick,
-				R_STICK),
+		stick2(1), //Player2
+		p2A(&stick2, BUTTON1), //A
+		p2B(&stick2, BUTTON2), //B
+		p2X(&stick2, BUTTON3), //X
+		p2Y(&stick2, BUTTON4), //Y
+		p2LB(&stick2, BUTTON5), //LB
+		p2RB(&stick2, BUTTON6), //RB
+		p2Back(&stick2, BUTTON7), //Back
+		p2Start(&stick2, BUTTON8), //Start
+		p2LStick(&stick2, BUTTON9), //Left Stick
+		p2RStick(&stick2, BUTTON10) //Right Stick
 
-		stick2(1), p2A(&stick2, A), p2B(&stick2, B), p2X(&stick2, X), p2Y(
-				&stick2, Y), p2LB(&stick2, LB), p2RB(&stick2, RB), p2Back(
-				&stick2, BACK), p2Start(&stick2, START), p2LStick(&stick2,
-				L_STICK), p2RStick(&stick2, R_STICK) {
+{
+	LIDARWrite.Write(0x00, 0x04);
 	gameSwitch = 0;
 }
 
@@ -29,8 +48,8 @@ void OI::updateSensors() {
 }
 
 float OI::getDriveRight() {
-	float raw = stick2.GetRawAxis(5);
-
+	float raw = -stick.GetRawAxis(5);
+//	float raw = -stick2.GetRawAxis(5);
 	if (raw < STICK_DEADZONE && raw > -STICK_DEADZONE) {
 		raw = 0;
 	}
@@ -38,7 +57,8 @@ float OI::getDriveRight() {
 }
 
 float OI::getDriveLeft() {
-	float raw = stick2.GetRawAxis(1);
+	float raw = -stick.GetRawAxis(1);
+//	float raw = -stick2.GetRawAxis(1);
 	if (raw < STICK_DEADZONE && raw > -STICK_DEADZONE) {
 		raw = 0;
 	}
@@ -46,7 +66,7 @@ float OI::getDriveLeft() {
 }
 
 bool OI::gyroReorientate() {
-	return p1Start.Get();
+	return p1LB.Get();
 }
 
 void OI::setGamePrefs(int gameSwitch_) {
@@ -63,8 +83,8 @@ int OI::getDistance() {
 }
 
 int OI::winch() {
-	bool down = p1LB.Get();
-	bool up = p1RB.Get();
+	bool down = p2A.Get();
+	bool up = p2B.Get();
 	if (down && !up)
 		return (-1);
 	else if (up && !down)
@@ -74,8 +94,8 @@ int OI::winch() {
 }
 
 int OI::claw() {
-	bool in = p2RB.Get();
-	bool out = p2LB.Get();
+	bool in = p1RB.Get();
+	bool out = p1LB.Get();
 	if (in && !out)
 		return (-1);
 	else if (out && !in)
@@ -92,7 +112,7 @@ float OI::elevatorWinch() {
 }
 
 float OI::elevatorClaw() {
-	float raw = stick2.GetRawAxis(2) - stick2.GetRawAxis(3);
+	float raw = stick.GetRawAxis(2) - stick.GetRawAxis(3);
 	if (raw < STICK_DEADZONE && raw > -STICK_DEADZONE)
 		raw = 0;
 	return raw;
