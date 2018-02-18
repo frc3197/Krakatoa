@@ -34,6 +34,14 @@ RobotDriveWithJoystick::RobotDriveWithJoystick() :
 
 	rDrive->SetSafetyEnabled(false);
 
+<<<<<<< HEAD
+=======
+	//2017 Practice Bot
+	//	rearLeft->SetInverted(true);
+
+	//2018 Electronics Board
+
+>>>>>>> ecad1213e55ff161c02ea4b138f0a2b43dc4b2f5
 	frontRight->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0,
 			kTimeoutMs);
 	frontRight->SetSensorPhase(true); //?
@@ -57,13 +65,18 @@ RobotDriveWithJoystick::RobotDriveWithJoystick() :
 	talonI = defaultI;
 	talonD = defaultD;
 
+<<<<<<< HEAD
 	prefs = Preferences::GetInstance();
+=======
+	InitDefaultCommand();
+>>>>>>> ecad1213e55ff161c02ea4b138f0a2b43dc4b2f5
 }
 
 void RobotDriveWithJoystick::InitDefaultCommand() {
 	SetDefaultCommand(new TankControl());
 	SPIGyro.Calibrate();
 
+<<<<<<< HEAD
 	prefs = Preferences::GetInstance();
 
 	autoDriveSpeed = prefs->GetFloat("autoDriveSpeed", 0);
@@ -76,6 +89,18 @@ void RobotDriveWithJoystick::InitDefaultCommand() {
 	talonP = prefs->GetFloat("Drive P", defaultP);
 	talonI = prefs->GetFloat("Drive I", defaultI);
 	talonD = prefs->GetFloat("Drive D", defaultD);
+=======
+	autoDriveSpeed = CommandBase::CommandBase::prefs->GetFloat("autoDriveSpeed", 0);
+	autoTurnSpeed = CommandBase::prefs->GetFloat("autoTurnSpeed", 0);
+	autoTurnAngle = CommandBase::prefs->GetFloat("autoTurnAngle", 0);
+
+	encoderReset();
+
+	talonF = CommandBase::prefs->GetFloat("Drive F", defaultF);
+	talonP = CommandBase::prefs->GetFloat("Drive P", defaultP);
+	talonI = CommandBase::prefs->GetFloat("Drive I", defaultI);
+	talonD = CommandBase::prefs->GetFloat("Drive D", defaultD);
+>>>>>>> ecad1213e55ff161c02ea4b138f0a2b43dc4b2f5
 
 	frontRight->Config_kF(kPIDLoopIdx, talonF, kTimeoutMs);
 	frontRight->Config_kP(kPIDLoopIdx, talonP, kTimeoutMs);
@@ -92,7 +117,11 @@ void RobotDriveWithJoystick::InitDefaultCommand() {
 }
 
 void RobotDriveWithJoystick::driveBot(float left, float right) {
+<<<<<<< HEAD
 	rDrive->TankDrive(left * SPEED_MULTIPLIER, right * SPEED_MULTIPLIER);
+=======
+	rDrive->TankDrive(-left * SPEED_MULTIPLIER, -right * SPEED_MULTIPLIER);
+>>>>>>> ecad1213e55ff161c02ea4b138f0a2b43dc4b2f5
 	SmartDashboard::PutData("Drive", rDrive);
 }
 

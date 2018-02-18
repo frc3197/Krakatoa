@@ -20,6 +20,7 @@ public:
 	void rumbleWarning();
 	float lerp(float t, float a, float b, float c, float d);
 
+<<<<<<< HEAD
 	static const int JOYSTICK = 0;
 	static const int BUTTON1 = 1;
 	static const int BUTTON2 = 2;
@@ -36,11 +37,19 @@ private:
 	I2C LIDARWrite;
 	I2C LIDARRead;
 
+=======
+	enum Buttons {
+		JOYSTICK, A, B, X, Y, LB, RB, BACK, START, L_STICK, R_STICK
+	};
+
+private:
+>>>>>>> ecad1213e55ff161c02ea4b138f0a2b43dc4b2f5
 	PowerDistributionPanel *PDP;
 
 	Joystick stick;
 	Joystick stick2;
 
+<<<<<<< HEAD
 	JoystickButton p1A; //A
 	JoystickButton p1B; //B
 	JoystickButton p1X; //X
@@ -62,6 +71,31 @@ private:
 	JoystickButton p2Start; //Start
 	JoystickButton p2LStick; //Left Stick Click
 	JoystickButton p2RStick; //Right Stick Click
+=======
+	JoystickButton p1A;
+	JoystickButton p1B;
+	JoystickButton p1X;
+	JoystickButton p1Y;
+	JoystickButton p1LB;
+	JoystickButton p1RB;
+	JoystickButton p1Back;
+	JoystickButton p1Start;
+	JoystickButton p1LStick;
+	JoystickButton p1RStick;
+
+	Joystick stick2;
+
+	JoystickButton p2A;
+	JoystickButton p2B;
+	JoystickButton p2X;
+	JoystickButton p2Y;
+	JoystickButton p2LB;
+	JoystickButton p2RB;
+	JoystickButton p2Back;
+	JoystickButton p2Start;
+	JoystickButton p2LStick;
+	JoystickButton p2RStick;
+>>>>>>> ecad1213e55ff161c02ea4b138f0a2b43dc4b2f5
 
 	int gameSwitch;
 };

@@ -3,7 +3,11 @@
 
 #include <Commands/Subsystem.h>
 #include "WPILib.h"
+<<<<<<< HEAD
 #include "C:\Users\Hexhounds\wpilib\user\cpp\include\ctre\phoenix\MotorControl\CAN\WPI_TalonSRX.h"
+=======
+#include "ctre\phoenix\MotorControl\CAN\WPI_TalonSRX.h"
+>>>>>>> ecad1213e55ff161c02ea4b138f0a2b43dc4b2f5
 #include "ctre/Phoenix.h"
 
 class RobotDriveWithJoystick: public frc::Subsystem {
@@ -18,8 +22,11 @@ public:
 	float encoderDistance();
 	void encoderReset();
 
+<<<<<<< HEAD
 	Preferences *prefs;
 
+=======
+>>>>>>> ecad1213e55ff161c02ea4b138f0a2b43dc4b2f5
 	float autoDriveSpeed;
 	float autoTurnSpeed;
 	float autoTurnAngle;
