@@ -1,16 +1,18 @@
-#include <Commands/AutoCommands/Claw.h>
+#include <Commands/AutoCommands/AutoCalls.h>
 
-Claw::Claw() {
+AutoCalls::AutoCalls() {
 	leftOrRight = CommandBase::oi->getGamePrefs();
 	pickupState = -1;
 	dropState = -1;
-	maxCurrent = CommandBase::prefs->GetFloat("Claw Max Current",
+	maxCurrent = CommandBase::robotDrive->prefs->GetFloat("AutoCalls Max Current",
 			10);
 	IncrementPickupState();
 	IncrementDropState();
 }
 
-bool Claw::Pickup() {
+
+
+bool AutoCalls::Pickup() {
 	switch (pickupState) {
 	case RaiseAndFall: //raise claw at speed for time (block falls)
 		if (!timer.HasPeriodPassed(1)) {
@@ -19,8 +21,8 @@ bool Claw::Pickup() {
 			IncrementPickupState();
 		}
 		break;
-	case LowerPickup: //lower claw until lower limit WRITE ME
-		if (false/*!CommandBase::auxMotors->ClawForwardLimit()*/) {
+	case LowerPickup: //lower claw until lower limit
+		if (!CommandBase::auxMotors->ClawForwardLimit()) {
 			CommandBase::auxMotors->ElevatorClaw(-.5);
 		} else {
 			IncrementPickupState();
@@ -46,7 +48,7 @@ bool Claw::Pickup() {
 	return false;
 }
 
-bool Claw::Drop() {
+bool AutoCalls::Drop() {
 	switch (dropState) {
 	case Open:
 //		if (CommandBase::auxMotors->ClawCurrent() < maxCurrent) {
@@ -56,8 +58,8 @@ bool Claw::Drop() {
 			IncrementPickupState();
 		}
 		break;
-	case LowerDrop: //write lower limit
-		if (false/*!CommandBase::auxMotors->ClawForwardLimit()*/) {
+	case LowerDrop:
+		if (!CommandBase::auxMotors->ClawForwardLimit()) {
 			CommandBase::auxMotors->ElevatorClaw(-.5);
 		} else {
 			IncrementPickupState();
@@ -69,13 +71,13 @@ bool Claw::Drop() {
 	return false;
 }
 
-void Claw::IncrementPickupState() {
+void AutoCalls::IncrementPickupState() {
 	pickupState++;
 	timer.Reset();
 	timer.Start();
 }
 
-void Claw::IncrementDropState() {
+void AutoCalls::IncrementDropState() {
 	dropState++;
 	timer.Reset();
 	timer.Start();

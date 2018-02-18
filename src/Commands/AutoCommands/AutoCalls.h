@@ -1,10 +1,10 @@
-#ifndef CLAW_H
-#define CLAW_H
+#ifndef AUTO_CALLS_H
+#define AUTO_CALLS_H
 
 #include "../../CommandBase.h"
 #include "WPILib.h"
 
-class Claw
+class AutoCalls
 {
 private:
 	int leftOrRight;
@@ -31,7 +31,7 @@ private:
 	void IncrementPickupState();
 	void IncrementDropState();
 public:
-	Claw();
+	AutoCalls();
 	bool Pickup();
 	bool Drop();
 };
