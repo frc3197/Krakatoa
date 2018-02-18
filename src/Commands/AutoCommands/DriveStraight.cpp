@@ -4,7 +4,6 @@
 
 DriveStraight::DriveStraight() {
 	Requires(robotDrive);
-	Initialize();
 }
 
 void DriveStraight::Initialize() {

@@ -6,22 +6,12 @@
 #include <LiveWindow/LiveWindow.h>
 #include <SmartDashboard/SendableChooser.h>
 #include <SmartDashboard/SmartDashboard.h>
-<<<<<<< HEAD
 
 #include <Commands/AutoCommands/Nothing.h>
 #include <Commands/AutoCommands/DriveInside.h>
 #include <Commands/AutoCommands/DriveStraight.h>
 #include <Commands/AutoCommands/DriveOutsideSame.h>
 #include <Commands/AutoCommands/DriveOutsideOpp.h>
-=======
-//
-//#include <Commands/AutoCommands/Nothing.h>
-//#include <Commands/AutoCommands/DriveInside.h>
-//#include <Commands/AutoCommands/DriveStraight.h>
-//#include <Commands/AutoCommands/DriveOutsideSame.h>
-//#include <Commands/AutoCommands/DriveOutsideOpp.h>
->>>>>>> ecad1213e55ff161c02ea4b138f0a2b43dc4b2f5
-
 #include "CommandBase.h"
 
 class Robot: public frc::IterativeRobot {
@@ -63,7 +53,6 @@ public:
 
 		std::string position = positionChooser.GetSelected();
 
-<<<<<<< HEAD
 		if (position.compare("M") == 0) {
 			if (gameData[0] == 'L') {
 					CommandBase::oi->setGamePrefs(-1);
@@ -82,38 +71,9 @@ public:
 		} else {
 			autonomousCommand.reset(new Nothing());
 		}
-=======
-//		if (position.compare("M") == 0) {
-//			if (gameData[0] == 'L') {
-//					CommandBase::oi->setGamePrefs(-1);
-//				} else {
-//					CommandBase::oi->setGamePrefs(1);
-//				}
-//			autonomousCommand.reset(new DriveInside());
-//		} else if (position.compare("L") == 0 || position.compare("R") == 0) {
-//			if (position.compare(gameData.substr(1, 1)) == 0) {
-//				autonomousCommand.reset(new DriveOutsideSame());
-//			} else {
-//				autonomousCommand.reset(new DriveOutsideOpp());
-//			}
-//		} else if (position.compare("S") == 0) {
-//			autonomousCommand.reset(new DriveStraight());
-//		} else {
-//			autonomousCommand.reset(new Nothing());
-//		}
->>>>>>> ecad1213e55ff161c02ea4b138f0a2b43dc4b2f5
-
-//		SmartDashboard::PutString("position", position);
-//		SmartDashboard::PutString("gamedata", gameData.substr(1, 1));
-//		SmartDashboard::PutNumber("compare", position.compare("R"));
-
-
 		if (autonomousCommand.get() != nullptr) {
 			autonomousCommand->Start();
 		}
-
-
-//		autonomousCommand.reset(chooser.GetSelected());
 	}
 
 	void AutonomousPeriodic() override {
