@@ -10,6 +10,7 @@
 #include <Commands/AutoCommands/Nothing.h>
 #include <Commands/AutoCommands/DriveInside.h>
 #include <Commands/AutoCommands/DriveStraight.h>
+#include <Commands/AutoCommands/DriveStraightDist.h>
 #include <Commands/AutoCommands/DriveOutsideSame.h>
 #include <Commands/AutoCommands/DriveOutsideOpp.h>
 
@@ -27,6 +28,7 @@ public:
 
 		positionChooser.AddDefault("Nothing", "N");
 		positionChooser.AddObject("Straight", "S");
+		positionChooser.AddObject("Straight Dist", "SD");
 		positionChooser.AddObject("Left", "L");
 		positionChooser.AddObject("Middle", "M");
 		positionChooser.AddObject("Right", "R");
@@ -53,13 +55,14 @@ public:
 		}
 
 		std::string position = positionChooser.GetSelected();
+		gameData = "LRR";
 
 		if (position.compare("M") == 0) {
 			if (gameData[0] == 'L') {
-					CommandBase::oi->setGamePrefs(-1);
-				} else {
-					CommandBase::oi->setGamePrefs(1);
-				}
+				CommandBase::oi->setGamePrefs(-1);
+			} else {
+				CommandBase::oi->setGamePrefs(1);
+			}
 			autonomousCommand.reset(new DriveInside());
 		} else if (position.compare("L") == 0 || position.compare("R") == 0) {
 			if (position.compare(gameData.substr(1, 1)) == 0) {
@@ -69,19 +72,19 @@ public:
 			}
 		} else if (position.compare("S") == 0) {
 			autonomousCommand.reset(new DriveStraight());
+		} else if (position.compare("SD") == 0) {
+			autonomousCommand.reset(new DriveStraightDist());
 		} else {
 			autonomousCommand.reset(new Nothing());
 		}
 
-//		SmartDashboard::PutString("position", position);
-//		SmartDashboard::PutString("gamedata", gameData.substr(1, 1));
-//		SmartDashboard::PutNumber("compare", position.compare("R"));
-
+		SmartDashboard::PutString("position", position);
+		SmartDashboard::PutString("gamedata", gameData.substr(1, 1));
+		SmartDashboard::PutNumber("compare", position.compare("R"));
 
 		if (autonomousCommand.get() != nullptr) {
 			autonomousCommand->Start();
 		}
-
 
 //		autonomousCommand.reset(chooser.GetSelected());
 	}

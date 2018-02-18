@@ -14,7 +14,7 @@
 #define TURN_ANGLE_DEADZONE 0
 #define PERCENT_CHANGE_PER_DEGREE .0075
 #define MIN_SPEED .55
-#define ENCODER_CONVERSION (M_PI * 6 / 84) / 4
+#define ENCODER_CONVERSION (M_PI * 6 / 84)
 
 #define AUTO_SPEED .5
 #define AUTO_TURN_SPEED .55
@@ -62,25 +62,23 @@ RobotDriveWithJoystick::RobotDriveWithJoystick() :
 	talonI = defaultI;
 	talonD = defaultD;
 
-	prefs = Preferences::GetInstance();
 }
 
 void RobotDriveWithJoystick::InitDefaultCommand() {
 	SetDefaultCommand(new TankControl());
 	SPIGyro.Calibrate();
 
-	prefs = Preferences::GetInstance();
-
-	autoDriveSpeed = prefs->GetFloat("autoDriveSpeed", 0);
-	autoTurnSpeed = prefs->GetFloat("autoTurnSpeed", 0);
-	autoTurnAngle = prefs->GetFloat("autoTurnAngle", 0);
+	autoDriveSpeed = CommandBase::prefs->GetFloat("autoDriveSpeed", 0);
+	autoTurnSpeed = CommandBase::prefs->GetFloat("autoTurnSpeed", 0);
+	autoTurnAngle = CommandBase::prefs->GetFloat("autoTurnAngle", 0);
+	autoDriveDist = CommandBase::prefs->GetFloat("autoDriveDist", 0);
 
 	encoderReset();
 
-	talonF = prefs->GetFloat("Drive F", defaultF);
-	talonP = prefs->GetFloat("Drive P", defaultP);
-	talonI = prefs->GetFloat("Drive I", defaultI);
-	talonD = prefs->GetFloat("Drive D", defaultD);
+	talonF = CommandBase::prefs->GetFloat("Drive F", defaultF);
+	talonP = CommandBase::prefs->GetFloat("Drive P", defaultP);
+	talonI = CommandBase::prefs->GetFloat("Drive I", defaultI);
+	talonD = CommandBase::prefs->GetFloat("Drive D", defaultD);
 
 	frontRight->Config_kF(kPIDLoopIdx, talonF, kTimeoutMs);
 	frontRight->Config_kP(kPIDLoopIdx, talonP, kTimeoutMs);
@@ -97,7 +95,7 @@ void RobotDriveWithJoystick::InitDefaultCommand() {
 }
 
 void RobotDriveWithJoystick::driveBot(float left, float right) {
-	rDrive->TankDrive(-left * SPEED_MULTIPLIER, -right * SPEED_MULTIPLIER);
+	rDrive->TankDrive(left * SPEED_MULTIPLIER, right * SPEED_MULTIPLIER);
 	SmartDashboard::PutData("Drive", rDrive);
 }
 
@@ -107,8 +105,8 @@ void RobotDriveWithJoystick::advancedDriveBot(float left, float right,
 	float deltaAngle = (preferred - actual);
 	if (abs(deltaAngle) > ANGLE_DEADZONE) {
 		float speedChange = deltaAngle * PERCENT_CHANGE_PER_DEGREE;
-		right -= speedChange;
-		left += speedChange;
+		right += speedChange;
+		left -= speedChange;
 	}
 
 	driveBot(left, right);
