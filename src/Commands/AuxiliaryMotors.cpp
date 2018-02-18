@@ -17,8 +17,12 @@ void AuxiliaryMotors::Execute() {
 	float elevatorClaw = oi->elevatorClaw();
 	float elevatorWinch = oi->elevatorWinch();
 
-	bool forward = auxMotors->ClawForwardLimit();
-	bool reverse = auxMotors->ClawReverseLimit();
+	auxMotors->ClawGrabLim();
+	auxMotors->ClawRetractLim();
+	auxMotors->ElevatorClawTopLim();
+	auxMotors->ElevatorClawBotLim();
+	auxMotors->ElevatorWinchForwardLimit();
+	auxMotors->ElevatorWinchReverseLimit();
 
 	float clawSpeed = clawMult * CLAW_SPEED;
 	float winchSpeed = winchMult * WINCH_SPEED;

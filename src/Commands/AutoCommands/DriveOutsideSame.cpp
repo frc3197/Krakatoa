@@ -9,7 +9,7 @@ DriveOutsideSame::DriveOutsideSame() {
 
 void DriveOutsideSame::Initialize() {
 	for (int i = 0; i < 2; i++) {
-		dist[i] = robotDrive->prefs->GetFloat(
+		dist[i] = CommandBase::prefs->GetFloat(
 				"distance" + (i + DISTANCE_OFFSET), DEFAULT_DIST);
 	}
 	leftOrRight = oi->getGamePrefs();

@@ -14,8 +14,12 @@ public:
 	void Claw(float speed);
 	void ElevatorWinch(float speed);
 	void ElevatorClaw(float speed);
-	bool ClawForwardLimit();
-	bool ClawReverseLimit();
+	bool ClawGrabLim();
+	bool ClawRetractLim();
+	bool ElevatorClawTopLim();
+	bool ElevatorClawBotLim();
+	bool ElevatorWinchForwardLimit();
+	bool ElevatorWinchReverseLimit();
 	float ClawCurrent();
 private:
 	WPI_TalonSRX *winchA;
@@ -23,6 +27,8 @@ private:
 	WPI_TalonSRX *elevatorWinch;
 	WPI_TalonSRX *elevatorClaw;
 	WPI_TalonSRX *claw;
+
+	float maxObservedClawCurrent;
 };
 
 #endif

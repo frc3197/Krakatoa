@@ -11,7 +11,7 @@ DriveInside::DriveInside() {
 // Called just before this Command runs the first time
 void DriveInside::Initialize() {
 	for (int i = 0; i < 3; i++) {
-		dist[i] = robotDrive->prefs->GetFloat(
+		dist[i] = CommandBase::prefs->GetFloat(
 				"distance" + (i + DISTANCE_OFFSET), DEFAULT_DIST);
 	}
 	leftOrRight = oi->getGamePrefs();

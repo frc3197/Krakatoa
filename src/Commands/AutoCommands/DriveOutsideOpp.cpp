@@ -9,7 +9,7 @@ DriveOutsideOpp::DriveOutsideOpp() {
 
 void DriveOutsideOpp::Initialize() {
 	for (int i = 0; i < 4; i++) {
-		dist[i] = robotDrive->prefs->GetFloat(
+		dist[i] = CommandBase::prefs->GetFloat(
 				"distance" + (i + DISTANCE_OFFSET), DEFAULT_DIST);
 	}
 	leftOrRight = oi->getGamePrefs();
