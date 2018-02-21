@@ -21,6 +21,8 @@ public:
 	bool ElevatorWinchForwardLimit();
 	bool ElevatorWinchReverseLimit();
 	float ClawCurrent();
+
+	void runTester();
 private:
 	WPI_TalonSRX *winchA;
 	WPI_TalonSRX *winchB;
@@ -29,6 +31,7 @@ private:
 	WPI_TalonSRX *claw;
 
 	float maxObservedClawCurrent;
+	float elevatorDownMultiplier;
 };
 
 #endif
