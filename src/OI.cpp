@@ -79,11 +79,17 @@ float OI::claw() {
 	bool in = p1RB.Get();
 	bool out = p1LB.Get();
 	if (in && !out)
+	{
 		return (-1);
+	}
 	else if (out && !in)
+	{
 		return (1);
+	}
 	else
+	{
 		return (0);
+	}
 }
 
 float OI::elevatorWinch() {

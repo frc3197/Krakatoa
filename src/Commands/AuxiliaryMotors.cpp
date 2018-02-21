@@ -12,6 +12,7 @@ void AuxiliaryMotors::Initialize() {
 }
 
 void AuxiliaryMotors::Execute() {
+
 	float clawMult = oi->claw();
 	float winchMult = oi->winch();
 	float elevatorClaw = oi->elevatorClaw();

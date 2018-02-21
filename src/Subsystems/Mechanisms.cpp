@@ -16,21 +16,17 @@
 Mechanisms::Mechanisms() :
 		Subsystem("AuxiliaryMotors") {
 
-	winchA = new WPI_TalonSRX(7);
+	winchA = new WPI_TalonSRX(5);
 	winchB = new WPI_TalonSRX(6);
-	claw = new WPI_TalonSRX(5);
+	//claw = new WPI_TalonSRX(7);
 	elevatorWinch = new WPI_TalonSRX(8);
 	elevatorClaw = new WPI_TalonSRX(9);
 
+	claw = new WPI_TalonSRX(11);
+
 	winchB->Follow(*winchA);
 
-//	claw->ConfigPeakCurrentLimit(PEAK_CLAW_CURRENT,
-//			CommandBase::robotDrive->kTimeoutMs);
-//	claw->ConfigPeakCurrentDuration(200, 0);
-//	claw->EnableCurrentLimit(true);
-
-//	elevatorWinch->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0,
-//			CommandBase::robotDrive->kTimeoutMs);
+//	elevatorDownMultiplier = CommandBase::prefs->GetFloat("elevatorDownx", 0);
 }
 
 void Mechanisms::InitDefaultCommand() {
@@ -61,14 +57,13 @@ void Mechanisms::InitDefaultCommand() {
 
 void Mechanisms::Winch(float speed) {
 	winchA->Set(speed);
-//	SmartDashboard::PutNumber("Winch(es) speed",speed);
 }
 
 void Mechanisms::Claw(float speed) {
-	float clawCurrent = claw->GetOutputCurrent();
+	float clawCurrent = 0;//claw->GetOutputCurrent();
 
 	claw->Set(speed);
-	SmartDashboard::PutNumber("Claw Current", claw->GetOutputCurrent());
+	SmartDashboard::PutNumber("Claw Current", clawCurrent);
 }
 
 void Mechanisms::ElevatorWinch(float speed) {
@@ -90,13 +85,15 @@ void Mechanisms::ElevatorClaw(float speed) {
 }
 
 bool Mechanisms::ClawRetractLim() {
-	bool trip = 0 != claw->GetSensorCollection().IsFwdLimitSwitchClosed();
+//	bool trip = 0 != claw->GetSensorCollection().IsFwdLimitSwitchClosed();
+bool trip = false;
 	SmartDashboard::PutBoolean("Claw Forward Limit (retract)", trip);
 	return trip;
 }
 
 bool Mechanisms::ClawGrabLim() {
-	bool trip = 0 != claw->GetSensorCollection().IsRevLimitSwitchClosed();
+//	bool trip = 0 != claw->GetSensorCollection().IsRevLimitSwitchClosed();
+	bool trip = false;
 	SmartDashboard::PutBoolean("Claw Reverse Limit (grab)", trip);
 	return trip;
 }
@@ -130,5 +127,7 @@ bool Mechanisms::ElevatorWinchReverseLimit() {
 }
 
 float Mechanisms::ClawCurrent() {
-	return claw->GetOutputCurrent();
+	return 0;
+//	return claw->GetOutputCurrent();
 }
+
