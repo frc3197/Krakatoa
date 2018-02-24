@@ -78,10 +78,6 @@ public:
 			autonomousCommand.reset(new Nothing());
 		}
 
-		SmartDashboard::PutString("position", position);
-		SmartDashboard::PutString("gamedata", gameData.substr(1, 1));
-		SmartDashboard::PutNumber("compare", position.compare("R"));
-
 		if (autonomousCommand.get() != nullptr) {
 			autonomousCommand->Start();
 		}
