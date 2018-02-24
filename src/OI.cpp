@@ -21,13 +21,23 @@ OI::OI() :
 
 {
 	gameSwitch = 0;
-//	elevatorClawDownMult = CommandBase::prefs->GetFloat("Elevator Claw Down Mult", .75);
+	elevatorWinchUpMult = CommandBase::prefs->GetFloat("Elevator Winch Up Mult",
+			1);
+	elevatorWinchDownMult = CommandBase::prefs->GetFloat(
+			"Elevator Winch Down Mult", 1);
+	elevatorClawUpMult = CommandBase::prefs->GetFloat("Elevator Claw Up Mult",
+			1);
+	elevatorClawDownMult = CommandBase::prefs->GetFloat(
+			"Elevator Claw Down Mult", 1);
 }
 
 void OI::updateSensors() {
 	CommandBase::robotDrive->encoderDistance();
 	getDistance();
-//	SmartDashboard::PutData(PDP);
+	float timeRemaining = getTime();
+	rumbleWarning(timeRemaining);
+	SmartDashboard::PutData(PDP);
+	SmartDashboard::PutNumber("TIME", timeRemaining);
 }
 
 float OI::getDriveRight() {
@@ -78,16 +88,11 @@ float OI::winch() {
 float OI::claw() {
 	bool in = p1RB.Get();
 	bool out = p1LB.Get();
-	if (in && !out)
-	{
+	if (in && !out) {
 		return (-1);
-	}
-	else if (out && !in)
-	{
+	} else if (out && !in) {
 		return (1);
-	}
-	else
-	{
+	} else {
 		return (0);
 	}
 }
@@ -101,7 +106,7 @@ float OI::elevatorWinch() {
 
 float OI::elevatorClaw() {
 	float raw = stick.GetRawAxis(2) - stick.GetRawAxis(3);
-	if(raw > 0)
+	if (raw > 0)
 		raw *= .75;
 	if (raw < STICK_DEADZONE && raw > -STICK_DEADZONE)
 		raw = 0;
@@ -109,8 +114,12 @@ float OI::elevatorClaw() {
 	return raw;
 }
 
-void OI::rumbleWarning() {
-//	float time = DriverStation::GetInstance().GetMatchTime() - RUMBLE_TIME;
+float OI::getTime() {
+	float t = DriverStation::GetInstance().GetMatchTime(); //counts down in current period?
+	return t;
+}
+
+void OI::rumbleWarning(float t) {
 //	float inMin = 0;
 //	float inMax = RUMBLE_DURATION;
 //	float outMin = 0;
