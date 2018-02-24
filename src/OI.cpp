@@ -1,6 +1,7 @@
 #include "OI.h"
 
 #include <WPILib.h>
+#include <CameraServer.h>
 #include "CommandBase.h"
 
 #define STICK_DEADZONE .09
@@ -9,7 +10,7 @@
 
 OI::OI() :
 //lidar(0),
-		PDP(0), stick(0), p1A(&stick, A), p1B(&stick, B), p1X(&stick, X), p1Y(
+		/*PDP(0),*/ stick(0), p1A(&stick, A), p1B(&stick, B), p1X(&stick, X), p1Y(
 				&stick, Y), p1LB(&stick, LB), p1RB(&stick, RB), p1Back(&stick,
 				BACK), p1Start(&stick, START), p1LStick(&stick, LSTICK), p1RStick(
 				&stick, RSTICK),
@@ -21,14 +22,14 @@ OI::OI() :
 
 {
 	gameSwitch = 0;
-	elevatorWinchUpMult = CommandBase::prefs->GetFloat("Elevator Winch Up Mult",
-			1);
-	elevatorWinchDownMult = CommandBase::prefs->GetFloat(
-			"Elevator Winch Down Mult", 1);
-	elevatorClawUpMult = CommandBase::prefs->GetFloat("Elevator Claw Up Mult",
-			1);
-	elevatorClawDownMult = CommandBase::prefs->GetFloat(
-			"Elevator Claw Down Mult", 1);
+//	elevatorWinchUpMult = CommandBase::prefs->GetFloat("Elevator Winch Up Mult",
+//			1);
+//	elevatorWinchDownMult = CommandBase::prefs->GetFloat(
+//			"Elevator Winch Down Mult", 1);
+//	elevatorClawUpMult = CommandBase::prefs->GetFloat("Elevator Claw Up Mult",
+//			1);
+//	elevatorClawDownMult = CommandBase::prefs->GetFloat(
+//			"Elevator Claw Down Mult", 1);
 }
 
 void OI::updateSensors() {
@@ -36,7 +37,7 @@ void OI::updateSensors() {
 	getDistance();
 	float timeRemaining = getTime();
 	rumbleWarning(timeRemaining);
-	SmartDashboard::PutData(PDP);
+//	SmartDashboard::PutData(PDP);
 	SmartDashboard::PutNumber("TIME", timeRemaining);
 }
 
@@ -134,4 +135,7 @@ void OI::rumbleWarning(float t) {
 
 float OI::lerp(float x, float x0, float x1, float y0, float y1) {
 	return y0 + (x - x0) * (y1 - y0) / (x1 - x0);
+}
+
+void OI::cameraStream() {
 }
