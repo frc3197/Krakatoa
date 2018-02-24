@@ -1,0 +1,8 @@
+When Eclipse starts:
+
+Select "Help"
+Click "Install new software".
+From here you need to add a software update site, the location where the plugins will be downloaded. Push the "Add..." button then fill in the "Add Repository" dialog with:
+Name: FRC Plugins
+Location: http://first.wpi.edu/FRC/roborio/release/eclipse/
+Click "OK".
