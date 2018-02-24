@@ -30,7 +30,7 @@ private:
 
 	//Counter lidar;
 
-//	PowerDistributionPanel *PDP;
+	PowerDistributionPanel PDP;
 
 	Joystick stick;
 

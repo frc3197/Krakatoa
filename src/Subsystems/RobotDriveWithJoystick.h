@@ -40,7 +40,6 @@ private:
 	ADXRS450_Gyro SPIGyro;
 
 
-	float resetVal = 0;
 	float talonF;
 	float talonP;
 	float talonI;

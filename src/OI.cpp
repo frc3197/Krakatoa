@@ -10,7 +10,7 @@
 
 OI::OI() :
 //lidar(0),
-		/*PDP(0),*/ stick(0), p1A(&stick, A), p1B(&stick, B), p1X(&stick, X), p1Y(
+		PDP(0), stick(0), p1A(&stick, A), p1B(&stick, B), p1X(&stick, X), p1Y(
 				&stick, Y), p1LB(&stick, LB), p1RB(&stick, RB), p1Back(&stick,
 				BACK), p1Start(&stick, START), p1LStick(&stick, LSTICK), p1RStick(
 				&stick, RSTICK),
@@ -34,10 +34,11 @@ OI::OI() :
 
 void OI::updateSensors() {
 	CommandBase::robotDrive->encoderDistance();
+	CommandBase::robotDrive->gyroAngle();
 	getDistance();
 	float timeRemaining = getTime();
 	rumbleWarning(timeRemaining);
-//	SmartDashboard::PutData(PDP);
+	SmartDashboard::PutData(&PDP);
 	SmartDashboard::PutNumber("TIME", timeRemaining);
 }
 

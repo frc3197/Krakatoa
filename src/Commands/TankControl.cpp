@@ -16,7 +16,6 @@ void TankControl::Execute() {
 	oi->cameraStream();
 	float left = oi->getDriveLeft();
 	float right = oi->getDriveRight();
-	oi->updateSensors();
 	robotDrive->driveBot(left, right);
 	bool resetGyro = oi->gyroReorientate();
 	if (resetGyro){
