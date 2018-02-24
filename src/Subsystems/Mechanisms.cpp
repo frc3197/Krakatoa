@@ -26,7 +26,6 @@ Mechanisms::Mechanisms() :
 
 	winchB->Follow(*winchA);
 
-//	elevatorDownMultiplier = CommandBase::prefs->GetFloat("elevatorDownx", 0);
 }
 
 void Mechanisms::InitDefaultCommand() {

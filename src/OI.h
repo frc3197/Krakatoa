@@ -17,10 +17,13 @@ public:
 	float claw();
 	float elevatorWinch();
 	float elevatorClaw();
-	void rumbleWarning();
+	float getTime();
+	void rumbleWarning(float t);
 	float lerp(float t, float a, float b, float c, float d);
 
-	enum buttons {JOYSTICK, A, B, X, Y, LB, RB, BACK, START, LSTICK, RSTICK};
+	enum buttons {
+		JOYSTICK, A, B, X, Y, LB, RB, BACK, START, LSTICK, RSTICK
+	};
 
 private:
 
@@ -55,7 +58,16 @@ private:
 	JoystickButton p2RStick; //Right Stick Click
 
 	int gameSwitch;
+
+	float clawUpMult;
+	float clawDownMult;
+	float winchUpMult;
+	float winchDownMult;
+	float elevatorWinchUpMult;
+	float elevatorWinchDownMult;
+	float elevatorClawUpMult;
 	float elevatorClawDownMult;
+
 };
 
 #endif  // OI_H

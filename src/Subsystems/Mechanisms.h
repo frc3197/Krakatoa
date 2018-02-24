@@ -31,7 +31,6 @@ private:
 	WPI_TalonSRX *claw;
 
 	float maxObservedClawCurrent;
-	float elevatorDownMultiplier;
 };
 
 #endif
