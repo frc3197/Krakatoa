@@ -16,5 +16,4 @@ void CommandBase::init() {
 	robotDrive = new RobotDriveWithJoystick();
 	auxMotors = new Mechanisms();
 	prefs = Preferences::GetInstance();
-//	speedSettings = Preferences::GetInstance();
 }
