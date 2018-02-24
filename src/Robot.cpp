@@ -21,10 +21,13 @@ class Robot: public frc::IterativeRobot {
 private:
 	std::unique_ptr<frc::Command> autonomousCommand;
 	frc::SendableChooser<std::string> positionChooser;
+	CameraServer* Camera1 = CameraServer::GetInstance();
+
 
 public:
 	void RobotInit() {
 		CommandBase::init();
+		Camera1->AddAxisCamera("http://10.31.97.85/mjpg/1/video.mjpg");
 
 		positionChooser.AddDefault("Nothing", "N");
 		positionChooser.AddObject("Straight", "S");
@@ -86,7 +89,7 @@ public:
 	}
 
 	void AutonomousPeriodic() override {
-		frc::Scheduler::GetInstance()->Run();
+//		frc::Scheduler::GetInstance()->Run();
 	}
 
 	void TeleopInit() override {
@@ -97,6 +100,7 @@ public:
 
 	void TeleopPeriodic() override {
 		frc::Scheduler::GetInstance()->Run();
+		Camera1->PutVideo("Camera", 640, 480);
 	}
 
 	void TestPeriodic() override {

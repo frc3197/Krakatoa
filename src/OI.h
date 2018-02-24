@@ -20,6 +20,7 @@ public:
 	float getTime();
 	void rumbleWarning(float t);
 	float lerp(float t, float a, float b, float c, float d);
+	void cameraStream();
 
 	enum buttons {
 		JOYSTICK, A, B, X, Y, LB, RB, BACK, START, LSTICK, RSTICK
@@ -29,7 +30,7 @@ private:
 
 	//Counter lidar;
 
-	PowerDistributionPanel *PDP;
+//	PowerDistributionPanel *PDP;
 
 	Joystick stick;
 
@@ -59,14 +60,14 @@ private:
 
 	int gameSwitch;
 
-	float clawUpMult;
-	float clawDownMult;
-	float winchUpMult;
-	float winchDownMult;
-	float elevatorWinchUpMult;
-	float elevatorWinchDownMult;
-	float elevatorClawUpMult;
-	float elevatorClawDownMult;
+//	float clawUpMult;
+//	float clawDownMult;
+//	float winchUpMult;
+//	float winchDownMult;
+//	float elevatorWinchUpMult;
+//	float elevatorWinchDownMult;
+//	float elevatorClawUpMult;
+//	float elevatorClawDownMult;
 
 };
 

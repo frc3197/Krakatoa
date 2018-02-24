@@ -13,6 +13,7 @@ void TankControl::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void TankControl::Execute() {
+	oi->cameraStream();
 	float left = oi->getDriveLeft();
 	float right = oi->getDriveRight();
 	oi->updateSensors();

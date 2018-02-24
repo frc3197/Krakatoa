@@ -18,11 +18,9 @@ Mechanisms::Mechanisms() :
 
 	winchA = new WPI_TalonSRX(5);
 	winchB = new WPI_TalonSRX(6);
-	//claw = new WPI_TalonSRX(7);
+	claw = new WPI_TalonSRX(7);
 	elevatorWinch = new WPI_TalonSRX(8);
 	elevatorClaw = new WPI_TalonSRX(9);
-
-	claw = new WPI_TalonSRX(11);
 
 	winchB->Follow(*winchA);
 
