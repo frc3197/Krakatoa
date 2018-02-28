@@ -9,7 +9,7 @@ void DriveStraightDist::Initialize() {
 	timer.Reset();
 	timer.Start();
 
-	state = 1;
+	state = 0;
 	finished = false;
 }
 
@@ -50,6 +50,5 @@ void DriveStraightDist::Interrupted() {
 }
 
 void DriveStraightDist::Drive(float speed) {
-	speed *= -1;
 	robotDrive->advancedDriveBot(speed, speed, 0);
 }

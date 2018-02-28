@@ -17,15 +17,20 @@ void DriveStraight::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void DriveStraight::Execute() {
+	SmartDashboard::PutNumber("State DriveStraight", state);
 	switch (state) {
 	case 0:
+			if (claw->Pickup()) // returns true when finished
+				state++;
+			break;
+	case 1:
 		if (!timer.HasPeriodPassed(TIME))
-			Drive(robotDrive->autoDriveSpeed);
+		Drive(robotDrive->autoDriveSpeed);
 		else
 			state++;
 		break;
 	default:
-	case 1:
+	case 2:
 		End();
 	}
 }

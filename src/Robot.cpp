@@ -13,6 +13,7 @@
 #include <Commands/AutoCommands/DriveStraightDist.h>
 #include <Commands/AutoCommands/DriveOutsideSame.h>
 #include <Commands/AutoCommands/DriveOutsideOpp.h>
+#include <Commands/AutoCommands/SwerveSwitch.h>
 
 #include "CommandBase.h"
 
@@ -34,6 +35,7 @@ public:
 		positionChooser.AddObject("Left", "L");
 		positionChooser.AddObject("Middle", "M");
 		positionChooser.AddObject("Right", "R");
+		positionChooser.AddObject("Swerve Switch", "SS");
 
 		SmartDashboard::PutData("Position", &positionChooser);
 
@@ -50,21 +52,15 @@ public:
 	void AutonomousInit() override {
 		std::string gameData;
 		gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
-		if (gameData[1] == 'L') {
-			CommandBase::oi->setGamePrefs(-1);
-		} else {
+		if (gameData.substr(0, 1).compare("R") == 0) {
 			CommandBase::oi->setGamePrefs(1);
+		} else {
+			CommandBase::oi->setGamePrefs(-1);
 		}
 
 		std::string position = positionChooser.GetSelected();
-		gameData = "LRR";
 
 		if (position.compare("M") == 0) {
-			if (gameData[0] == 'L') {
-				CommandBase::oi->setGamePrefs(-1);
-			} else {
-				CommandBase::oi->setGamePrefs(1);
-			}
 			autonomousCommand.reset(new DriveInside());
 		} else if (position.compare("L") == 0 || position.compare("R") == 0) {
 			if (position.compare(gameData.substr(1, 1)) == 0) {
@@ -74,8 +70,11 @@ public:
 			}
 		} else if (position.compare("S") == 0) {
 			autonomousCommand.reset(new DriveStraight());
+			SmartDashboard::PutBoolean("Are you even working?", true);
 		} else if (position.compare("SD") == 0) {
 			autonomousCommand.reset(new DriveStraightDist());
+		} else if (position.compare("SS") == 0) {
+			autonomousCommand.reset(new SwerveSwitch());
 		} else {
 			autonomousCommand.reset(new Nothing());
 		}
@@ -88,7 +87,7 @@ public:
 	}
 
 	void AutonomousPeriodic() override {
-//		frc::Scheduler::GetInstance()->Run();
+		frc::Scheduler::GetInstance()->Run();
 		RobotPeriodic();
 	}
 

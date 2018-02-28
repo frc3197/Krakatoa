@@ -2,57 +2,62 @@
 
 AutoCalls::AutoCalls() {
 	leftOrRight = CommandBase::oi->getGamePrefs();
-	pickupState = -1;
+	pickupState = LowerPickup;
 	dropState = -1;
-	maxCurrent = CommandBase::prefs->GetFloat("AutoCalls Max Current", 10);
 	IncrementPickupState();
 	IncrementDropState();
+//	double rAndF = AutoTimings->GetDouble("RaiseAndFall (Time)", 0.5);
+//	double rAndFSpeed = AutoTimings->GetDouble("RaiseAndFall (Speed)", -0.5);
+//	double lPickup = AutoTimings->GetDouble("Lower Pickup (Speed)", 0.5);
+//	double close = AutoTimings->GetDouble("Close (Speed)", -0.5);
 }
 
 bool AutoCalls::Pickup() {
+	SmartDashboard::PutNumber("Pickup States", pickupState);
 	switch (pickupState) {
 	case RaiseAndFall: //raise claw at speed for time (block falls)
-		if (!timer.HasPeriodPassed(.5)) {
-			CommandBase::auxMotors->ElevatorClaw(-.5);
+		if (!timerPickup.HasPeriodPassed(0.5)) {
+			CommandBase::auxMotors->ElevatorClaw(0.5);
 		} else {
 			IncrementPickupState();
 		}
 		break;
 	case LowerPickup: //lower claw until lower limit
 		if (!CommandBase::auxMotors->ElevatorClawBotLim()) {
-			CommandBase::auxMotors->ElevatorClaw(.5);
+			CommandBase::auxMotors->ElevatorClaw(-0.5);
 		} else {
 			IncrementPickupState();
 		}
 		break;
 	case Close: //close claw until current limit
-		if (!CommandBase::auxMotors->ClawRetractLim()) {
-			CommandBase::auxMotors->Claw(-.5);
+		if (!timerPickup.HasPeriodPassed(1.0)) {
+
+			CommandBase::auxMotors->Claw(-0.3);
 		} else {
 			IncrementPickupState();
 		}
 		break;
 	case RaiseWithCube: //raise claw at speed for time (raise block)
-		if (!timer.HasPeriodPassed(1)) {
-			CommandBase::auxMotors->ElevatorClaw(0);
+		if (!timerPickup.HasPeriodPassed(2.5)) {
+			CommandBase::auxMotors->ElevatorClaw(1);
 		} else {
 			IncrementPickupState();
 		}
 		break;
 	default:
-		return true;
+		break;
 	}
-	return false;
+	return pickupState > Close;
 }
 
 bool AutoCalls::Drop() {
 	switch (dropState) {
 	case Open:
 //		if (CommandBase::auxMotors->ClawCurrent() < maxCurrent ) {
-		if (!timer.HasPeriodPassed(1)) {
-			CommandBase::auxMotors->Claw(-.5);
+		if (!timerDrop.HasPeriodPassed(1)) {
+			CommandBase::auxMotors->Claw(0.5);
 		} else {
-			IncrementPickupState();
+			IncrementDropState();
 		}
 		break;
 //	case LowerDrop:
@@ -70,12 +75,21 @@ bool AutoCalls::Drop() {
 
 void AutoCalls::IncrementPickupState() {
 	pickupState++;
-	timer.Reset();
-	timer.Start();
+	ResetTimerPickup();
 }
 
 void AutoCalls::IncrementDropState() {
 	dropState++;
-	timer.Reset();
-	timer.Start();
+	ResetTimerDrop();
+}
+
+void AutoCalls::ResetTimerDrop() {
+	timerDrop.Reset();
+	timerDrop.Start();
+
+}
+
+void AutoCalls::ResetTimerPickup() {
+	timerPickup.Reset();
+	timerPickup.Start();
 }
