@@ -97,14 +97,14 @@ bool Mechanisms::ClawGrabLim() {
 
 bool Mechanisms::ElevatorClawBotLim() {
 	bool trip = 0
-			!= elevatorClaw->GetSensorCollection().IsFwdLimitSwitchClosed();
+			!= elevatorClaw->GetSensorCollection().IsRevLimitSwitchClosed();
 	SmartDashboard::PutBoolean("Elevator Claw Forward Limit (bot)", trip);
 	return trip;
 }
 
 bool Mechanisms::ElevatorClawTopLim() {
 	bool trip = 0
-			!= elevatorClaw->GetSensorCollection().IsRevLimitSwitchClosed();
+			!= elevatorClaw->GetSensorCollection().IsFwdLimitSwitchClosed();
 	SmartDashboard::PutBoolean("Elevator Claw Reverse Limit (top)", trip);
 	return trip;
 }

@@ -43,7 +43,7 @@ void OI::updateSensors() {
 }
 
 float OI::getDriveRight() {
-	float raw = stick.GetRawAxis(5);
+	float raw = -stick.GetRawAxis(5);
 	if (raw < STICK_DEADZONE && raw > -STICK_DEADZONE) {
 		raw = 0;
 	}
@@ -51,7 +51,7 @@ float OI::getDriveRight() {
 }
 
 float OI::getDriveLeft() {
-	float raw = stick.GetRawAxis(1);
+	float raw = -stick.GetRawAxis(1);
 	if (raw < STICK_DEADZONE && raw > -STICK_DEADZONE) {
 		raw = 0;
 	}
@@ -107,9 +107,9 @@ float OI::elevatorWinch() {
 }
 
 float OI::elevatorClaw() {
-	float raw = stick.GetRawAxis(2) - stick.GetRawAxis(3);
-	if (raw > 0)
-		raw *= .75;
+	float raw = stick.GetRawAxis(3) - stick.GetRawAxis(2);
+	if (raw < 0)
+		raw *= .75; //put on preference table
 	if (raw < STICK_DEADZONE && raw > -STICK_DEADZONE)
 		raw = 0;
 
@@ -138,5 +138,5 @@ float OI::lerp(float x, float x0, float x1, float y0, float y1) {
 	return y0 + (x - x0) * (y1 - y0) / (x1 - x0);
 }
 
-void OI::cameraStream() {
-}
+//void OI::cameraStream() {
+//}

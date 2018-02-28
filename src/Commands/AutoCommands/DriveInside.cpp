@@ -10,10 +10,15 @@ DriveInside::DriveInside() {
 
 // Called just before this Command runs the first time
 void DriveInside::Initialize() {
-	for (int i = 0; i < 3; i++) {
-		dist[i] = CommandBase::prefs->GetFloat(
-				"distance" + (i + DISTANCE_OFFSET), DEFAULT_DIST);
-	}
+//	for (int i = 0; i < 3; i++) {
+//		dist[i] = CommandBase::prefs->GetFloat(
+//				"distance" + (i + DISTANCE_OFFSET), DEFAULT_DIST);
+//		SmartDashboard::PutNumber("Distance " + (std:str)i, dist[i]);
+//
+//	}
+	dist[0] = CommandBase::prefs->GetFloat("distance0", DEFAULT_DIST);
+	dist[1] = CommandBase::prefs->GetFloat("distance1", DEFAULT_DIST);
+	dist[2] = CommandBase::prefs->GetFloat("distance2", DEFAULT_DIST);
 	leftOrRight = oi->getGamePrefs();
 	turnAngle = leftOrRight * robotDrive->autoTurnAngle;
 	state = -1;
@@ -22,13 +27,14 @@ void DriveInside::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void DriveInside::Execute() {
+	SmartDashboard::PutNumber("turnAngleReceived", turnAngle);
 	switch (state) {
 	case Startup:
 		if (claw->Pickup()) // returns true when finished
 			IncrementState();
 		break;
 	case DriveForwardOne:
-		if (robotDrive->encoderDistance() < dist[0]) {
+		if (robotDrive->encoderDistance() < /*dist[0]*/35) {
 			Drive(robotDrive->autoDriveSpeed);
 		} else {
 			IncrementState();

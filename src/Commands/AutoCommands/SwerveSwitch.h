@@ -1,26 +1,38 @@
-#ifndef DRIVE_STRAIGHT_H
-#define DRIVE_STRAIGHT_H
+#ifndef SWERVE_SWITCH_H
+#define SWERVE_SWITCH_H
 
 #include "../../CommandBase.h"
 #include "WPILib.h"
 #include "AutoCalls.h"
 
-class DriveStraight: public CommandBase
+class SwerveSwitch: public CommandBase
 {
 private:
 	Timer timer;
 	int state;
 	bool finished;
 
+	float baseSpeed;
+	float extraSpeed;
+	float swerveAngle;
+
+	enum states {
+		SwerveAway,
+		SwerveIn,
+		Drop
+	};
+
 	AutoCalls* claw = new AutoCalls();
+	void IncrementState();
+
 public:
-	DriveStraight();
+	SwerveSwitch();
 	void Initialize();
 	void Execute();
 	bool IsFinished();
 	void End();
 	void Interrupted();
-	void Drive(float speed);
+	void Drive(float l, float r);
 };
 
 #endif

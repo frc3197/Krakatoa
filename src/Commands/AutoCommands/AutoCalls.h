@@ -9,7 +9,9 @@ class AutoCalls
 private:
 	int leftOrRight;
 
-	Timer timer;
+	Timer timerPickup;
+	Timer timerDrop;
+
 	int pickupState;
 	int dropState;
 
@@ -27,13 +29,15 @@ private:
 		LowerDrop
 	};
 
-
 	void IncrementPickupState();
 	void IncrementDropState();
 public:
 	AutoCalls();
 	bool Pickup();
 	bool Drop();
+	void ResetTimerPickup();
+	void ResetTimerDrop();
+
 };
 
 #endif

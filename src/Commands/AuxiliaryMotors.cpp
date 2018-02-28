@@ -1,6 +1,7 @@
 #include "AuxiliaryMotors.h"
 #define CLAW_SPEED .35
 #define WINCH_SPEED 1
+#define ELE_CLAW_SPEED 1
 #define ELE_WINCH_SPEED .75
 
 AuxiliaryMotors::AuxiliaryMotors() {
@@ -29,10 +30,11 @@ void AuxiliaryMotors::Execute() {
 	float winchSpeed = winchMult * WINCH_SPEED;
 
 	float elevatorWinchSpeed = elevatorWinch * ELE_WINCH_SPEED;
+	float elevatorClawSpeed= elevatorClaw * ELE_CLAW_SPEED;
 
 	auxMotors->Claw(clawSpeed);
 	auxMotors->Winch(winchSpeed);
-	auxMotors->ElevatorClaw(elevatorClaw);
+	auxMotors->ElevatorClaw(elevatorClawSpeed);
 	auxMotors->ElevatorWinch(elevatorWinchSpeed);
 }
 

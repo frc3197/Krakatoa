@@ -11,10 +11,10 @@
 
 #define SPEED_MULTIPLIER 1
 #define ANGLE_DEADZONE 1
-#define TURN_ANGLE_DEADZONE 0
+#define TURN_ANGLE_DEADZONE 2
 #define PERCENT_CHANGE_PER_DEGREE .0075
 #define MIN_SPEED .55
-#define ENCODER_CONVERSION (M_PI * 6 / 84)
+#define ENCODER_CONVERSION (M_PI * 6 / 84)/4
 
 #define AUTO_SPEED .5
 #define AUTO_TURN_SPEED .55
@@ -29,6 +29,11 @@ RobotDriveWithJoystick::RobotDriveWithJoystick() :
 
 	rDrive = new DifferentialDrive(*frontLeft, *frontRight);
 
+	frontLeft->SetInverted(true);
+	frontRight->SetInverted(true);
+	rearLeft->SetInverted(true);
+	rearRight->SetInverted(true);
+
 	rearLeft->Follow(*frontLeft);
 	rearRight->Follow(*frontRight);
 
@@ -41,7 +46,7 @@ RobotDriveWithJoystick::RobotDriveWithJoystick() :
 
 	frontRight->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0,
 			kTimeoutMs);
-	frontRight->SetSensorPhase(true); //?
+	frontRight->SetSensorPhase(false); // polarity of the rotation
 
 	frontRight->ConfigNominalOutputForward(0, kTimeoutMs);
 	frontRight->ConfigNominalOutputReverse(0, kTimeoutMs);
@@ -50,7 +55,7 @@ RobotDriveWithJoystick::RobotDriveWithJoystick() :
 
 	frontLeft->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0,
 			kTimeoutMs);
-	frontLeft->SetSensorPhase(true); //?
+	frontLeft->SetSensorPhase(false); // polarity of the rotation
 
 	frontLeft->ConfigNominalOutputForward(0, kTimeoutMs);
 	frontLeft->ConfigNominalOutputReverse(0, kTimeoutMs);
@@ -66,7 +71,7 @@ RobotDriveWithJoystick::RobotDriveWithJoystick() :
 
 void RobotDriveWithJoystick::InitDefaultCommand() {
 	SetDefaultCommand(new TankControl());
-	SPIGyro.Calibrate();
+//	SPIGyro.Calibrate();
 
 	autoDriveSpeed = CommandBase::prefs->GetFloat("autoDriveSpeed", 0);
 	autoTurnSpeed = CommandBase::prefs->GetFloat("autoTurnSpeed", 0);
@@ -105,8 +110,8 @@ void RobotDriveWithJoystick::advancedDriveBot(float left, float right,
 	float deltaAngle = (preferred - actual);
 	if (abs(deltaAngle) > ANGLE_DEADZONE) {
 		float speedChange = deltaAngle * PERCENT_CHANGE_PER_DEGREE;
-		right += speedChange;
-		left -= speedChange;
+		right -= speedChange;
+		left += speedChange;
 	}
 
 	driveBot(left, right);
@@ -121,9 +126,9 @@ bool RobotDriveWithJoystick::advancedTurnBot(float speed, float preferred) {
 			speed = MIN_SPEED;
 
 		}
-		if (deltaAngle < 0) {
-			speed *= -1;
-		}
+//		if (deltaAngle < 0) {
+//			speed *= -1;
+//		}
 	} else {
 		speed = 0;
 	}
@@ -140,6 +145,7 @@ float RobotDriveWithJoystick::gyroAngle() {
 	while (raw > 180) {
 		raw -= 360;
 	}
+	SmartDashboard::PutNumber("GyroNumber", raw);
 	SmartDashboard::PutData("Gyro", &SPIGyro);
 	return raw;
 }
@@ -149,10 +155,13 @@ void RobotDriveWithJoystick::gyroReset() {
 }
 
 float RobotDriveWithJoystick::encoderDistance() {
-	float raw = frontLeft->GetSelectedSensorPosition(kPIDLoopIdx);
+	float raw = (frontLeft->GetSelectedSensorPosition(kPIDLoopIdx)
+			+ frontRight->GetSelectedSensorPosition(kPIDLoopIdx)) / 2;
 	SmartDashboard::PutNumber("Encoder", raw * ENCODER_CONVERSION);
 	return raw * ENCODER_CONVERSION;
 }
 void RobotDriveWithJoystick::encoderReset() {
 	frontLeft->SetSelectedSensorPosition(0, kPIDLoopIdx, kTimeoutMs);
+	frontRight->SetSelectedSensorPosition(0, kPIDLoopIdx, kTimeoutMs);
+
 }
