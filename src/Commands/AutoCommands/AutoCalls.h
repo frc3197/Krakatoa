@@ -35,6 +35,7 @@ public:
 	AutoCalls();
 	bool Pickup();
 	bool Drop();
+	void Reset();
 	void ResetTimerPickup();
 	void ResetTimerDrop();
 

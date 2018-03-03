@@ -1,11 +1,7 @@
 #include <Commands/AutoCommands/AutoCalls.h>
 
 AutoCalls::AutoCalls() {
-	leftOrRight = CommandBase::oi->getGamePrefs();
-	pickupState = LowerPickup;
-	dropState = -1;
-	IncrementPickupState();
-	IncrementDropState();
+	Reset();
 //	double rAndF = AutoTimings->GetDouble("RaiseAndFall (Time)", 0.5);
 //	double rAndFSpeed = AutoTimings->GetDouble("RaiseAndFall (Speed)", -0.5);
 //	double lPickup = AutoTimings->GetDouble("Lower Pickup (Speed)", 0.5);
@@ -16,7 +12,7 @@ bool AutoCalls::Pickup() {
 	SmartDashboard::PutNumber("Pickup States", pickupState);
 	switch (pickupState) {
 	case RaiseAndFall: //raise claw at speed for time (block falls)
-		if (!timerPickup.HasPeriodPassed(0.5)) {
+		if (!timerPickup.HasPeriodPassed(0.75)) {
 			CommandBase::auxMotors->ElevatorClaw(0.5);
 		} else {
 			IncrementPickupState();
@@ -32,7 +28,7 @@ bool AutoCalls::Pickup() {
 	case Close: //close claw until current limit
 		if (!timerPickup.HasPeriodPassed(1.0)) {
 
-			CommandBase::auxMotors->Claw(-0.3);
+			CommandBase::auxMotors->Claw(-0.65);
 		} else {
 			IncrementPickupState();
 		}
@@ -54,8 +50,9 @@ bool AutoCalls::Drop() {
 	switch (dropState) {
 	case Open:
 //		if (CommandBase::auxMotors->ClawCurrent() < maxCurrent ) {
-		if (!timerDrop.HasPeriodPassed(1)) {
-			CommandBase::auxMotors->Claw(0.5);
+//		if (!timerDrop.HasPeriodPassed(1)) {
+		if(!CommandBase::auxMotors->ClawRetractLim()){
+			CommandBase::auxMotors->Claw(0.65);
 		} else {
 			IncrementDropState();
 		}
@@ -72,6 +69,15 @@ bool AutoCalls::Drop() {
 	}
 	return false;
 }
+
+void AutoCalls::Reset(){
+	leftOrRight = CommandBase::oi->getGamePrefs();
+	pickupState = LowerPickup;
+	dropState = -1;
+	IncrementPickupState();
+	IncrementDropState();
+}
+
 
 void AutoCalls::IncrementPickupState() {
 	pickupState++;

@@ -22,6 +22,9 @@ OI::OI() :
 
 {
 	gameSwitch = 0;
+	eleSpeedUp = CommandBase::prefs->GetFloat("eleSpeedUp", 0);
+	eleSpeedDown = CommandBase::prefs->GetFloat("eleSpeedDown", 0);
+
 //	elevatorWinchUpMult = CommandBase::prefs->GetFloat("Elevator Winch Up Mult",
 //			1);
 //	elevatorWinchDownMult = CommandBase::prefs->GetFloat(
@@ -109,7 +112,10 @@ float OI::elevatorWinch() {
 float OI::elevatorClaw() {
 	float raw = stick.GetRawAxis(3) - stick.GetRawAxis(2);
 	if (raw < 0)
-		raw *= .75; //put on preference table
+		raw *= eleSpeedDown; //put on preference table
+	else
+		raw *= eleSpeedUp;
+
 	if (raw < STICK_DEADZONE && raw > -STICK_DEADZONE)
 		raw = 0;
 

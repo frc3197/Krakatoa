@@ -100,7 +100,7 @@ void RobotDriveWithJoystick::InitDefaultCommand() {
 }
 
 void RobotDriveWithJoystick::driveBot(float left, float right) {
-	rDrive->TankDrive(left * SPEED_MULTIPLIER, right * SPEED_MULTIPLIER);
+	rDrive->TankDrive(left * SPEED_MULTIPLIER, right * SPEED_MULTIPLIER, false);
 	SmartDashboard::PutData("Drive", rDrive);
 }
 

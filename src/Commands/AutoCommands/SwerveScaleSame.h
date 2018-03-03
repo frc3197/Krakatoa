@@ -1,35 +1,48 @@
-#ifndef SWERVE_SWITCH_H
-#define SWERVE_SWITCH_H
+#ifndef SWERVE_SCALE_SAME_H
+#define SWERVE_SCALE_SAME_H
 
 #include "../../CommandBase.h"
 #include "WPILib.h"
 #include "AutoCalls.h"
 
-class SwerveSwitch: public CommandBase
+class SwerveScaleSame: public CommandBase
 {
 private:
 	Timer timer;
 	int state;
 	bool finished;
 
+	float eleTime;
+
+	float straightDistance;
+	float driveOverDistance;
+	float backupDistance;
+
+	float eleSpeedUp;
+	float eleSpeedDown;
+
 	float baseSpeed;
+	float backupSpeed;
 	float extraSpeed;
-	float extraExtraSpeed;
-	float intoSwitchSpeed;
+
 	float swerveAngle;
 
 	enum states {
-		SwerveAway,
+		Straight,
 		SwerveIn,
-		IntoSwitch,
-		Drop
+		SwerveOut,
+		RaiseFully,
+		DriveOverScale,
+		Drop,
+		Backup,
+		Lower
 	};
 
 	AutoCalls* claw = new AutoCalls();
 	void IncrementState();
 
 public:
-	SwerveSwitch();
+	SwerveScaleSame();
 	void Initialize();
 	void Execute();
 	bool IsFinished();
