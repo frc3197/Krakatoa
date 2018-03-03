@@ -27,6 +27,8 @@ public:
 	};
 
 private:
+	float eleSpeedUp;
+	float eleSpeedDown;
 
 	//Counter lidar;
 

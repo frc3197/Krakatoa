@@ -14,6 +14,8 @@
 #include <Commands/AutoCommands/DriveOutsideSame.h>
 #include <Commands/AutoCommands/DriveOutsideOpp.h>
 #include <Commands/AutoCommands/SwerveSwitch.h>
+#include <Commands/AutoCommands/SwerveScaleSame.h>
+#include <Commands/AutoCommands/SwerveScaleOpp.h>
 
 #include "CommandBase.h"
 
@@ -22,20 +24,19 @@ class Robot: public frc::IterativeRobot {
 private:
 	std::unique_ptr<frc::Command> autonomousCommand;
 	frc::SendableChooser<std::string> positionChooser;
-	CameraServer* Camera1 = CameraServer::GetInstance();
 
 public:
 	void RobotInit() {
 		CommandBase::init();
-//		Camera1->AddAxisCamera("http://10.31.97.85/mjpg/1/video.mjpg");
-
 		positionChooser.AddDefault("Nothing", "N");
 		positionChooser.AddObject("Straight", "S");
 		positionChooser.AddObject("Straight Dist", "SD");
-		positionChooser.AddObject("Left", "L");
-		positionChooser.AddObject("Middle", "M");
-		positionChooser.AddObject("Right", "R");
-		positionChooser.AddObject("Swerve Switch", "SS");
+//		positionChooser.AddObject("Left", "L");
+//		positionChooser.AddObject("Middle", "M");
+//		positionChooser.AddObject("Right", "R");
+		positionChooser.AddObject("Swerve Switch", "Switch");
+		positionChooser.AddObject("Swerve Scale Same", "Scale Same");
+		positionChooser.AddObject("Swerve Scale Opposite", "Scale Opposite");
 
 		SmartDashboard::PutData("Position", &positionChooser);
 
@@ -60,6 +61,14 @@ public:
 
 		std::string position = positionChooser.GetSelected();
 
+//		if (position.compare("M") == 0) {
+//			autonomousCommand.reset(new DriveInside());
+//		} else if (position.compare("L") == 0 || position.compare("R") == 0) {
+//			if (position.compare(gameData.substr(1, 1)) == 0) {
+//				autonomousCommand.reset(new DriveOutsideSame());
+//			} else {
+//				autonomousCommand.reset(new DriveOutsideOpp());
+//			}
 		if (position.compare("M") == 0) {
 			autonomousCommand.reset(new DriveInside());
 		} else if (position.compare("L") == 0 || position.compare("R") == 0) {
@@ -70,11 +79,14 @@ public:
 			}
 		} else if (position.compare("S") == 0) {
 			autonomousCommand.reset(new DriveStraight());
-			SmartDashboard::PutBoolean("Are you even working?", true);
 		} else if (position.compare("SD") == 0) {
 			autonomousCommand.reset(new DriveStraightDist());
-		} else if (position.compare("SS") == 0) {
+		} else if (position.compare("Switch") == 0) {
 			autonomousCommand.reset(new SwerveSwitch());
+		} else if (position.compare("Scale Same") == 0) {
+			autonomousCommand.reset(new SwerveScaleSame());
+		} else if (position.compare("Scale Opposite") == 0) {
+			autonomousCommand.reset(new SwerveScaleOpp());
 		} else {
 			autonomousCommand.reset(new Nothing());
 		}
@@ -82,8 +94,6 @@ public:
 		if (autonomousCommand.get() != nullptr) {
 			autonomousCommand->Start();
 		}
-
-//		autonomousCommand.reset(chooser.GetSelected());
 	}
 
 	void AutonomousPeriodic() override {
@@ -100,7 +110,6 @@ public:
 	void TeleopPeriodic() override {
 		frc::Scheduler::GetInstance()->Run();
 		RobotPeriodic();
-//		Camera1->PutVideo("Camera", 640, 480);
 	}
 
 	void TestPeriodic() override {

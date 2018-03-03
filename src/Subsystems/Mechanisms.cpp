@@ -57,7 +57,7 @@ void Mechanisms::Winch(float speed) {
 }
 
 void Mechanisms::Claw(float speed) {
-	float clawCurrent = 0;//claw->GetOutputCurrent();
+	float clawCurrent = 0; //claw->GetOutputCurrent();
 
 	claw->Set(speed);
 	SmartDashboard::PutNumber("Claw Current", clawCurrent);
@@ -82,15 +82,15 @@ void Mechanisms::ElevatorClaw(float speed) {
 }
 
 bool Mechanisms::ClawRetractLim() {
-//	bool trip = 0 != claw->GetSensorCollection().IsFwdLimitSwitchClosed();
-bool trip = false;
+	bool trip = 0 != claw->GetSensorCollection().IsFwdLimitSwitchClosed();
+//	bool trip = false;
 	SmartDashboard::PutBoolean("Claw Forward Limit (retract)", trip);
 	return trip;
 }
 
 bool Mechanisms::ClawGrabLim() {
-//	bool trip = 0 != claw->GetSensorCollection().IsRevLimitSwitchClosed();
-	bool trip = false;
+	bool trip = 0 != claw->GetSensorCollection().IsRevLimitSwitchClosed();
+//	bool trip = false;
 	SmartDashboard::PutBoolean("Claw Reverse Limit (grab)", trip);
 	return trip;
 }

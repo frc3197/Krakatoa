@@ -13,18 +13,21 @@ void SwerveSwitch::Initialize() {
 	finished = false;
 
 	baseSpeed = CommandBase::prefs->GetFloat("swerveBaseSpeed", 0);
+	intoSwitchSpeed = CommandBase::prefs->GetFloat("switchIntoSwitchSpeed", 0);
 
 	if (CommandBase::oi->getGamePrefs() == 1) {
-		extraSpeed = CommandBase::prefs->GetFloat("swerveExtraSpeedRight",
-				0);
-		swerveAngle = CommandBase::prefs->GetFloat("swerveAngleRight", 0);
+		extraSpeed = CommandBase::prefs->GetFloat("switchExtraSpeedRight", 0);
+		extraExtraSpeed = CommandBase::prefs->GetFloat(
+				"switchExtraExtraSpeedRight", 0);
+		swerveAngle = CommandBase::prefs->GetFloat("switchAngleRight", 0);
 	} else {
-		extraSpeed = CommandBase::prefs->GetFloat("swerveExtraSpeedLeft",
-				0);
-		swerveAngle = CommandBase::prefs->GetFloat("swerveAngleLeft", 0);
+		extraExtraSpeed = CommandBase::prefs->GetFloat(
+				"switchExtraExtraSpeedLeft", 0);
+		extraSpeed = CommandBase::prefs->GetFloat("switchExtraSpeedLeft", 0);
+		swerveAngle = CommandBase::prefs->GetFloat("switchAngleLeft", 0);
 	}
 	claw->ResetTimerPickup();
-
+	claw->Reset();
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -34,40 +37,49 @@ void SwerveSwitch::Execute() {
 	if (CommandBase::oi->getGamePrefs() == -1) {
 		gyroAngle *= -1;
 	}
+	SmartDashboard::PutNumber("switchIntoSwitchSpeed", intoSwitchSpeed);
 	float l = 0;
 	float r = 0;
 	if (up) {
 		switch (state) {
-		l = baseSpeed;
-		r = baseSpeed;
-	case SwerveAway:
-		if (gyroAngle < swerveAngle) {
-			l += extraSpeed;
-		} else {
-			IncrementState();
-		}
-		break;
-	case SwerveIn:
-		if (gyroAngle > 5 && !timer.HasPeriodPassed(2)) {
-			r += extraSpeed;
-		} else {
-			claw->ResetTimerDrop();
-			IncrementState();
-		}
+		case SwerveAway:
+			if (gyroAngle < swerveAngle) {
+				l = extraSpeed;
+				r = baseSpeed;
+			} else {
+				IncrementState();
+			}
+			break;
+		case SwerveIn:
+			if (gyroAngle > 5 && !timer.HasPeriodPassed(2)) {
+				l = baseSpeed;
+				r = extraSpeed + extraExtraSpeed;
+			} else {
+				IncrementState();
+			}
+			break;
+		case IntoSwitch:
+			l = intoSwitchSpeed;
+			r = intoSwitchSpeed;
+			if (timer.HasPeriodPassed(1.5)) {
+				claw->ResetTimerDrop();
+				IncrementState();
+			}
+			break;
+		case Drop:
+			if (claw->Drop()) {
+				IncrementState();
+			}
+			break;
 
-		break;
-	case Drop:
-		if (claw->Drop()) {
-			IncrementState();
-			l = baseSpeed;
-			r = baseSpeed;
-		}
-		break;
-
-	default:
-		End();
+		default:
+			End();
 		}
 	}
+	if (!(state >= Drop)) {
+		auxMotors->Claw(-.4);
+	}
+
 	if (CommandBase::oi->getGamePrefs() == 1)
 		Drive(l, r);
 	else
