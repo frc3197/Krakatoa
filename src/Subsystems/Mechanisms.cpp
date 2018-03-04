@@ -57,10 +57,7 @@ void Mechanisms::Winch(float speed) {
 }
 
 void Mechanisms::Claw(float speed) {
-	float clawCurrent = 0; //claw->GetOutputCurrent();
-
 	claw->Set(speed);
-	SmartDashboard::PutNumber("Claw Current", clawCurrent);
 }
 
 void Mechanisms::ElevatorWinch(float speed) {
@@ -123,8 +120,16 @@ bool Mechanisms::ElevatorWinchReverseLimit() {
 	return trip;
 }
 
-float Mechanisms::ClawCurrent() {
-	return 0;
-//	return claw->GetOutputCurrent();
-}
+void Mechanisms::UpdateCurrent() {
+	float clawCurrent = claw->GetOutputCurrent();
+	SmartDashboard::PutNumber("Claw Current", clawCurrent);
+	float winchCurrentA = winchA->GetOutputCurrent();
+	SmartDashboard::PutNumber("Winch A Current", winchCurrentA);
+	float winchCurrentB = winchB->GetOutputCurrent();
+	SmartDashboard::PutNumber("Winch B Current", winchCurrentB);
+	float eleClawCurrent = elevatorClaw->GetOutputCurrent();
+	SmartDashboard::PutNumber("Ele Claw Current", eleClawCurrent);
+	float eleWinchCurrent = elevatorWinch->GetOutputCurrent();
+	SmartDashboard::PutNumber("Ele Winch Current", eleWinchCurrent);
 
+}

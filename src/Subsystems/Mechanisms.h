@@ -20,7 +20,7 @@ public:
 	bool ElevatorClawBotLim();
 	bool ElevatorWinchForwardLimit();
 	bool ElevatorWinchReverseLimit();
-	float ClawCurrent();
+	void UpdateCurrent();
 
 	void runTester();
 private:

@@ -13,7 +13,7 @@ void SwerveScaleOpp::Initialize() {
 	state = 0;
 	finished = false;
 
-	driveOverDistance = CommandBase::prefs->GetFloat("scaleDriveOverDistance",
+	driveOverDistance = CommandBase::prefs->GetFloat("scaleOppDriveOverDistance",
 			0);
 	backupDistance = CommandBase::prefs->GetFloat("scaleBackupDistance", 0);
 
@@ -22,7 +22,7 @@ void SwerveScaleOpp::Initialize() {
 	eleSpeedUp = CommandBase::prefs->GetFloat("eleSpeedUp", 0);
 	eleSpeedDown = -CommandBase::prefs->GetFloat("eleSpeedDown", 0);
 
-	baseSpeed = CommandBase::prefs->GetFloat("scaleBaseSpeed", 0);
+	baseSpeed = CommandBase::prefs->GetFloat("scaleOppBaseSpeed", 0);
 	backupSpeed = CommandBase::prefs->GetFloat("scaleBackupSpeed", 0);
 
 	straightDistance = CommandBase::prefs->GetFloat("scaleOppStraightDistance",
@@ -32,10 +32,15 @@ void SwerveScaleOpp::Initialize() {
 
 	if (CommandBase::oi->getGamePrefs() == 1) {
 		extraSpeed = CommandBase::prefs->GetFloat("scaleOppExtraSpeedRight", 0);
+		extraExtraSpeed = CommandBase::prefs->GetFloat("scaleOppExtraExtraSpeedRight", 0);
 		swerveAngle = CommandBase::prefs->GetFloat("scaleOppAngleRight", 0);
+		swerveBackAngle =  CommandBase::prefs->GetFloat("scaleOppBackAngleRight", 0);
 	} else {
 		extraSpeed = CommandBase::prefs->GetFloat("scaleOppExtraSpeedLeft", 0);
+		extraExtraSpeed = CommandBase::prefs->GetFloat("scaleOppExtraExtraSpeedLeft", 0);
 		swerveAngle = CommandBase::prefs->GetFloat("scaleOppAngleLeft", 0);
+		swerveBackAngle =  CommandBase::prefs->GetFloat("scaleOppBackAngleRight", 0);
+
 	}
 	claw->ResetTimerPickup();
 }
@@ -56,8 +61,8 @@ void SwerveScaleOpp::Execute() {
 		case StraightToScale: //drive straight distance using encoders
 			if (robotDrive->encoderDistance() > straightDistance)
 				IncrementState();
-			l = baseSpeed + extraSpeed;
-			r = baseSpeed + extraSpeed;
+			l = extraSpeed;
+			r = extraSpeed;
 			break;
 		case SwerveIn:
 			if (gyroAngle > swerveAngle) {
@@ -73,11 +78,10 @@ void SwerveScaleOpp::Execute() {
 			l = baseSpeed + extraSpeed;
 			r = baseSpeed + extraSpeed;
 			break;
-			break;
 		case SwerveTowardScale:
-			if (gyroAngle < -5) {
-				l = baseSpeed + extraSpeed;
-				r = baseSpeed;
+			if (gyroAngle < swerveBackAngle) {
+				l = baseSpeed + extraSpeed + extraExtraSpeed;
+				r = baseSpeed * 0;
 			} else {
 				IncrementState();
 			}
@@ -88,8 +92,8 @@ void SwerveScaleOpp::Execute() {
 			IncrementState();
 			break;
 		case DriveOverScale:
-			l = baseSpeed + extraSpeed;
-			r = baseSpeed + extraSpeed;
+			l = extraSpeed;
+			r = extraSpeed;
 			if (robotDrive->encoderDistance() > driveOverDistance) {
 				IncrementState();
 				claw->ResetTimerDrop();
@@ -124,10 +128,10 @@ void SwerveScaleOpp::Execute() {
 			End();
 		}
 	}
-	if (state >= SwerveTowardScale && state <= DriveOverScale) {
-		eleSpeed = eleSpeedUp;
-	}
-	if (eleSpeed != 0)
+//	if (up && state <= Backup) {
+//		eleSpeed = eleSpeedUp;
+//	}
+	if (up && eleSpeed != 0 && (state <= Backup))
 		auxMotors->ElevatorClaw(eleSpeed);
 	if (up && !(state >= Drop))
 		auxMotors->Claw(-.4);

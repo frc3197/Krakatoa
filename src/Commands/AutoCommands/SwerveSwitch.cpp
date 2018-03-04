@@ -37,7 +37,6 @@ void SwerveSwitch::Execute() {
 	if (CommandBase::oi->getGamePrefs() == -1) {
 		gyroAngle *= -1;
 	}
-	SmartDashboard::PutNumber("switchIntoSwitchSpeed", intoSwitchSpeed);
 	float l = 0;
 	float r = 0;
 	if (up) {
@@ -76,9 +75,9 @@ void SwerveSwitch::Execute() {
 			End();
 		}
 	}
-	if (!(state >= Drop)) {
-		auxMotors->Claw(-.4);
-	}
+//	if (up && !(state >= Drop)) {
+//		auxMotors->Claw(-.4);
+//	}
 
 	if (CommandBase::oi->getGamePrefs() == 1)
 		Drive(l, r);
