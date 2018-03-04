@@ -13,7 +13,7 @@ void SwerveScaleSame::Initialize() {
 	state = 0;
 	finished = false;
 
-	driveOverDistance = CommandBase::prefs->GetFloat("scaleDriveOverDistance",
+	driveOverDistance = CommandBase::prefs->GetFloat("scaleSameDriveOverDistance",
 			0);
 	backupDistance = CommandBase::prefs->GetFloat("scaleBackupDistance", 0);
 
@@ -22,9 +22,8 @@ void SwerveScaleSame::Initialize() {
 	eleSpeedUp = CommandBase::prefs->GetFloat("eleSpeedUp", 0);
 	eleSpeedDown = -CommandBase::prefs->GetFloat("eleSpeedDown", 0);
 
-	baseSpeed = CommandBase::prefs->GetFloat("scaleBaseSpeed", 0);
-
-	backupSpeed = CommandBase::prefs->GetFloat("scaleSameBackupSpeed", 0);
+	baseSpeed = CommandBase::prefs->GetFloat("scaleSameBaseSpeed", 0);
+	backupSpeed = CommandBase::prefs->GetFloat("scaleBackupSpeed", 0);
 
 	straightDistance = CommandBase::prefs->GetFloat("scaleSameStraightDistance",
 			0);
@@ -57,8 +56,8 @@ void SwerveScaleSame::Execute() {
 		case Straight: //drive straight distance using encoders
 			if (robotDrive->encoderDistance() > straightDistance)
 				IncrementState();
-			l = baseSpeed + extraSpeed;
-			r = baseSpeed + extraSpeed;
+			l = extraSpeed;
+			r = extraSpeed;
 			break;
 		case SwerveIn:
 			if (gyroAngle > swerveAngle) {
@@ -69,7 +68,7 @@ void SwerveScaleSame::Execute() {
 			}
 			break;
 		case SwerveOut:
-			if (gyroAngle < -5) {
+			if (gyroAngle < 0) {
 				l = baseSpeed + extraSpeed;
 				r = baseSpeed;
 			} else {
@@ -82,8 +81,8 @@ void SwerveScaleSame::Execute() {
 			IncrementState();
 			break;
 		case DriveOverScale:
-			l = baseSpeed + extraSpeed;
-			r = baseSpeed + extraSpeed;
+			l = extraSpeed;
+			r = extraSpeed;
 			if (robotDrive->encoderDistance() > driveOverDistance) {
 				IncrementState();
 				claw->ResetTimerDrop();
@@ -118,10 +117,10 @@ void SwerveScaleSame::Execute() {
 			End();
 		}
 	}
-	if (state >= SwerveOut && state <= DriveOverScale) {
+	if (up && state <= Backup) {
 		eleSpeed = eleSpeedUp;
 	}
-	if (eleSpeed != 0)
+	if (up && eleSpeed != 0 && (state <= Backup))
 		auxMotors->ElevatorClaw(eleSpeed);
 	if (up && !(state >= Drop))
 		auxMotors->Claw(-.4);

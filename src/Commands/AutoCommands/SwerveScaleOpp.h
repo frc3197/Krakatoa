@@ -23,11 +23,13 @@ private:
 	float baseSpeed;
 	float backupSpeed;
 	float extraSpeed;
+	float extraExtraSpeed;
 
 	float straightDistance;
 	float straightAcrossDistance;
 
 	float swerveAngle;
+	float swerveBackAngle;
 
 	enum states {
 		StraightToScale,

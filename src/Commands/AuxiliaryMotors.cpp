@@ -1,5 +1,5 @@
 #include "AuxiliaryMotors.h"
-#define CLAW_SPEED .35
+#define CLAW_SPEED .5
 #define WINCH_SPEED 1
 #define ELE_CLAW_SPEED 1
 #define ELE_WINCH_SPEED .75
