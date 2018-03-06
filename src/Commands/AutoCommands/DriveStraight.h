@@ -3,7 +3,6 @@
 
 #include "../../CommandBase.h"
 #include "WPILib.h"
-#include "AutoCalls.h"
 
 class DriveStraight: public CommandBase
 {
@@ -12,7 +11,6 @@ private:
 	int state;
 	bool finished;
 
-	AutoCalls* claw = new AutoCalls();
 public:
 	DriveStraight();
 	void Initialize();

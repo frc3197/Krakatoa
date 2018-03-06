@@ -1,4 +1,3 @@
-#include <Commands/AutoCommands/AutoCalls.h>
 #include <Commands/AutoCommands/DriveInside.h>
 
 #define DEFAULT_DIST 0
@@ -30,7 +29,7 @@ void DriveInside::Execute() {
 	SmartDashboard::PutNumber("turnAngleReceived", turnAngle);
 	switch (state) {
 	case Startup:
-		if (claw->Pickup()) // returns true when finished
+		if (robotDrive->claw->Pickup()) // returns true when finished
 			IncrementState();
 		break;
 	case DriveForwardOne:
@@ -68,7 +67,7 @@ void DriveInside::Execute() {
 		}
 		break;
 	case DropCube:
-		if (claw->Drop())
+		if (robotDrive->claw->Drop())
 			IncrementState();
 		break;
 	default:

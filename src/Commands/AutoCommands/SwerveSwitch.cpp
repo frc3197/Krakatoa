@@ -26,13 +26,13 @@ void SwerveSwitch::Initialize() {
 		extraSpeed = CommandBase::prefs->GetFloat("switchExtraSpeedLeft", 0);
 		swerveAngle = CommandBase::prefs->GetFloat("switchAngleLeft", 0);
 	}
-	claw->ResetTimerPickup();
-	claw->Reset();
+	robotDrive->claw->ResetTimerPickup();
+	robotDrive->claw->Reset();
 }
 
 // Called repeatedly when this Command is scheduled to run
 void SwerveSwitch::Execute() {
-	bool up = claw->Pickup();
+	bool up = robotDrive->claw->Pickup();
 	float gyroAngle = robotDrive->gyroAngle();
 	if (CommandBase::oi->getGamePrefs() == -1) {
 		gyroAngle *= -1;
@@ -61,12 +61,12 @@ void SwerveSwitch::Execute() {
 			l = intoSwitchSpeed;
 			r = intoSwitchSpeed;
 			if (timer.HasPeriodPassed(1.5)) {
-				claw->ResetTimerDrop();
+				robotDrive->claw->ResetTimerDrop();
 				IncrementState();
 			}
 			break;
 		case Drop:
-			if (claw->Drop()) {
+			if (robotDrive->claw->Drop()) {
 				IncrementState();
 			}
 			break;
