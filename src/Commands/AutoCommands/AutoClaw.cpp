@@ -27,7 +27,6 @@ bool AutoClaw::Pickup() {
 		break;
 	case Close: //close claw until current limit
 		if (!timerPickup.HasPeriodPassed(1.0)) {
-
 			CommandBase::auxMotors->Claw(-0.65);
 		} else {
 			IncrementPickupState();
