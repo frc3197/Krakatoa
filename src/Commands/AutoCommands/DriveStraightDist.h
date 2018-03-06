@@ -3,7 +3,6 @@
 
 #include "../../CommandBase.h"
 #include "WPILib.h"
-#include "AutoCalls.h"
 
 class DriveStraightDist: public CommandBase
 {
@@ -11,8 +10,6 @@ private:
 	Timer timer;
 	int state;
 	bool finished;
-
-	AutoCalls* claw = new AutoCalls();
 
 public:
 	DriveStraightDist();

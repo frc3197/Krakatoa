@@ -33,6 +33,9 @@ OI::OI() :
 //			1);
 //	elevatorClawDownMult = CommandBase::prefs->GetFloat(
 //			"Elevator Claw Down Mult", 1);
+
+	claw = new AutoClaw();
+	claw->Reset();
 }
 
 void OI::updateSensors() {

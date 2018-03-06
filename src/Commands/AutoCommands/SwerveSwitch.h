@@ -3,7 +3,6 @@
 
 #include "../../CommandBase.h"
 #include "WPILib.h"
-#include "AutoCalls.h"
 
 class SwerveSwitch: public CommandBase
 {
@@ -25,7 +24,6 @@ private:
 		Drop
 	};
 
-	AutoCalls* claw = new AutoCalls();
 	void IncrementState();
 
 public:

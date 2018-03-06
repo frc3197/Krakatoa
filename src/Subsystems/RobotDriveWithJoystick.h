@@ -30,6 +30,7 @@ public:
 	const float defaultP = 0.22;
 	const float defaultI = 0.0;
 	const float defaultD = 0.0;
+
 private:
 	WPI_TalonSRX *frontRight;
 	WPI_TalonSRX *rearRight;
