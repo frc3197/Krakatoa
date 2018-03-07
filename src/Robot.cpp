@@ -31,12 +31,12 @@ public:
 		positionChooser.AddDefault("Nothing", "N");
 		positionChooser.AddObject("Straight", "S");
 		positionChooser.AddObject("Straight Dist", "SD");
-//		positionChooser.AddObject("Left", "L");
-//		positionChooser.AddObject("Middle", "M");
-//		positionChooser.AddObject("Right", "R");
-		positionChooser.AddObject("Swerve Switch", "Switch");
-		positionChooser.AddObject("Swerve Scale Same", "Scale Same");
-		positionChooser.AddObject("Swerve Scale Opposite", "Scale Opposite");
+		positionChooser.AddObject("Left", "L");
+		positionChooser.AddObject("Middle", "M");
+		positionChooser.AddObject("Right", "R");
+//		positionChooser.AddObject("Swerve Switch", "Switch");
+//		positionChooser.AddObject("Swerve Scale Same", "Scale Same");
+//		positionChooser.AddObject("Swerve Scale Opposite", "Scale Opposite");
 
 		SmartDashboard::PutData("Position", &positionChooser);
 
@@ -53,57 +53,46 @@ public:
 	void AutonomousInit() override {
 		CommandBase::oi->setInTele(false);
 
-		std::string gameData;
-		gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
-		if (gameData.substr(0, 1).compare("R") == 0) {
-			CommandBase::oi->setGamePrefs(1);
-		} else {
-			CommandBase::oi->setGamePrefs(-1);
-		}
-
 		std::string position = positionChooser.GetSelected();
-
-//		if (position.compare("M") == 0) {
-//			autonomousCommand.reset(new DriveInside());
-//		} else if (position.compare("L") == 0 || position.compare("R") == 0) {
-//			if (position.compare(gameData.substr(1, 1)) == 0) {
-//				autonomousCommand.reset(new DriveOutsideSame());
-//			} else {
-//				autonomousCommand.reset(new DriveOutsideOpp());
-//			}
-		if (position.compare("M") == 0) {
-			autonomousCommand.reset(new DriveInside());
-		} else if (position.compare("L") == 0 || position.compare("R") == 0) {
-			if (position.compare(gameData.substr(1, 1)) == 0) {
-				autonomousCommand.reset(new DriveOutsideSame());
-			} else {
-				autonomousCommand.reset(new DriveOutsideOpp());
-			}
-		} else if (position.compare("S") == 0) {
+		std::string gameData =
+				frc::DriverStation::GetInstance().GetGameSpecificMessage();
+		bool sideRight = false;
+		if (position.compare("S") == 0) {
 			autonomousCommand.reset(new DriveStraight());
 		} else if (position.compare("SD") == 0) {
 			autonomousCommand.reset(new DriveStraightDist());
-		} else if (position.compare("Switch") == 0) {
+		} else if (position.compare("M") == 0) {
+			sideRight = gameData.substr(0, 1).compare("R") == 0;
 			autonomousCommand.reset(new SwerveSwitch());
-		} else if (position.compare("Scale Same") == 0) {
-			autonomousCommand.reset(new SwerveScaleSame());
-		} else if (position.compare("Scale Opposite") == 0) {
-			autonomousCommand.reset(new SwerveScaleOpp());
-		} else {
+		} else if(position.compare("R") == 0 || position.compare("L") == 0) {
+			sideRight = gameData.substr(1, 2).compare("R") == 0;
+			if (position.compare("R") == 0) {
+				autonomousCommand.reset(new SwerveScaleSame());
+			} else {
+				autonomousCommand.reset(new SwerveScaleOpp());
+			}
+		}
+		else  {
 			autonomousCommand.reset(new Nothing());
 		}
 
-		if (autonomousCommand.get() != nullptr) {
+		if (sideRight) {
+			CommandBase::oi->setGamePrefs(1);
+		} else {
+			CommandBase::oi->setGamePrefs(-1);
+		}if (autonomousCommand.get() != nullptr) {
 			autonomousCommand->Start();
 		}
 	}
 
-	void AutonomousPeriodic() override {
+	void AutonomousPeriodic()
+	override {
 		frc::Scheduler::GetInstance()->Run();
 		RobotPeriodic();
 	}
 
-	void TeleopInit() override {
+	void TeleopInit()
+	override {
 		CommandBase::oi->setInTele(true);
 
 		if (autonomousCommand != nullptr) {
@@ -111,12 +100,14 @@ public:
 		}
 	}
 
-	void TeleopPeriodic() override {
+	void TeleopPeriodic()
+	override {
 		frc::Scheduler::GetInstance()->Run();
 		RobotPeriodic();
 	}
 
-	void TestPeriodic() override {
+	void TestPeriodic()
+	override {
 		frc::LiveWindow::GetInstance()->Run();
 	}
 
@@ -126,4 +117,4 @@ public:
 
 };
 
-START_ROBOT_CLASS(Robot)
+	START_ROBOT_CLASS(Robot)
