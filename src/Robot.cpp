@@ -64,15 +64,14 @@ public:
 		} else if (position.compare("M") == 0) {
 			sideRight = gameData.substr(0, 1).compare("R") == 0;
 			autonomousCommand.reset(new SwerveSwitch());
-		} else if(position.compare("R") == 0 || position.compare("L") == 0) {
+		} else if (position.compare("R") == 0 || position.compare("L") == 0) {
 			sideRight = gameData.substr(1, 2).compare("R") == 0;
 			if (position.compare("R") == 0) {
 				autonomousCommand.reset(new SwerveScaleSame());
 			} else {
 				autonomousCommand.reset(new SwerveScaleOpp());
 			}
-		}
-		else  {
+		} else {
 			autonomousCommand.reset(new Nothing());
 		}
 
@@ -80,19 +79,18 @@ public:
 			CommandBase::oi->setGamePrefs(1);
 		} else {
 			CommandBase::oi->setGamePrefs(-1);
-		}if (autonomousCommand.get() != nullptr) {
+		}
+		if (autonomousCommand.get() != nullptr) {
 			autonomousCommand->Start();
 		}
 	}
 
-	void AutonomousPeriodic()
-	override {
+	void AutonomousPeriodic() override {
 		frc::Scheduler::GetInstance()->Run();
 		RobotPeriodic();
 	}
 
-	void TeleopInit()
-	override {
+	void TeleopInit() override {
 		CommandBase::oi->setInTele(true);
 
 		if (autonomousCommand != nullptr) {
@@ -100,14 +98,12 @@ public:
 		}
 	}
 
-	void TeleopPeriodic()
-	override {
+	void TeleopPeriodic() override {
 		frc::Scheduler::GetInstance()->Run();
 		RobotPeriodic();
 	}
 
-	void TestPeriodic()
-	override {
+	void TestPeriodic() override {
 		frc::LiveWindow::GetInstance()->Run();
 	}
 
@@ -117,4 +113,4 @@ public:
 
 };
 
-	START_ROBOT_CLASS(Robot)
+START_ROBOT_CLASS(Robot)
