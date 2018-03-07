@@ -96,6 +96,7 @@ void RobotDriveWithJoystick::InitDefaultCommand() {
 	frontLeft->Config_kI(kPIDLoopIdx, talonI, kTimeoutMs);
 	frontLeft->Config_kD(kPIDLoopIdx, talonD, kTimeoutMs);
 //	frontLeft->Set(ControlMode::PercentOutput, 0);
+
 }
 
 void RobotDriveWithJoystick::driveBot(float left, float right) {

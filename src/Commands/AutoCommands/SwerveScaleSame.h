@@ -3,6 +3,7 @@
 
 #include "../../CommandBase.h"
 #include "WPILib.h"
+#include "AutoCalls.h"
 
 class SwerveScaleSame: public CommandBase
 {
@@ -37,6 +38,7 @@ private:
 		Lower
 	};
 
+	AutoCalls* claw = new AutoCalls();
 	void IncrementState();
 
 public:

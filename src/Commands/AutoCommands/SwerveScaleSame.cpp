@@ -2,7 +2,7 @@
 
 SwerveScaleSame::SwerveScaleSame() {
 	Requires(robotDrive);
-//	Requires(auxMotors);
+//	Requires(auxMotors); dont require 2 or bad things :(
 }
 
 // Called just before this Command runs the first time
@@ -36,13 +36,13 @@ void SwerveScaleSame::Initialize() {
 		extraSpeed = CommandBase::prefs->GetFloat("scaleSameExtraSpeedLeft", 0);
 		swerveAngle = CommandBase::prefs->GetFloat("scaleSameAngleLeft", 0);
 	}
-	robotDrive->claw->Reset();
+	claw->ResetTimerPickup();
+	claw->Reset();
 }
 
-// Called repeatedly when this Command is scheduled to run
 void SwerveScaleSame::Execute() {
 	SmartDashboard::PutNumber("Scale State", state);
-	bool up = robotDrive->claw->Pickup();
+	bool up = claw->Pickup();
 	float gyroAngle = robotDrive->gyroAngle();
 	if (CommandBase::oi->getGamePrefs() == -1) {
 		gyroAngle *= -1;
@@ -84,13 +84,13 @@ void SwerveScaleSame::Execute() {
 			r = extraSpeed;
 			if (robotDrive->encoderDistance() > driveOverDistance) {
 				IncrementState();
-				robotDrive->claw->ResetTimerDrop();
+				claw->ResetTimerDrop();
 			}
 			break;
 		case Drop:
 			l = 0;
 			r = 0;
-			if (robotDrive->claw->Drop()) {
+			if (claw->Drop()) {
 				IncrementState();
 			}
 			break;
@@ -130,12 +130,10 @@ void SwerveScaleSame::Execute() {
 
 }
 
-// Make this return true when this Command no longer needs to run execute()
 bool SwerveScaleSame::IsFinished() {
 	return finished;
 }
 
-// Called once after isFinished returns true
 void SwerveScaleSame::End() {
 	Drive(0, 0);
 	finished = true;
@@ -149,8 +147,6 @@ void SwerveScaleSame::IncrementState() {
 	robotDrive->encoderReset();
 }
 
-// Called when another command which requires one or more of the same
-// subsystems is scheduled to run
 void SwerveScaleSame::Interrupted() {
 
 }

@@ -20,7 +20,7 @@ void DriveStraight::Execute() {
 	SmartDashboard::PutNumber("State DriveStraight", state);
 	switch (state) {
 	case 0:
-			if (robotDrive->claw->Pickup()) // returns true when finished
+			if (claw->Pickup()) // returns true when finished
 				state++;
 			break;
 	case 1:

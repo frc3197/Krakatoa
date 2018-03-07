@@ -17,7 +17,7 @@ void DriveStraightDist::Initialize() {
 void DriveStraightDist::Execute() {
 	switch (state) {
 	case 0:
-		if(robotDrive->claw->Pickup())
+		if(claw->Pickup())
 			state++;
 		break;
 	case 1:
