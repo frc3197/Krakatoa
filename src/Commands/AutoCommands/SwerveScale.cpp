@@ -37,13 +37,13 @@ void SwerveScale::Initialize() {
 		extraSpeed = CommandBase::prefs->GetFloat("scaleOppExtraSpeedLeft", 0);
 		swerveAngle = CommandBase::prefs->GetFloat("scaleOppAngleLeft", 0);
 	}
-	robotDrive->claw->Reset();
+	claw->ResetTimerPickup();
 }
 
 // Called repeatedly when this Command is scheduled to run
 void SwerveScale::Execute() {
 	SmartDashboard::PutNumber("Scale State", state);
-	bool up = robotDrive->claw->Pickup();
+	bool up = claw->Pickup();
 	float gyroAngle = robotDrive->gyroAngle();
 	if (CommandBase::oi->getGamePrefs() == -1) {
 		gyroAngle *= -1;
@@ -93,13 +93,13 @@ void SwerveScale::Execute() {
 			r = baseSpeed + extraSpeed;
 			if (robotDrive->encoderDistance() > driveOverDistance) {
 				IncrementState();
-				robotDrive->claw->ResetTimerDrop();
+				claw->ResetTimerDrop();
 			}
 			break;
 		case Drop:
 			l = 0;
 			r = 0;
-			if (robotDrive->claw->Drop()) {
+			if (claw->Drop()) {
 				IncrementState();
 			}
 			break;

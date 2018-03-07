@@ -2,7 +2,6 @@
 #define OI_H
 
 #include "WPILib.h"
-#include "CommandBase.h"
 
 class OI {
 public:
@@ -22,12 +21,12 @@ public:
 	void rumbleWarning(float t);
 	float lerp(float t, float a, float b, float c, float d);
 	void cameraStream();
+	void setInTele(bool TeleBool);
+	bool getInTele();
 
 	enum buttons {
 		JOYSTICK, A, B, X, Y, LB, RB, BACK, START, LSTICK, RSTICK
 	};
-
-	AutoClaw* claw;
 
 private:
 	float eleSpeedUp;
@@ -74,6 +73,7 @@ private:
 //	float elevatorClawUpMult;
 //	float elevatorClawDownMult;
 
+	bool inTele;
 };
 
 #endif  // OI_H

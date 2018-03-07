@@ -21,7 +21,7 @@ void DriveOutsideSame::Initialize() {
 void DriveOutsideSame::Execute() {
 	switch (state) {
 	case Startup:
-		if (robotDrive->claw->Pickup()) // returns true when finished
+		if (claw->Pickup()) // returns true when finished
 			IncrementState();
 		break;
 	case DriveForwardOne:
@@ -46,7 +46,7 @@ void DriveOutsideSame::Execute() {
 		}
 		break;
 	case DropCube: //drop cube
-		if (robotDrive->claw->Drop())
+		if (claw->Drop())
 			IncrementState();
 		break;
 	default:

@@ -51,6 +51,8 @@ public:
 	}
 
 	void AutonomousInit() override {
+		CommandBase::oi->setInTele(false);
+
 		std::string gameData;
 		gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
 		if (gameData.substr(0, 1).compare("R") == 0) {
@@ -102,6 +104,8 @@ public:
 	}
 
 	void TeleopInit() override {
+		CommandBase::oi->setInTele(true);
+
 		if (autonomousCommand != nullptr) {
 			autonomousCommand->Cancel();
 		}

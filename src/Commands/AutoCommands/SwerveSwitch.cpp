@@ -4,7 +4,6 @@ SwerveSwitch::SwerveSwitch() {
 	Requires(robotDrive);
 }
 
-// Called just before this Command runs the first time
 void SwerveSwitch::Initialize() {
 	timer.Reset();
 	timer.Start();
@@ -26,13 +25,11 @@ void SwerveSwitch::Initialize() {
 		extraSpeed = CommandBase::prefs->GetFloat("switchExtraSpeedLeft", 0);
 		swerveAngle = CommandBase::prefs->GetFloat("switchAngleLeft", 0);
 	}
-	robotDrive->claw->ResetTimerPickup();
-	robotDrive->claw->Reset();
+	claw->Reset();
 }
 
-// Called repeatedly when this Command is scheduled to run
 void SwerveSwitch::Execute() {
-	bool up = robotDrive->claw->Pickup();
+	bool up = claw->Pickup();
 	float gyroAngle = robotDrive->gyroAngle();
 	if (CommandBase::oi->getGamePrefs() == -1) {
 		gyroAngle *= -1;
@@ -61,12 +58,12 @@ void SwerveSwitch::Execute() {
 			l = intoSwitchSpeed;
 			r = intoSwitchSpeed;
 			if (timer.HasPeriodPassed(1.5)) {
-				robotDrive->claw->ResetTimerDrop();
+				claw->ResetTimerDrop();
 				IncrementState();
 			}
 			break;
 		case Drop:
-			if (robotDrive->claw->Drop()) {
+			if (claw->Drop()) {
 				IncrementState();
 			}
 			break;
@@ -75,10 +72,9 @@ void SwerveSwitch::Execute() {
 			End();
 		}
 	}
-//	if (up && !(state >= Drop)) {
-//		auxMotors->Claw(-.4);
-//	}
-
+	if (up && !(state >= Drop)) {
+		auxMotors->Claw(-.4);
+	}
 	if (CommandBase::oi->getGamePrefs() == 1)
 		Drive(l, r);
 	else
@@ -86,12 +82,10 @@ void SwerveSwitch::Execute() {
 
 }
 
-// Make this return true when this Command no longer needs to run execute()
 bool SwerveSwitch::IsFinished() {
 	return finished;
 }
 
-// Called once after isFinished returns true
 void SwerveSwitch::End() {
 	Drive(0, 0);
 	finished = true;
@@ -105,8 +99,6 @@ void SwerveSwitch::IncrementState() {
 	robotDrive->encoderReset();
 }
 
-// Called when another command which requires one or more of the same
-// subsystems is scheduled to run
 void SwerveSwitch::Interrupted() {
 
 }

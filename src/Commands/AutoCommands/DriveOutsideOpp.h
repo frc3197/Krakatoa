@@ -1,6 +1,7 @@
 #ifndef DRIVE_OUTSIDE_OPP_H
 #define DRIVE_OUTSIDE_OPP_H
 
+#include <Commands/AutoCommands/AutoCalls.h>
 #include "../../CommandBase.h"
 #include "WPILib.h"
 
@@ -15,6 +16,8 @@ private:
 	int leftOrRight;
 
 	float dist[4];
+
+	AutoCalls* claw = new AutoCalls();
 
 	enum states {
 			Startup,

@@ -33,9 +33,6 @@ OI::OI() :
 //			1);
 //	elevatorClawDownMult = CommandBase::prefs->GetFloat(
 //			"Elevator Claw Down Mult", 1);
-
-	claw = new AutoClaw();
-	claw->Reset();
 }
 
 void OI::updateSensors() {
@@ -149,3 +146,16 @@ float OI::lerp(float x, float x0, float x1, float y0, float y1) {
 
 //void OI::cameraStream() {
 //}
+void OI::setInTele(bool TeleBool) {
+	inTele = TeleBool;
+	if(inTele){
+		CommandBase::auxMotors->Claw(0);
+		CommandBase::auxMotors->Winch(0);
+		CommandBase::auxMotors->ElevatorClaw(0);
+		CommandBase::auxMotors->ElevatorWinch(0);
+	}
+}
+
+bool OI::getInTele() {
+	return inTele;
+}

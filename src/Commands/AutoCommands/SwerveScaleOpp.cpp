@@ -2,7 +2,6 @@
 
 SwerveScaleOpp::SwerveScaleOpp() {
 	Requires(robotDrive);
-//	Requires(auxMotors);
 }
 
 // Called just before this Command runs the first time
@@ -42,13 +41,13 @@ void SwerveScaleOpp::Initialize() {
 		swerveBackAngle =  CommandBase::prefs->GetFloat("scaleOppBackAngleRight", 0);
 
 	}
-	robotDrive->claw->Reset();
+	claw->ResetTimerPickup();
 }
 
 // Called repeatedly when this Command is scheduled to run
 void SwerveScaleOpp::Execute() {
 	SmartDashboard::PutNumber("Scale State", state);
-	bool up = robotDrive->claw->Pickup();
+	bool up = claw->Pickup();
 	float gyroAngle = robotDrive->gyroAngle();
 	if (CommandBase::oi->getGamePrefs() == -1) {
 		gyroAngle *= -1;
@@ -96,13 +95,13 @@ void SwerveScaleOpp::Execute() {
 			r = extraSpeed;
 			if (robotDrive->encoderDistance() > driveOverDistance) {
 				IncrementState();
-				robotDrive->claw->ResetTimerDrop();
+				claw->ResetTimerDrop();
 			}
 			break;
 		case Drop:
 			l = 0;
 			r = 0;
-			if (robotDrive->claw->Drop()) {
+			if (claw->Drop()) {
 				IncrementState();
 			}
 			break;
@@ -128,9 +127,9 @@ void SwerveScaleOpp::Execute() {
 			End();
 		}
 	}
-//	if (up && state <= Backup) {
-//		eleSpeed = eleSpeedUp;
-//	}
+	if (up && state <= Backup) {
+		eleSpeed = eleSpeedUp;
+	}
 	if (up && eleSpeed != 0 && (state <= Backup))
 		auxMotors->ElevatorClaw(eleSpeed);
 	if (up && !(state >= Drop))
@@ -142,12 +141,10 @@ void SwerveScaleOpp::Execute() {
 
 }
 
-// Make this return true when this Command no longer needs to run execute()
 bool SwerveScaleOpp::IsFinished() {
 	return finished;
 }
 
-// Called once after isFinished returns true
 void SwerveScaleOpp::End() {
 	Drive(0, 0);
 	finished = true;
@@ -161,8 +158,6 @@ void SwerveScaleOpp::IncrementState() {
 	robotDrive->encoderReset();
 }
 
-// Called when another command which requires one or more of the same
-// subsystems is scheduled to run
 void SwerveScaleOpp::Interrupted() {
 
 }
