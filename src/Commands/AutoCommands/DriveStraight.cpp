@@ -1,7 +1,5 @@
 #include <Commands/AutoCommands/DriveStraight.h>
 
-#define TIME 5
-
 DriveStraight::DriveStraight() {
 	Requires(robotDrive);
 }
@@ -20,12 +18,14 @@ void DriveStraight::Execute() {
 	SmartDashboard::PutNumber("State DriveStraight", state);
 	switch (state) {
 	case 0:
-			if (claw->Pickup()) // returns true when finished
-				state++;
-			break;
+		if (claw->Pickup()) // returns true when finished
+			state++;
+		break;
 	case 1:
-		if (!timer.HasPeriodPassed(TIME))
-		Drive(robotDrive->autoDriveSpeed);
+		if (!timer.HasPeriodPassed(robotDrive->autoDriveTime)){
+			Drive(-robotDrive->autoDriveSpeed);
+			auxMotors->ElevatorClaw(.5);
+		}
 		else
 			state++;
 		break;

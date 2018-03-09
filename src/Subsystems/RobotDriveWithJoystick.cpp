@@ -39,28 +39,23 @@ RobotDriveWithJoystick::RobotDriveWithJoystick() :
 
 	rDrive->SetSafetyEnabled(false);
 
-	//2017 Practice Bot
-//	rearLeft->SetInverted(true);
-
-//2018 Electronics Board
-
 	frontRight->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0,
-			kTimeoutMs);
+			0);
 	frontRight->SetSensorPhase(false); // polarity of the rotation
 
-	frontRight->ConfigNominalOutputForward(0, kTimeoutMs);
-	frontRight->ConfigNominalOutputReverse(0, kTimeoutMs);
-	frontRight->ConfigPeakOutputForward(1, kTimeoutMs);
-	frontRight->ConfigPeakOutputReverse(-1, kTimeoutMs);
+//	frontRight->ConfigNominalOutputForward(0, kTimeoutMs);
+//	frontRight->ConfigNominalOutputReverse(0, kTimeoutMs);
+//	frontRight->ConfigPeakOutputForward(1, kTimeoutMs);
+//	frontRight->ConfigPeakOutputReverse(-1, kTimeoutMs);
 
 	frontLeft->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0,
-			kTimeoutMs);
+			0);
 	frontLeft->SetSensorPhase(false); // polarity of the rotation
 
-	frontLeft->ConfigNominalOutputForward(0, kTimeoutMs);
-	frontLeft->ConfigNominalOutputReverse(0, kTimeoutMs);
-	frontLeft->ConfigPeakOutputForward(1, kTimeoutMs);
-	frontLeft->ConfigPeakOutputReverse(-1, kTimeoutMs);
+//	frontLeft->ConfigNominalOutputForward(0, kTimeoutMs);
+//	frontLeft->ConfigNominalOutputReverse(0, kTimeoutMs);
+//	frontLeft->ConfigPeakOutputForward(1, kTimeoutMs);
+//	frontLeft->ConfigPeakOutputReverse(-1, kTimeoutMs);
 
 	talonF = defaultF;
 	talonP = defaultP;
@@ -77,6 +72,7 @@ void RobotDriveWithJoystick::InitDefaultCommand() {
 	autoTurnSpeed = CommandBase::prefs->GetFloat("autoTurnSpeed", 0);
 	autoTurnAngle = CommandBase::prefs->GetFloat("autoTurnAngle", 0);
 	autoDriveDist = CommandBase::prefs->GetFloat("autoDriveDist", 0);
+	autoDriveTime = CommandBase::prefs->GetFloat("autoDriveTime", 0);
 
 	encoderReset();
 
@@ -85,16 +81,16 @@ void RobotDriveWithJoystick::InitDefaultCommand() {
 	talonI = CommandBase::prefs->GetFloat("Drive I", defaultI);
 	talonD = CommandBase::prefs->GetFloat("Drive D", defaultD);
 
-	frontRight->Config_kF(kPIDLoopIdx, talonF, kTimeoutMs);
-	frontRight->Config_kP(kPIDLoopIdx, talonP, kTimeoutMs);
-	frontRight->Config_kI(kPIDLoopIdx, talonI, kTimeoutMs);
-	frontRight->Config_kD(kPIDLoopIdx, talonD, kTimeoutMs);
+//	frontRight->Config_kF(kPIDLoopIdx, talonF, kTimeoutMs);
+//	frontRight->Config_kP(kPIDLoopIdx, talonP, kTimeoutMs);
+//	frontRight->Config_kI(kPIDLoopIdx, talonI, kTimeoutMs);
+//	frontRight->Config_kD(kPIDLoopIdx, talonD, kTimeoutMs);
 //	frontRight->Set(ControlMode::PercentOutput, 0);
 
-	frontLeft->Config_kF(kPIDLoopIdx, talonF, kTimeoutMs);
-	frontLeft->Config_kP(kPIDLoopIdx, talonP, kTimeoutMs);
-	frontLeft->Config_kI(kPIDLoopIdx, talonI, kTimeoutMs);
-	frontLeft->Config_kD(kPIDLoopIdx, talonD, kTimeoutMs);
+//	frontLeft->Config_kF(kPIDLoopIdx, talonF, kTimeoutMs);
+//	frontLeft->Config_kP(kPIDLoopIdx, talonP, kTimeoutMs);
+//	frontLeft->Config_kI(kPIDLoopIdx, talonI, kTimeoutMs);
+//	frontLeft->Config_kD(kPIDLoopIdx, talonD, kTimeoutMs);
 //	frontLeft->Set(ControlMode::PercentOutput, 0);
 
 }
@@ -155,13 +151,18 @@ void RobotDriveWithJoystick::gyroReset() {
 }
 
 float RobotDriveWithJoystick::encoderDistance() {
-	float raw = (frontLeft->GetSelectedSensorPosition(kPIDLoopIdx)
-			+ frontRight->GetSelectedSensorPosition(kPIDLoopIdx)) / 2;
-	SmartDashboard::PutNumber("Encoder", raw * ENCODER_CONVERSION);
-	return raw * ENCODER_CONVERSION;
+////	float raw = (frontLeft->GetSelectedSensorPosition(kPIDLoopIdx)
+////			+ frontRight->GetSelectedSensorPosition(kPIDLoopIdx)) / 2;
+//	float r = frontRight->GetSelectedSensorPosition(0) * ENCODER_CONVERSION;
+//	float l = frontLeft->GetSelectedSensorPosition(0) * ENCODER_CONVERSION;
+//	SmartDashboard::PutNumber("Right Encoder",  r);
+//	SmartDashboard::PutNumber("Left Encoder",  l);
+//
+//	return (r + l)/2;
+	return 0;
 }
 void RobotDriveWithJoystick::encoderReset() {
-	frontLeft->SetSelectedSensorPosition(0, kPIDLoopIdx, kTimeoutMs);
-	frontRight->SetSelectedSensorPosition(0, kPIDLoopIdx, kTimeoutMs);
+//	frontLeft->SetSelectedSensorPosition(0, 0, 0);
+//	frontRight->SetSelectedSensorPosition(0, 0, 0);
 
 }
