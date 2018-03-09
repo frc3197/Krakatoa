@@ -22,6 +22,7 @@ public:
 	float autoTurnSpeed;
 	float autoTurnAngle;
 	float autoDriveDist;
+	float autoDriveTime;
 
 	const int kTimeoutMs = 0;
 	const int kPIDLoopIdx = 0;

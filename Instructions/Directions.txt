@@ -1,0 +1,14 @@
+Turn off wifi on computer
+Connect Computer to ethernet
+roborio in outside ethernet
+connect joysticks 
+connect vga for tv (maybe)
+connect power for computer
+assure all velcro connections
+turn on driver station only (close all else and reopen only driver station)
+if problems connecting, network center and disable wifi adapter
+
+load correct auto autoDriveDist for driveStraight
+correct joysticks (check connections) and numbers
+reset robot code if possible
+

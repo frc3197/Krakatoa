@@ -12,8 +12,8 @@ void SwerveScaleOpp::Initialize() {
 	state = 0;
 	finished = false;
 
-	driveOverDistance = CommandBase::prefs->GetFloat("scaleOppDriveOverDistance",
-			0);
+	driveOverDistance = CommandBase::prefs->GetFloat(
+			"scaleOppDriveOverDistance", 0);
 	backupDistance = CommandBase::prefs->GetFloat("scaleBackupDistance", 0);
 
 	eleTime = CommandBase::prefs->GetFloat("scaleEleTime", 0);
@@ -31,14 +31,18 @@ void SwerveScaleOpp::Initialize() {
 
 	if (CommandBase::oi->getGamePrefs() == 1) {
 		extraSpeed = CommandBase::prefs->GetFloat("scaleOppExtraSpeedRight", 0);
-		extraExtraSpeed = CommandBase::prefs->GetFloat("scaleOppExtraExtraSpeedRight", 0);
+		extraExtraSpeed = CommandBase::prefs->GetFloat(
+				"scaleOppExtraExtraSpeedRight", 0);
 		swerveAngle = CommandBase::prefs->GetFloat("scaleOppAngleRight", 0);
-		swerveBackAngle =  CommandBase::prefs->GetFloat("scaleOppBackAngleRight", 0);
+		swerveBackAngle = CommandBase::prefs->GetFloat("scaleOppBackAngleRight",
+				0);
 	} else {
 		extraSpeed = CommandBase::prefs->GetFloat("scaleOppExtraSpeedLeft", 0);
-		extraExtraSpeed = CommandBase::prefs->GetFloat("scaleOppExtraExtraSpeedLeft", 0);
+		extraExtraSpeed = CommandBase::prefs->GetFloat(
+				"scaleOppExtraExtraSpeedLeft", 0);
 		swerveAngle = CommandBase::prefs->GetFloat("scaleOppAngleLeft", 0);
-		swerveBackAngle =  CommandBase::prefs->GetFloat("scaleOppBackAngleRight", 0);
+		swerveBackAngle = CommandBase::prefs->GetFloat("scaleOppBackAngleRight",
+				0);
 
 	}
 	claw->ResetTimerPickup();
@@ -47,6 +51,9 @@ void SwerveScaleOpp::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void SwerveScaleOpp::Execute() {
 	SmartDashboard::PutNumber("Scale State", state);
+	SmartDashboard::PutNumber("robotDrive->encoderDistance() ",robotDrive->encoderDistance() );
+	SmartDashboard::PutNumber("straightDistance", straightDistance);
+
 	bool up = claw->Pickup();
 	float gyroAngle = robotDrive->gyroAngle();
 	if (CommandBase::oi->getGamePrefs() == -1) {
@@ -138,6 +145,10 @@ void SwerveScaleOpp::Execute() {
 		Drive(l, r);
 	else
 		Drive(r, l);
+//	if (CommandBase::oi->getGamePrefs() == 1)
+//		Drive(r, l);
+//	else
+//		Drive(l, r);
 
 }
 

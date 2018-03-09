@@ -56,30 +56,51 @@ public:
 		std::string position = positionChooser.GetSelected();
 		std::string gameData =
 				frc::DriverStation::GetInstance().GetGameSpecificMessage();
-		bool sideRight = false;
+		std::string selected = "nothing";
+
+
+		bool sideRight = true;
 		if (position.compare("S") == 0) {
+			selected = "straight";
 			autonomousCommand.reset(new DriveStraight());
 		} else if (position.compare("SD") == 0) {
+			selected = "straightDist";
 			autonomousCommand.reset(new DriveStraightDist());
 		} else if (position.compare("M") == 0) {
+			selected = "switch";
 			sideRight = gameData.substr(0, 1).compare("R") == 0;
 			autonomousCommand.reset(new SwerveSwitch());
 		} else if (position.compare("R") == 0 || position.compare("L") == 0) {
-			sideRight = gameData.substr(1, 2).compare("R") == 0;
-			if (position.compare("R") == 0) {
+			sideRight = gameData.substr(1, 1).compare("R") != 0;
+			if (position.compare(gameData.substr(1, 1)) == 0) {
+				selected = "scaleSame";
 				autonomousCommand.reset(new SwerveScaleSame());
 			} else {
+				selected = "scaleOpp";
 				autonomousCommand.reset(new SwerveScaleOpp());
 			}
 		} else {
 			autonomousCommand.reset(new Nothing());
 		}
 
+		int gamePrefs = 1;
 		if (sideRight) {
-			CommandBase::oi->setGamePrefs(1);
+			gamePrefs = 1;
 		} else {
-			CommandBase::oi->setGamePrefs(-1);
+			gamePrefs = -1;
 		}
+		CommandBase::oi->setGamePrefs(gamePrefs);
+
+		SmartDashboard::PutString("Selected", selected);
+		SmartDashboard::PutString("Position", position);
+		SmartDashboard::PutString("SwitchSide",  gameData.substr(0, 1));
+		SmartDashboard::PutString("ScaleSide",  gameData.substr(1, 1));
+		SmartDashboard::PutNumber("GamePrefs", gamePrefs);
+
+
+
+
+
 		if (autonomousCommand.get() != nullptr) {
 			autonomousCommand->Start();
 		}
