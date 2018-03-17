@@ -14,7 +14,7 @@
 #define TURN_ANGLE_DEADZONE 2
 #define PERCENT_CHANGE_PER_DEGREE .0075
 #define MIN_SPEED .55
-#define ENCODER_CONVERSION (M_PI * 6 / 84)/4
+//#define ENCODER_CONVERSION (M_PI * 6 / 84)/4
 
 #define AUTO_SPEED .5
 #define AUTO_TURN_SPEED .55
@@ -39,18 +39,18 @@ RobotDriveWithJoystick::RobotDriveWithJoystick() :
 
 	rDrive->SetSafetyEnabled(false);
 
-	frontRight->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0,
-			0);
-	frontRight->SetSensorPhase(false); // polarity of the rotation
+//	frontRight->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0,
+//			0);
+//	frontRight->SetSensorPhase(false); // polarity of the rotation
 
 //	frontRight->ConfigNominalOutputForward(0, kTimeoutMs);
 //	frontRight->ConfigNominalOutputReverse(0, kTimeoutMs);
 //	frontRight->ConfigPeakOutputForward(1, kTimeoutMs);
 //	frontRight->ConfigPeakOutputReverse(-1, kTimeoutMs);
 
-	frontLeft->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0,
-			0);
-	frontLeft->SetSensorPhase(false); // polarity of the rotation
+//	frontLeft->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0,
+//			0);
+//	frontLeft->SetSensorPhase(false); // polarity of the rotation
 
 //	frontLeft->ConfigNominalOutputForward(0, kTimeoutMs);
 //	frontLeft->ConfigNominalOutputReverse(0, kTimeoutMs);
@@ -158,8 +158,9 @@ float RobotDriveWithJoystick::encoderDistance() {
 //	SmartDashboard::PutNumber("Right Encoder",  r);
 //	SmartDashboard::PutNumber("Left Encoder",  l);
 //
-//	return (r + l)/2;
-	return 0;
+	float l, r;
+	CommandBase::oi->encoders(&l, &r);
+	return (l + r) / 2;
 }
 void RobotDriveWithJoystick::encoderReset() {
 //	frontLeft->SetSelectedSensorPosition(0, 0, 0);
