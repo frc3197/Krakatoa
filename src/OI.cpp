@@ -8,8 +8,16 @@
 #define RUMBLE_TIME 120
 #define RUMBLE_DURATION 4
 
+#define ENCODER_CONVERSION (M_PI * 6 / 84)/4
+
 OI::OI() :
 //lidar(0),
+//		digitalRightForward(1), //rf
+//		digitalRightBackward(2), //rb
+//		digitalLeftForward(3), //lf
+//		digitalLeftBackward(4), //lb
+		right(1, 2, false, Encoder::k4X), //one is reversed idk
+		left(3, 4, false, Encoder::k4X),
 		PDP(0), stick(0), p1A(&stick, A), p1B(&stick, B), p1X(&stick, X), p1Y(
 				&stick, Y), p1LB(&stick, LB), p1RB(&stick, RB), p1Back(&stick,
 				BACK), p1Start(&stick, START), p1LStick(&stick, LSTICK), p1RStick(
@@ -24,6 +32,9 @@ OI::OI() :
 	gameSwitch = 0;
 	eleSpeedUp = CommandBase::prefs->GetFloat("eleSpeedUp", 0);
 	eleSpeedDown = CommandBase::prefs->GetFloat("eleSpeedDown", 0);
+
+	right.SetDistancePerPulse(ENCODER_CONVERSION);
+	left.SetDistancePerPulse(ENCODER_CONVERSION);
 
 //	elevatorWinchUpMult = CommandBase::prefs->GetFloat("Elevator Winch Up Mult",
 //			1);
@@ -148,7 +159,7 @@ float OI::lerp(float x, float x0, float x1, float y0, float y1) {
 //}
 void OI::setInTele(bool TeleBool) {
 	inTele = TeleBool;
-	if(inTele){
+	if (inTele) {
 		CommandBase::auxMotors->Claw(0);
 		CommandBase::auxMotors->Winch(0);
 		CommandBase::auxMotors->ElevatorClaw(0);
@@ -158,4 +169,17 @@ void OI::setInTele(bool TeleBool) {
 
 bool OI::getInTele() {
 	return inTele;
+}
+
+void OI::encoders(float* leftVal, float* rightVal) {
+//	float left1 = (ENCODER_CONVERSION
+//			* (digitalLeftForward->GetVoltage()
+//					- digitalLeftBackward->GetVoltage()) / 2);
+//	float right1 = (ENCODER_CONVERSION
+//			* (digitalRightForward->GetVoltage()
+//					- digitalRightBackward->GetVoltage()) / 2);
+//	left = &left1;
+//	right = &right1;
+	leftVal = left.GetDistance();
+	rightVal = right.GetDistance();
 }

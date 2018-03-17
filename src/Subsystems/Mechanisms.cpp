@@ -75,7 +75,7 @@ void Mechanisms::ElevatorClaw(float speed) {
 	SmartDashboard::PutNumber("Elevator Claw Current", current);
 	if (current > maxObservedClawCurrent)
 		maxObservedClawCurrent = current;
-	SmartDashboard::PutNumber("Max Claw Current", maxObservedClawCurrent);
+	SmartDashboard::PutNumber("Max Elevator Claw Current", maxObservedClawCurrent);
 }
 
 bool Mechanisms::ClawRetractLim() {
