@@ -27,7 +27,8 @@ private:
 	WPI_TalonSRX *winchA;
 	WPI_TalonSRX *winchB;
 	WPI_TalonSRX *elevatorWinch;
-	WPI_TalonSRX *elevatorClaw;
+	WPI_TalonSRX *elevatorClawA;
+	WPI_TalonSRX *elevatorClawB;
 	WPI_TalonSRX *claw;
 
 	float maxObservedClawCurrent;

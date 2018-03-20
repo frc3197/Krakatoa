@@ -23,7 +23,10 @@ public:
 	void cameraStream();
 	void setInTele(bool TeleBool);
 	bool getInTele();
-	void encoders(float* left, float* right);
+	float encodersL();
+	float encodersR();
+	void encoders(float *l, float *r);
+	void encoderReset();
 
 	enum buttons {
 		JOYSTICK, A, B, X, Y, LB, RB, BACK, START, LSTICK, RSTICK
@@ -34,8 +37,7 @@ private:
 	float eleSpeedDown;
 
 	//Counter lidar;
-//	AnalogInput *digitalRightForward, *digitalRightBackward, *digitalLeftForward, *digitalLeftBackward;
-	Encoder right, left;
+	frc::Encoder right, left;
 
 
 	PowerDistributionPanel PDP;

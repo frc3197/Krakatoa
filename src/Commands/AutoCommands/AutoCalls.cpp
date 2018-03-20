@@ -37,7 +37,7 @@ bool AutoCalls::Pickup() {
 		}
 		break;
 	case RaiseWithCube: //raise claw at speed for time (raise block)
-		if (!timerPickup.HasPeriodPassed(2.5)) {
+		if (!timerPickup.HasPeriodPassed(1)) {
 			eleClawSpeed = (1);
 		} else {
 			IncrementPickupState();
