@@ -159,11 +159,12 @@ float RobotDriveWithJoystick::encoderDistance() {
 //	SmartDashboard::PutNumber("Left Encoder",  l);
 //
 	float l, r;
-	CommandBase::oi->encoders(&l, &r);
+	l = CommandBase::oi->encodersL();
+	r = CommandBase::oi->encodersR();
 	return (l + r) / 2;
 }
 void RobotDriveWithJoystick::encoderReset() {
 //	frontLeft->SetSelectedSensorPosition(0, 0, 0);
 //	frontRight->SetSelectedSensorPosition(0, 0, 0);
-
+	CommandBase::oi->encoderReset();
 }

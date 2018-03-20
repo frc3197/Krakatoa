@@ -8,7 +8,7 @@
 #define RUMBLE_TIME 120
 #define RUMBLE_DURATION 4
 
-#define ENCODER_CONVERSION (M_PI * 6 / 84)/4
+#define ENCODER_CONVERSION (M_PI * 6 / 84)
 
 OI::OI() :
 //lidar(0),
@@ -16,25 +16,31 @@ OI::OI() :
 //		digitalRightBackward(2), //rb
 //		digitalLeftForward(3), //lf
 //		digitalLeftBackward(4), //lb
-		right(1, 2, false, Encoder::k4X), //one is reversed idk
-		left(3, 4, false, Encoder::k4X),
-		PDP(0), stick(0), p1A(&stick, A), p1B(&stick, B), p1X(&stick, X), p1Y(
-				&stick, Y), p1LB(&stick, LB), p1RB(&stick, RB), p1Back(&stick,
-				BACK), p1Start(&stick, START), p1LStick(&stick, LSTICK), p1RStick(
+		right(1, 2, false, frc::Encoder::k4X), //one is reversed idk
+		left(3, 4, false, frc::Encoder::k4X),
+		PDP(0), stick(0), p1A(&stick, A), p1B(&stick, B), p1X(
+				&stick, X), p1Y(&stick, Y), p1LB(&stick, LB), p1RB(&stick, RB), p1Back(
+				&stick, BACK), p1Start(&stick, START), p1LStick(&stick, LSTICK), p1RStick(
 				&stick, RSTICK),
 
 		stick2(1), p2A(&stick2, A), p2B(&stick2, B), p2X(&stick2, X), p2Y(
 				&stick2, Y), p2LB(&stick2, LB), p2RB(&stick2, RB), p2Back(
 				&stick2, BACK), p2Start(&stick2, START), p2LStick(&stick2,
-				LSTICK), p2RStick(&stick2, RSTICK)
-
-{
+				LSTICK), p2RStick(&stick2, RSTICK) {
+	inTele = false;
 	gameSwitch = 0;
 	eleSpeedUp = CommandBase::prefs->GetFloat("eleSpeedUp", 0);
 	eleSpeedDown = CommandBase::prefs->GetFloat("eleSpeedDown", 0);
 
+//	frc::Encoder right(1, 2, false, Encoder::k4X);
+//	frc::Encoder left(3, 4, false, Encoder::k4X);
+
 	right.SetDistancePerPulse(ENCODER_CONVERSION);
 	left.SetDistancePerPulse(ENCODER_CONVERSION);
+	right.SetSamplesToAverage(5);
+	left.SetSamplesToAverage(5);
+	right.SetMinRate(1.0);
+	left.SetMinRate(1.0);
 
 //	elevatorWinchUpMult = CommandBase::prefs->GetFloat("Elevator Winch Up Mult",
 //			1);
@@ -171,15 +177,23 @@ bool OI::getInTele() {
 	return inTele;
 }
 
-void OI::encoders(float* leftVal, float* rightVal) {
-//	float left1 = (ENCODER_CONVERSION
-//			* (digitalLeftForward->GetVoltage()
-//					- digitalLeftBackward->GetVoltage()) / 2);
-//	float right1 = (ENCODER_CONVERSION
-//			* (digitalRightForward->GetVoltage()
-//					- digitalRightBackward->GetVoltage()) / 2);
-//	left = &left1;
-//	right = &right1;
-	leftVal = left.GetDistance();
-	rightVal = right.GetDistance();
+float OI::encodersL() {
+	float leftVal = left.GetDistance();
+	SmartDashboard::PutNumber("Encoder left", leftVal);
+	return leftVal;
+}
+float OI::encodersR() {
+	float rightVal = right.GetDistance();
+	SmartDashboard::PutNumber("Encoder right", rightVal);
+	return rightVal;
+}
+
+void OI::encoders(float* l, float* r){
+	*l = encodersL();
+	*r = encodersR();
+}
+
+void OI::encoderReset() {
+	left.Reset();
+	right.Reset();
 }

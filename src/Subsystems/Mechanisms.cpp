@@ -18,9 +18,13 @@ Mechanisms::Mechanisms() :
 
 	winchA = new WPI_TalonSRX(5);
 	winchB = new WPI_TalonSRX(6);
-	claw = new WPI_TalonSRX(11);
+	claw = new WPI_TalonSRX(7);
 	elevatorWinch = new WPI_TalonSRX(8);
-	elevatorClaw = new WPI_TalonSRX(9);
+	elevatorClawA = new WPI_TalonSRX(9);
+	elevatorClawB = new WPI_TalonSRX(10);
+
+	elevatorClawB->Follow(*elevatorClawA);
+	elevatorClawB->SetInverted(true);
 
 	winchB->Follow(*winchA);
 
@@ -70,9 +74,8 @@ void Mechanisms::ElevatorWinch(float speed) {
 }
 
 void Mechanisms::ElevatorClaw(float speed) {
-	elevatorClaw->Set(speed);
-	float current = elevatorClaw->GetOutputCurrent();
-	SmartDashboard::PutNumber("Elevator Claw Current", current);
+	elevatorClawA->Set(speed);
+	float current = elevatorClawA->GetOutputCurrent();
 	if (current > maxObservedClawCurrent)
 		maxObservedClawCurrent = current;
 	SmartDashboard::PutNumber("Max Elevator Claw Current", maxObservedClawCurrent);
@@ -80,28 +83,26 @@ void Mechanisms::ElevatorClaw(float speed) {
 
 bool Mechanisms::ClawRetractLim() {
 	bool trip = 0 != claw->GetSensorCollection().IsFwdLimitSwitchClosed();
-//	bool trip = false;
 	SmartDashboard::PutBoolean("Claw Forward Limit (retract)", trip);
 	return trip;
 }
 
 bool Mechanisms::ClawGrabLim() {
 	bool trip = 0 != claw->GetSensorCollection().IsRevLimitSwitchClosed();
-//	bool trip = false;
 	SmartDashboard::PutBoolean("Claw Reverse Limit (grab)", trip);
 	return trip;
 }
 
 bool Mechanisms::ElevatorClawBotLim() {
 	bool trip = 0
-			!= elevatorClaw->GetSensorCollection().IsRevLimitSwitchClosed();
+			!= elevatorClawA->GetSensorCollection().IsRevLimitSwitchClosed();
 	SmartDashboard::PutBoolean("Elevator Claw Forward Limit (bot)", trip);
 	return trip;
 }
 
 bool Mechanisms::ElevatorClawTopLim() {
 	bool trip = 0
-			!= elevatorClaw->GetSensorCollection().IsFwdLimitSwitchClosed();
+			!= elevatorClawA->GetSensorCollection().IsFwdLimitSwitchClosed();
 	SmartDashboard::PutBoolean("Elevator Claw Reverse Limit (top)", trip);
 	return trip;
 }
@@ -127,7 +128,7 @@ void Mechanisms::UpdateCurrent() {
 	SmartDashboard::PutNumber("Winch A Current", winchCurrentA);
 	float winchCurrentB = winchB->GetOutputCurrent();
 	SmartDashboard::PutNumber("Winch B Current", winchCurrentB);
-	float eleClawCurrent = elevatorClaw->GetOutputCurrent();
+	float eleClawCurrent = elevatorClawA->GetOutputCurrent();
 	SmartDashboard::PutNumber("Ele Claw Current", eleClawCurrent);
 	float eleWinchCurrent = elevatorWinch->GetOutputCurrent();
 	SmartDashboard::PutNumber("Ele Winch Current", eleWinchCurrent);
