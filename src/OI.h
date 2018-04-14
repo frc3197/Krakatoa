@@ -23,10 +23,13 @@ public:
 	void cameraStream();
 	void setInTele(bool TeleBool);
 	bool getInTele();
+<<<<<<< HEAD
 	float encodersL();
 	float encodersR();
 	void encoders(float *l, float *r);
 	void encoderReset();
+=======
+>>>>>>> parent of 0337635... added encoders
 
 	enum buttons {
 		JOYSTICK, A, B, X, Y, LB, RB, BACK, START, LSTICK, RSTICK
@@ -37,8 +40,11 @@ private:
 	float eleSpeedDown;
 
 	//Counter lidar;
+<<<<<<< HEAD
 	frc::Encoder right, left;
 
+=======
+>>>>>>> parent of 0337635... added encoders
 
 	PowerDistributionPanel PDP;
 
