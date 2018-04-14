@@ -151,25 +151,15 @@ void RobotDriveWithJoystick::gyroReset() {
 }
 
 float RobotDriveWithJoystick::encoderDistance() {
-////	float raw = (frontLeft->GetSelectedSensorPosition(kPIDLoopIdx)
-////			+ frontRight->GetSelectedSensorPosition(kPIDLoopIdx)) / 2;
-//	float r = frontRight->GetSelectedSensorPosition(0) * ENCODER_CONVERSION;
-//	float l = frontLeft->GetSelectedSensorPosition(0) * ENCODER_CONVERSION;
-//	SmartDashboard::PutNumber("Right Encoder",  r);
-//	SmartDashboard::PutNumber("Left Encoder",  l);
-//
-<<<<<<< HEAD
-	float l, r;
-	l = CommandBase::oi->encodersL();
-	r = CommandBase::oi->encodersR();
+
+	float r = frontRight->GetSelectedSensorPosition(0) * ENCODER_CONVERSION;
+	float l = frontLeft->GetSelectedSensorPosition(0) * ENCODER_CONVERSION;
+
 	return (l + r) / 2;
-=======
-//	return (r + l)/2;
-	return 0;
->>>>>>> parent of 0337635... added encoders
+
 }
 void RobotDriveWithJoystick::encoderReset() {
-//	frontLeft->SetSelectedSensorPosition(0, 0, 0);
-//	frontRight->SetSelectedSensorPosition(0, 0, 0);
-	CommandBase::oi->encoderReset();
+	frontLeft->SetSelectedSensorPosition(0, 0, 0);
+	frontRight->SetSelectedSensorPosition(0, 0, 0);
+//	CommandBase::oi->encoderReset();
 }
