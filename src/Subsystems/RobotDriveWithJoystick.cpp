@@ -14,13 +14,21 @@
 #define TURN_ANGLE_DEADZONE 2
 #define PERCENT_CHANGE_PER_DEGREE .0075
 #define MIN_SPEED .55
-#define ENCODER_CONVERSION (M_PI * 6 / 84)/4
+#define ENCODER_CONVERSION (M_PI * 6.00 / 84)/4
 
 #define AUTO_SPEED .5
 #define AUTO_TURN_SPEED .55
 
+#define DIST_DEADZONE 10
+
 RobotDriveWithJoystick::RobotDriveWithJoystick() :
 		Subsystem("RobotDriveWithJoystick") {
+
+	lidar = new Counter(0);
+
+	lidar->SetMaxPeriod(1);
+	lidar->SetSemiPeriodMode(true);
+	lidar->Reset();
 
 	frontRight = new WPI_TalonSRX(1);
 	rearRight = new WPI_TalonSRX(2);
@@ -39,29 +47,22 @@ RobotDriveWithJoystick::RobotDriveWithJoystick() :
 
 	rDrive->SetSafetyEnabled(false);
 
-	frontRight->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0,
-			0);
-	frontRight->SetSensorPhase(false); // polarity of the rotation
-
-//	frontRight->ConfigNominalOutputForward(0, kTimeoutMs);
-//	frontRight->ConfigNominalOutputReverse(0, kTimeoutMs);
-//	frontRight->ConfigPeakOutputForward(1, kTimeoutMs);
-//	frontRight->ConfigPeakOutputReverse(-1, kTimeoutMs);
-
-	frontLeft->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0,
-			0);
-	frontLeft->SetSensorPhase(false); // polarity of the rotation
-
-//	frontLeft->ConfigNominalOutputForward(0, kTimeoutMs);
-//	frontLeft->ConfigNominalOutputReverse(0, kTimeoutMs);
-//	frontLeft->ConfigPeakOutputForward(1, kTimeoutMs);
-//	frontLeft->ConfigPeakOutputReverse(-1, kTimeoutMs);
+//	frontRight->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, 0);
+//	frontRight->SetSensorPhase(false); // polarity of the rotation
+//
+//	frontLeft->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, 0);
+//	frontLeft->SetSensorPhase(false); // polarity of the rotation
 
 	talonF = defaultF;
 	talonP = defaultP;
 	talonI = defaultI;
 	talonD = defaultD;
 
+	autoDriveSpeed = 0;
+	autoTurnSpeed = 0;
+	autoTurnAngle = 0;
+	autoDriveDist = 0;
+	autoDriveTime = 0;
 }
 
 void RobotDriveWithJoystick::InitDefaultCommand() {
@@ -132,6 +133,22 @@ bool RobotDriveWithJoystick::advancedTurnBot(float speed, float preferred) {
 	return !turn;
 }
 
+bool RobotDriveWithJoystick::gotoDistance(float distance, float speed,
+		float preferred) {
+	float current = encoderDistance();
+	float deltaDistance = distance - current;
+	SmartDashboard::PutNumber("deltaDistance", deltaDistance);
+	SmartDashboard::PutNumber("distance", distance);
+	SmartDashboard::PutNumber("current", current);
+	if (deltaDistance > DIST_DEADZONE || deltaDistance < -DIST_DEADZONE) {;
+		if (deltaDistance < 0)
+			speed *= -1;
+		advancedDriveBot(speed, speed, preferred);
+		return false;
+	}
+	return true;
+}
+
 float RobotDriveWithJoystick::gyroAngle() {
 	float raw = SPIGyro.GetAngle();
 
@@ -141,7 +158,6 @@ float RobotDriveWithJoystick::gyroAngle() {
 	while (raw > 180) {
 		raw -= 360;
 	}
-	SmartDashboard::PutNumber("GyroNumber", raw);
 	SmartDashboard::PutData("Gyro", &SPIGyro);
 	return raw;
 }
@@ -151,15 +167,11 @@ void RobotDriveWithJoystick::gyroReset() {
 }
 
 float RobotDriveWithJoystick::encoderDistance() {
-
-	float r = frontRight->GetSelectedSensorPosition(0) * ENCODER_CONVERSION;
-	float l = frontLeft->GetSelectedSensorPosition(0) * ENCODER_CONVERSION;
-
-	return (l + r) / 2;
-
+	float cm = (lidar->GetPeriod() * 100000) - 18;
+	float in = cm / 2.54;
+	SmartDashboard::PutNumber("in", in);
+	return in;
 }
 void RobotDriveWithJoystick::encoderReset() {
-	frontLeft->SetSelectedSensorPosition(0, 0, 0);
-	frontRight->SetSelectedSensorPosition(0, 0, 0);
-//	CommandBase::oi->encoderReset();
+	lidarDist = encoderDistance();
 }

@@ -17,13 +17,12 @@ void DriveStraightDist::Initialize() {
 void DriveStraightDist::Execute() {
 	switch (state) {
 	case 0:
-		if(claw->Pickup())
+		if (claw->Pickup())
 			state++;
 		break;
 	case 1:
-		if (robotDrive->encoderDistance() < robotDrive->autoDriveDist) {
-			Drive(robotDrive->autoDriveSpeed);
-		} else
+		if (robotDrive->gotoDistance(robotDrive->autoDriveDist,
+				robotDrive->autoDriveSpeed, 0))
 			state++;
 		break;
 	default:
