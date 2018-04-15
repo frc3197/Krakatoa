@@ -1,24 +1,29 @@
 [NetworkTables Storage 3.0]
 string "/Preferences/.type"="RobotPreferences"
-double "/Preferences/autoDriveSpeed"=0.3
+double "/Preferences/Drive D"=0
+double "/Preferences/Drive F"=0
+double "/Preferences/Drive I"=0
+double "/Preferences/Drive P"=0
+double "/Preferences/ElevatorClaw D"=0
+double "/Preferences/ElevatorClaw F"=0
+double "/Preferences/ElevatorClaw I"=0
+double "/Preferences/ElevatorClaw P"=0
+double "/Preferences/autoDriveDist"=115
+double "/Preferences/autoDriveSpeed"=0.35
+double "/Preferences/autoDriveTime"=4
 double "/Preferences/autoTurnAngle"=90
 double "/Preferences/autoTurnSpeed"=1
 double "/Preferences/distance0"=25
 double "/Preferences/distance1"=30
 double "/Preferences/distance2"=30
-<<<<<<< HEAD
 double "/Preferences/distance3"=20
 double "/Preferences/distance4"=20
 double "/Preferences/distance5"=20
 double "/Preferences/distance6"=20
 double "/Preferences/distance7"=20
 double "/Preferences/distance8"=20
-double "/Preferences/eleSpeedDown"=0.6
-double "/Preferences/eleSpeedUp"=0.8
-=======
 double "/Preferences/eleSpeedDown"=0.8
 double "/Preferences/eleSpeedUp"=1
->>>>>>> parent of 0337635... added encoders
 double "/Preferences/scaleBackupDistance"=30
 double "/Preferences/scaleBackupSpeed"=0.25
 double "/Preferences/scaleBaseSpeed"=0
@@ -43,9 +48,15 @@ double "/Preferences/scaleSameDriveOverDistance"=5
 double "/Preferences/scaleSameExtraSpeedLeft"=0.35
 double "/Preferences/scaleSameExtraSpeedRight"=0.35
 double "/Preferences/scaleSameStraightDistance"=100
+<<<<<<< HEAD
 double "/Preferences/swerveBaseSpeed"=0.1
 double "/Preferences/switchAngleLeft"=48
 double "/Preferences/switchAngleRight"=48
+=======
+double "/Preferences/swerveBaseSpeed"=0.05
+double "/Preferences/switchAngleLeft"=50
+double "/Preferences/switchAngleRight"=50
+>>>>>>> parent of 0337635... added encoders
 double "/Preferences/switchExtraExtraSpeedLeft"=0.1
 double "/Preferences/switchExtraExtraSpeedRight"=0.1
 double "/Preferences/switchExtraSpeedLeft"=0.55

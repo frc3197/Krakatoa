@@ -11,10 +11,9 @@
 #define ENCODER_CONVERSION (M_PI * 6 / 84)
 
 OI::OI() :
-
-		PDP(0), stick(0), p1A(&stick, A), p1B(&stick, B), p1X(&stick, X), p1Y(
-				&stick, Y), p1LB(&stick, LB), p1RB(&stick, RB), p1Back(&stick,
-				BACK), p1Start(&stick, START), p1LStick(&stick, LSTICK), p1RStick(
+		PDP(0), stick(0), p1A(&stick, A), p1B(&stick, B), p1X(&stick,
+				X), p1Y(&stick, Y), p1LB(&stick, LB), p1RB(&stick, RB), p1Back(
+				&stick, BACK), p1Start(&stick, START), p1LStick(&stick, LSTICK), p1RStick(
 				&stick, RSTICK),
 
 		stick2(1), p2A(&stick2, A), p2B(&stick2, B), p2X(&stick2, X), p2Y(
@@ -25,22 +24,12 @@ OI::OI() :
 	gameSwitch = 0;
 	eleSpeedUp = CommandBase::prefs->GetFloat("eleSpeedUp", 0);
 	eleSpeedDown = CommandBase::prefs->GetFloat("eleSpeedDown", 0);
-//	elevatorWinchUpMult = CommandBase::prefs->GetFloat("Elevator Winch Up Mult",
-//			1);
-//	elevatorWinchDownMult = CommandBase::prefs->GetFloat(
-//			"Elevator Winch Down Mult", 1);
-//	elevatorClawUpMult = CommandBase::prefs->GetFloat("Elevator Claw Up Mult",
-//			1);
-//	elevatorClawDownMult = CommandBase::prefs->GetFloat(
-//			"Elevator Claw Down Mult", 1);
 }
 
 void OI::updateSensors() {
 	CommandBase::robotDrive->encoderDistance();
 	CommandBase::robotDrive->gyroAngle();
-	getDistance();
 	float timeRemaining = getTime();
-	rumbleWarning(timeRemaining);
 	SmartDashboard::PutData(&PDP);
 	SmartDashboard::PutNumber("TIME", timeRemaining);
 }
@@ -71,12 +60,6 @@ void OI::setGamePrefs(int gameSwitch_) {
 
 int OI::getGamePrefs() {
 	return gameSwitch;
-}
-
-float OI::getDistance() {
-//	float cm = (counter->GetPeriod() * 100000) - 18;
-//	float in = cm / 25
-	return 0;
 }
 
 float OI::winch() {
@@ -127,25 +110,6 @@ float OI::getTime() {
 	return t;
 }
 
-void OI::rumbleWarning(float t) {
-//	float inMin = 0;
-//	float inMax = RUMBLE_DURATION;
-//	float outMin = 0;
-//	float outMax = 1;
-//	float timesRumble = 3;
-//	if (time > 0 && time < RUMBLE_DURATION /*&& time % (RUMBLE_TIME / timesRumble) < ((RUMBLE_TIME / timesRumble) / 2)*/) {
-//		float rumble = lerp(time, inMin, inMax, outMin, outMax);
-//		stick.SetRumble(GenericHID::RumbleType::kLeftRumble, rumble);
-//		stick.SetRumble(GenericHID::RumbleType::kRightRumble, rumble);
-//	}
-}
-
-float OI::lerp(float x, float x0, float x1, float y0, float y1) {
-	return y0 + (x - x0) * (y1 - y0) / (x1 - x0);
-}
-
-//void OI::cameraStream() {
-//}
 void OI::setInTele(bool TeleBool) {
 	inTele = TeleBool;
 	if (inTele) {

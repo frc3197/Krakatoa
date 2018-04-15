@@ -26,6 +26,7 @@ private:
 	float extraSpeed;
 
 	float swerveAngle;
+	float scaleAngle;
 
 	enum states {
 		Straight,

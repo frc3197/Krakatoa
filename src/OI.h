@@ -18,12 +18,8 @@ public:
 	float elevatorWinch();
 	float elevatorClaw();
 	float getTime();
-	void rumbleWarning(float t);
-	float lerp(float t, float a, float b, float c, float d);
-	void cameraStream();
 	void setInTele(bool TeleBool);
 	bool getInTele();
-
 	enum buttons {
 		JOYSTICK, A, B, X, Y, LB, RB, BACK, START, LSTICK, RSTICK
 	};
@@ -32,7 +28,10 @@ private:
 	float eleSpeedUp;
 	float eleSpeedDown;
 
+	Counter* lidar;
+
 	PowerDistributionPanel PDP;
+
 
 	Joystick stick;
 
@@ -61,15 +60,6 @@ private:
 	JoystickButton p2RStick; //Right Stick Click
 
 	int gameSwitch;
-
-//	float clawUpMult;
-//	float clawDownMult;
-//	float winchUpMult;
-//	float winchDownMult;
-//	float elevatorWinchUpMult;
-//	float elevatorWinchDownMult;
-//	float elevatorClawUpMult;
-//	float elevatorClawDownMult;
 
 	bool inTele;
 };

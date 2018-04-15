@@ -57,7 +57,7 @@ void SwerveSwitch::Execute() {
 		case IntoSwitch:
 			l = intoSwitchSpeed;
 			r = intoSwitchSpeed;
-			if (timer.HasPeriodPassed(1.5)) {
+			if (timer.HasPeriodPassed(.5)) {
 				claw->ResetTimerDrop();
 				IncrementState();
 			}
