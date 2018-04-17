@@ -22,7 +22,7 @@ void DriveStraightDist::Execute() {
 		break;
 	case 1:
 		if (robotDrive->gotoDistance(robotDrive->autoDriveDist,
-				robotDrive->autoDriveSpeed, 0))
+				robotDrive->autoDriveSpeed, 0, false))
 			state++;
 		break;
 	default:

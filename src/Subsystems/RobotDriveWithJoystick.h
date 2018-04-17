@@ -13,11 +13,13 @@ public:
 	void driveBot(float left, float right);
 	void advancedDriveBot(float left, float right, float preferred);
 	bool advancedTurnBot(float speed, float preferred);
-	bool gotoDistance(float distance, float speed, float preferred);
+	bool gotoDistance(float distance, float speed, float preferred, bool useLidar);
 	float gyroAngle();
 	void gyroReset();
 	float encoderDistance();
 	void encoderReset();
+	float lidarDistance();
+	void lidarReset();
 
 	float autoDriveSpeed;
 	float autoTurnSpeed;

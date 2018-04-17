@@ -55,7 +55,7 @@ void SwerveScaleSame::Execute() {
 	if (up) {
 		switch (state) {
 		case Straight: //drive straight distance using encoders
-			if (robotDrive->gotoDistance(straightDistance, extraSpeed, 0))
+			if (robotDrive->gotoDistance(straightDistance, extraSpeed, 0, true))
 				IncrementState();
 			break;
 		case SwerveIn:
@@ -78,7 +78,7 @@ void SwerveScaleSame::Execute() {
 			IncrementState();
 			break;
 		case DriveOverScale:
-			if (robotDrive->gotoDistance(driveOverDistance, extraSpeed, 0)) {
+			if (robotDrive->gotoDistance(driveOverDistance, extraSpeed, 0, false)) {
 				IncrementState();
 				claw->ResetTimerDrop();
 			}
@@ -89,16 +89,16 @@ void SwerveScaleSame::Execute() {
 //			}
 			break;
 		case Backup:
-			if (robotDrive->gotoDistance(backupDistance, backupSpeed, scaleAngle)) {
+			if (robotDrive->gotoDistance(backupDistance, backupSpeed, scaleAngle, false)) {
 				IncrementState();
 			}
 			break;
 		case Lower:
-			if (!timer.HasPeriodPassed(eleTime)) {
-				eleSpeed = eleSpeedDown;
-			} else {
+//			if (!timer.HasPeriodPassed(eleTime)) {
+//				eleSpeed = eleSpeedDown;
+//			} else {
 				IncrementState();
-			}
+//			}
 			break;
 		default:
 			End();
