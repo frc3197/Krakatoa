@@ -19,7 +19,7 @@
 #define AUTO_SPEED .5
 #define AUTO_TURN_SPEED .55
 
-#define DIST_DEADZONE 10
+#define DIST_DEADZONE 2
 
 RobotDriveWithJoystick::RobotDriveWithJoystick() :
 		Subsystem("RobotDriveWithJoystick") {
@@ -123,9 +123,9 @@ bool RobotDriveWithJoystick::advancedTurnBot(float speed, float preferred) {
 			speed = MIN_SPEED;
 
 		}
-//		if (deltaAngle < 0) {
-//			speed *= -1;
-//		}
+		if (deltaAngle < 0) {
+			speed *= -1;
+		}
 	} else {
 		speed = 0;
 	}
@@ -134,18 +134,24 @@ bool RobotDriveWithJoystick::advancedTurnBot(float speed, float preferred) {
 }
 
 bool RobotDriveWithJoystick::gotoDistance(float distance, float speed,
-		float preferred) {
-	float current = encoderDistance();
+		float preferred, bool useLidar) {
+	float current = lidarDistance();
+	if (!useLidar) {
+		current = encoderDistance();
+	}
 	float deltaDistance = distance - current;
 	SmartDashboard::PutNumber("deltaDistance", deltaDistance);
 	SmartDashboard::PutNumber("distance", distance);
 	SmartDashboard::PutNumber("current", current);
-	if (deltaDistance > DIST_DEADZONE || deltaDistance < -DIST_DEADZONE) {;
+	if (deltaDistance > DIST_DEADZONE || deltaDistance < -DIST_DEADZONE) {
+		;
 		if (deltaDistance < 0)
 			speed *= -1;
 		advancedDriveBot(speed, speed, preferred);
 		return false;
 	}
+	speed = 0;
+	advancedDriveBot(speed, speed, preferred);
 	return true;
 }
 
@@ -167,11 +173,24 @@ void RobotDriveWithJoystick::gyroReset() {
 }
 
 float RobotDriveWithJoystick::encoderDistance() {
+	float r = frontRight->GetSelectedSensorPosition(0) * ENCODER_CONVERSION;
+	float l = frontLeft->GetSelectedSensorPosition(0) * ENCODER_CONVERSION;
+	SmartDashboard::PutNumber("R", r);
+	SmartDashboard::PutNumber("L", l);
+	return (r + l) / 2;
+}
+void RobotDriveWithJoystick::encoderReset() {
+	frontRight->SetSelectedSensorPosition(0, 0, 0);
+	frontLeft->SetSelectedSensorPosition(0, 0, 0);
+}
+
+float RobotDriveWithJoystick::lidarDistance() {
 	float cm = (lidar->GetPeriod() * 100000) - 18;
 	float in = cm / 2.54;
 	SmartDashboard::PutNumber("in", in);
 	return in;
 }
-void RobotDriveWithJoystick::encoderReset() {
-	lidarDist = encoderDistance();
+
+void RobotDriveWithJoystick::lidarReset() {
+//	lidarDist = 0.0;
 }
