@@ -29,7 +29,7 @@ void SwerveSwitch::Initialize() {
 }
 
 void SwerveSwitch::Execute() {
-	bool up = claw->Pickup();
+	bool up = claw->Pickup(true);
 	float gyroAngle = robotDrive->gyroAngle();
 	if (CommandBase::oi->getGamePrefs() == -1) {
 		gyroAngle *= -1;

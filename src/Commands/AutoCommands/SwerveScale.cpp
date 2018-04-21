@@ -42,8 +42,8 @@ void SwerveScale::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void SwerveScale::Execute() {
-	SmartDashboard::PutNumber("Scale State", state);
-	bool up = claw->Pickup();
+//	SmartDashboard::PutNumber("Scale State", state);
+	bool up = claw->Pickup(true);
 	float gyroAngle = robotDrive->gyroAngle();
 	if (CommandBase::oi->getGamePrefs() == -1) {
 		gyroAngle *= -1;

@@ -13,13 +13,12 @@ public:
 	void driveBot(float left, float right);
 	void advancedDriveBot(float left, float right, float preferred);
 	bool advancedTurnBot(float speed, float preferred);
-	bool gotoDistance(float distance, float speed, float preferred, bool useLidar);
+	bool gotoDistance(float distance, float speed, float preferred);
 	float gyroAngle();
 	void gyroReset();
-	float encoderDistance();
-	void encoderReset();
 	float lidarDistance();
 	void lidarReset();
+	void current();
 
 	float autoDriveSpeed;
 	float autoTurnSpeed;
@@ -29,11 +28,6 @@ public:
 
 	const int kTimeoutMs = 0;
 	const int kPIDLoopIdx = 0;
-
-	const float defaultF = 0.1097;
-	const float defaultP = 0.22;
-	const float defaultI = 0.0;
-	const float defaultD = 0.0;
 
 	float lidarDist = 0;
 	Counter* lidar;
@@ -45,12 +39,6 @@ private:
 
 	frc::DifferentialDrive *rDrive;
 	ADXRS450_Gyro SPIGyro;
-
-	float talonF;
-	float talonP;
-	float talonI;
-	float talonD;
-
 };
 
 #endif

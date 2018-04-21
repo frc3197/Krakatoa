@@ -58,7 +58,6 @@ public:
 				frc::DriverStation::GetInstance().GetGameSpecificMessage();
 		std::string selected = "nothing";
 
-
 		bool sideRight = true;
 		if (position.compare("S") == 0) {
 			selected = "straight";
@@ -93,13 +92,9 @@ public:
 
 		SmartDashboard::PutString("Selected", selected);
 		SmartDashboard::PutString("Position", position);
-		SmartDashboard::PutString("SwitchSide",  gameData.substr(0, 1));
-		SmartDashboard::PutString("ScaleSide",  gameData.substr(1, 1));
+		SmartDashboard::PutString("SwitchSide", gameData.substr(0, 1));
+		SmartDashboard::PutString("ScaleSide", gameData.substr(1, 1));
 		SmartDashboard::PutNumber("GamePrefs", gamePrefs);
-
-
-
-
 
 		if (autonomousCommand.get() != nullptr) {
 			autonomousCommand->Start();

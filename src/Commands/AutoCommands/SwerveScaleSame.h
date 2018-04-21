@@ -24,6 +24,7 @@ private:
 	float baseSpeed;
 	float backupSpeed;
 	float extraSpeed;
+	float extraExtraSpeed;
 
 	float swerveAngle;
 	float scaleAngle;
@@ -36,7 +37,7 @@ private:
 		DriveOverScale,
 		Drop,
 		Backup,
-		Lower
+		Turn
 	};
 
 	AutoCalls* claw = new AutoCalls();
