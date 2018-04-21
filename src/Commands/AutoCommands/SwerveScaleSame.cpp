@@ -13,10 +13,6 @@ void SwerveScaleSame::Initialize() {
 	state = 0;
 	finished = false;
 
-	driveOverDistance = CommandBase::prefs->GetFloat(
-			"scaleSameDriveOverDistance", 0);
-	backupDistance = CommandBase::prefs->GetFloat("scaleSameBackupDistance", 0);
-
 	eleTime = CommandBase::prefs->GetFloat("scaleEleTime", 0);
 
 	eleSpeedUp = CommandBase::prefs->GetFloat("eleSpeedUp", 0);
@@ -28,14 +24,19 @@ void SwerveScaleSame::Initialize() {
 	straightDistance = CommandBase::prefs->GetFloat("scaleSameStraightDistance",
 			0);
 
+	driveOverTime = CommandBase::prefs->GetFloat("scaleDriveOverTime", 0);
+	backupTime = CommandBase::prefs->GetFloat("scaleBackupTime", 0);
+
 	if (CommandBase::oi->getGamePrefs() == 1) {
 		extraSpeed = CommandBase::prefs->GetFloat("scaleSameExtraSpeedRight",
 				0);
-		extraExtraSpeed = CommandBase::prefs->GetFloat("scaleSameExtraESpeedRight", 0);
+		extraExtraSpeed = CommandBase::prefs->GetFloat(
+				"scaleSameExtraESpeedRight", 0);
 		swerveAngle = CommandBase::prefs->GetFloat("scaleSameAngleRight", 0);
 	} else {
 		extraSpeed = CommandBase::prefs->GetFloat("scaleSameExtraSpeedLeft", 0);
-		extraExtraSpeed = CommandBase::prefs->GetFloat("scaleSameExtraSpeedLeft", 0);
+		extraExtraSpeed = CommandBase::prefs->GetFloat(
+				"scaleSameExtraSpeedLeft", 0);
 		swerveAngle = CommandBase::prefs->GetFloat("scaleSameAngleLeft", 0);
 	}
 
@@ -46,8 +47,6 @@ void SwerveScaleSame::Initialize() {
 
 void SwerveScaleSame::Execute() {
 	SmartDashboard::PutNumber("Scale State", state);
-//	SmartDashboard::PutBoolean("should be goUp",
-//			state >= RaiseFully && state <= Drop);
 	bool up = claw->Pickup(false);
 	float gyroAngle = robotDrive->gyroAngle();
 	if (CommandBase::oi->getGamePrefs() == 1) {
@@ -59,7 +58,7 @@ void SwerveScaleSame::Execute() {
 	if (up) {
 		switch (state) {
 		case Straight: //drive straight distance using encoders
-			if (robotDrive->gotoDistance(straightDistance, extraSpeed, 0, true))
+			if (robotDrive->gotoDistance(straightDistance, extraSpeed, 0))
 				IncrementState();
 			break;
 		case SwerveIn:
@@ -72,7 +71,7 @@ void SwerveScaleSame::Execute() {
 			break;
 		case SwerveOut:
 			if (gyroAngle < scaleAngle) {
-				l = baseSpeed + extraSpeed + extraExtraSpeed;
+				l = baseSpeed + extraSpeed;
 				r = baseSpeed;
 			} else {
 				IncrementState();
@@ -82,41 +81,43 @@ void SwerveScaleSame::Execute() {
 			IncrementState();
 			break;
 		case DriveOverScale:
-			if (robotDrive->gotoDistance(driveOverDistance, extraSpeed, 0,
-					false)) {
+			l = -backupSpeed;
+			r = -backupSpeed;
+			if (timer.HasPeriodPassed(driveOverTime)) {
 				IncrementState();
 				claw->ResetTimerDrop();
 			}
 			break;
 		case Drop:
 			if (claw->Drop()) {
-			IncrementState();
+				IncrementState();
 			}
 			break;
 		case Backup:
-			if (robotDrive->gotoDistance(backupDistance, backupSpeed,
-					scaleAngle, false)) {
+			l = backupSpeed;
+			r = backupSpeed;
+			if (timer.HasPeriodPassed(backupTime)) {
 				IncrementState();
 			}
 			break;
 		case Turn:
 			eleSpeed = eleSpeedDown;
-			if(robotDrive->advancedTurnBot(extraSpeed, -180)) {
+			if (robotDrive->advancedTurnBot(extraSpeed + baseSpeed, -180)) {
 				IncrementState();
 			}
 			break;
 		default:
 			End();
 		}
+		if (up && state >= SwerveIn && state <= Drop) {
+			eleSpeed = eleSpeedUp;
+		}
+		if (eleSpeed != 0)
+			auxMotors->ElevatorClaw(eleSpeed);
+		if (state < Drop)
+			auxMotors->Claw(-.4);
 	}
 
-	if (up && state >= SwerveIn && state <= Drop) {
-		eleSpeed = eleSpeedUp;
-	}
-//	if (up && eleSpeed != 0)
-//		auxMotors->ElevatorClaw(eleSpeed);
-//	if (up && !(state >= Drop))
-//		auxMotors->Claw(-.4);
 	if (l != 0 && r != 0) {
 		if (CommandBase::oi->getGamePrefs() == 1)
 			Drive(r, l);
@@ -127,7 +128,6 @@ void SwerveScaleSame::Execute() {
 }
 
 bool SwerveScaleSame::IsFinished() {
-//	return state > SwerveOut;
 	return finished;
 }
 
@@ -141,7 +141,6 @@ void SwerveScaleSame::IncrementState() {
 	state++;
 	timer.Reset();
 	timer.Start();
-	robotDrive->encoderReset();
 }
 
 void SwerveScaleSame::Interrupted() {

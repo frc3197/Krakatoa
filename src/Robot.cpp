@@ -8,11 +8,8 @@
 #include <SmartDashboard/SmartDashboard.h>
 
 #include <Commands/AutoCommands/Nothing.h>
-#include <Commands/AutoCommands/DriveInside.h>
 #include <Commands/AutoCommands/DriveStraight.h>
 #include <Commands/AutoCommands/DriveStraightDist.h>
-#include <Commands/AutoCommands/DriveOutsideSame.h>
-#include <Commands/AutoCommands/DriveOutsideOpp.h>
 #include <Commands/AutoCommands/SwerveSwitch.h>
 #include <Commands/AutoCommands/SwerveScaleSame.h>
 #include <Commands/AutoCommands/SwerveScaleOpp.h>

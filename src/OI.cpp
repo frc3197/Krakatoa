@@ -27,7 +27,6 @@ OI::OI() :
 }
 
 void OI::updateSensors() {
-	CommandBase::robotDrive->encoderDistance();
 	CommandBase::robotDrive->lidarDistance();
 	CommandBase::robotDrive->gyroAngle();
 	CommandBase::robotDrive->current();

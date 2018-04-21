@@ -5,18 +5,17 @@
 #include "WPILib.h"
 #include "AutoCalls.h"
 
-class SwerveScaleSame: public CommandBase
-{
+class SwerveScaleSame: public CommandBase {
 private:
 	Timer timer;
 	int state;
 	bool finished;
 
 	float eleTime;
+	float driveOverTime;
+	float backupTime;
 
 	float straightDistance;
-	float driveOverDistance;
-	float backupDistance;
 
 	float eleSpeedUp;
 	float eleSpeedDown;
