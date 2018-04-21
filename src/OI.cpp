@@ -28,7 +28,9 @@ OI::OI() :
 
 void OI::updateSensors() {
 	CommandBase::robotDrive->encoderDistance();
+	CommandBase::robotDrive->lidarDistance();
 	CommandBase::robotDrive->gyroAngle();
+	CommandBase::robotDrive->current();
 	float timeRemaining = getTime();
 	SmartDashboard::PutData(&PDP);
 	SmartDashboard::PutNumber("TIME", timeRemaining);

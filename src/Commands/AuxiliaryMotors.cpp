@@ -31,7 +31,6 @@ void AuxiliaryMotors::Execute() {
 
 	float elevatorWinchSpeed = elevatorWinch * ELE_WINCH_SPEED;
 	float elevatorClawSpeed= elevatorClaw * ELE_CLAW_SPEED;
-	SmartDashboard::PutBoolean("AuxMotors Running?", true);
 	if (oi->getInTele()) {
 		auxMotors->Claw(clawSpeed);
 		auxMotors->Winch(winchSpeed);

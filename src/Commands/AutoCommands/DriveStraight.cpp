@@ -15,10 +15,10 @@ void DriveStraight::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void DriveStraight::Execute() {
-	SmartDashboard::PutNumber("State DriveStraight", state);
+//	SmartDashboard::PutNumber("State DriveStraight", state);
 	switch (state) {
 	case 0:
-		if (claw->Pickup()) // returns true when finished
+		if (claw->Pickup(true)) // returns true when finished
 			state++;
 		break;
 	case 1:

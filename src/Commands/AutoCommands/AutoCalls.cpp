@@ -8,7 +8,7 @@ AutoCalls::AutoCalls() {
 //	double close = AutoTimings->GetDouble("Close (Speed)", -0.5);
 }
 
-bool AutoCalls::Pickup() {
+bool AutoCalls::Pickup(bool goUp) {
 	SmartDashboard::PutNumber("Pickup States", pickupState);
 
 	float clawSpeed = 0;
@@ -37,7 +37,7 @@ bool AutoCalls::Pickup() {
 		}
 		break;
 	case RaiseWithCube: //raise claw at speed for time (raise block)
-		if (!timerPickup.HasPeriodPassed(1)) {
+		if (!timerPickup.HasPeriodPassed(.25)) {
 			eleClawSpeed = (.85);
 		} else {
 			IncrementPickupState();
@@ -47,7 +47,9 @@ bool AutoCalls::Pickup() {
 		break;
 	}
 	CommandBase::auxMotors->Claw(clawSpeed);
-	CommandBase::auxMotors->ElevatorClaw(eleClawSpeed);
+//	SmartDashboard::PutBoolean("goUp", goUp || pickupState <= RaiseWithCube);
+	if (goUp || pickupState <= RaiseWithCube)
+		CommandBase::auxMotors->ElevatorClaw(eleClawSpeed);
 
 	return pickupState > Close;
 }

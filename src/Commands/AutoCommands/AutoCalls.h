@@ -33,7 +33,7 @@ private:
 	void IncrementDropState();
 public:
 	AutoCalls();
-	bool Pickup();
+	bool Pickup(bool goUp);
 	bool Drop();
 	void Reset();
 	void ResetTimerPickup();
