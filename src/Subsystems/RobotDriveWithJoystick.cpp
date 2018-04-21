@@ -29,7 +29,7 @@ RobotDriveWithJoystick::RobotDriveWithJoystick() :
 	frontLeft = new WPI_TalonSRX(3);
 	rearLeft = new WPI_TalonSRX(4);
 
-	rDrive = new DifferentialDrive(frontLeft, frontRight);
+	rDrive = new DifferentialDrive(*frontLeft, *frontRight);
 
 	frontLeft->SetInverted(true);
 	frontRight->SetInverted(true);

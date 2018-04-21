@@ -14,9 +14,6 @@ private:
 
 	float eleTime;
 
-	float driveOverDistance;
-	float backupDistance;
-
 	float eleSpeedUp;
 	float eleSpeedDown;
 
@@ -24,6 +21,9 @@ private:
 	float backupSpeed;
 	float extraSpeed;
 	float extraExtraSpeed;
+
+	float driveOverTime;
+	float backupTime;
 
 	float straightDistance;
 	float straightAcrossDistance;

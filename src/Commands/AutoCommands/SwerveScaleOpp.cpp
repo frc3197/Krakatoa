@@ -12,10 +12,6 @@ void SwerveScaleOpp::Initialize() {
 	state = 0;
 	finished = false;
 
-	driveOverDistance = CommandBase::prefs->GetFloat(
-			"scaleOppDriveOverDistance", 0);
-	backupDistance = CommandBase::prefs->GetFloat("scaleOppBackupDistance", 0);
-
 	eleTime = CommandBase::prefs->GetFloat("scaleEleTime", 0);
 
 	eleSpeedUp = CommandBase::prefs->GetFloat("eleSpeedUp", 0);
@@ -28,6 +24,9 @@ void SwerveScaleOpp::Initialize() {
 			0);
 	straightAcrossDistance = CommandBase::prefs->GetFloat(
 			"scaleOppStraightAcrossDistance", 0);
+
+	driveOverTime = CommandBase::prefs->GetFloat("scaleDriveOverTime", 0);
+	backupTime = CommandBase::prefs->GetFloat("scaleBackupTime", 0);
 
 	if (CommandBase::oi->getGamePrefs() == 1) {
 		extraSpeed = CommandBase::prefs->GetFloat("scaleOppExtraSpeedRight", 0);
@@ -63,7 +62,7 @@ void SwerveScaleOpp::Execute() {
 	if (up) {
 		switch (state) {
 		case StraightToScale: //drive straight distance using encoders
-			if (robotDrive->gotoDistance(straightDistance, extraSpeed, 0, true))
+			if (robotDrive->gotoDistance(straightDistance, extraSpeed, 0))
 				IncrementState();
 			break;
 		case SwerveIn:
@@ -76,7 +75,7 @@ void SwerveScaleOpp::Execute() {
 			break;
 		case StraightAcross:
 			if (robotDrive->gotoDistance(straightAcrossDistance,
-					baseSpeed + extraSpeed, swerveAngle, true))
+					baseSpeed + extraSpeed, swerveAngle))
 				IncrementState();
 			break;
 		case SwerveTowardScale:
@@ -91,7 +90,9 @@ void SwerveScaleOpp::Execute() {
 			IncrementState();
 			break;
 		case DriveOverScale:
-			if (robotDrive->gotoDistance(driveOverDistance, extraSpeed, 0, false)) {
+			l = -backupSpeed;
+			r = -backupSpeed;
+			if (timer.HasPeriodPassed(backupTime)) {
 				IncrementState();
 				claw->ResetTimerDrop();
 			}
@@ -102,9 +103,11 @@ void SwerveScaleOpp::Execute() {
 			}
 			break;
 		case Backup:
-			if (robotDrive->gotoDistance(backupDistance, backupSpeed,
-					swerveBackAngle, false)) {
+			l = backupSpeed;
+			r = backupSpeed;
+			if (timer.HasPeriodPassed(driveOverTime)) {
 				IncrementState();
+				claw->ResetTimerDrop();
 			}
 			break;
 		case Lower:
@@ -128,7 +131,6 @@ void SwerveScaleOpp::Execute() {
 		if (!(state >= Drop))
 			auxMotors->Claw(-.4);
 	}
-	SmartDashboard::PutNumber("scaleOppBackupDistance", backupDistance);
 	if (l != 0 && r != 0) {
 		if (CommandBase::oi->getGamePrefs() == 1)
 			Drive(l, r);
@@ -151,7 +153,6 @@ void SwerveScaleOpp::IncrementState() {
 	state++;
 	timer.Reset();
 	timer.Start();
-	robotDrive->encoderReset();
 }
 
 void SwerveScaleOpp::Interrupted() {

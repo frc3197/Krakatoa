@@ -96,7 +96,6 @@ void SwerveSwitch::IncrementState() {
 	state++;
 	timer.Reset();
 	timer.Start();
-	robotDrive->encoderReset();
 }
 
 void SwerveSwitch::Interrupted() {

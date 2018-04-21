@@ -47,7 +47,6 @@ bool AutoCalls::Pickup(bool goUp) {
 		break;
 	}
 	CommandBase::auxMotors->Claw(clawSpeed);
-//	SmartDashboard::PutBoolean("goUp", goUp || pickupState <= RaiseWithCube);
 	if (goUp || pickupState <= RaiseWithCube)
 		CommandBase::auxMotors->ElevatorClaw(eleClawSpeed);
 
@@ -57,21 +56,13 @@ bool AutoCalls::Pickup(bool goUp) {
 bool AutoCalls::Drop() {
 	switch (dropState) {
 	case Open:
-//		if (CommandBase::auxMotors->ClawCurrent() < maxCurrent ) {
-//		if (!timerDrop.HasPeriodPassed(1)) {
+
 		if (!CommandBase::auxMotors->ClawRetractLim()) {
 			CommandBase::auxMotors->Claw(0.65);
 		} else {
 			IncrementDropState();
 		}
 		break;
-//	case LowerDrop:
-//		if (!CommandBase::auxMotors->ElevatorClawForwardLimit()) {
-//			CommandBase::auxMotors->ElevatorClaw(-.5);
-//		} else {
-//			IncrementPickupState();
-//		}
-//		break;
 	default:
 		return true;
 	}
